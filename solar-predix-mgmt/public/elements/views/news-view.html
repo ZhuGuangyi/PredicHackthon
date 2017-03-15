@@ -1,0 +1,83 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/px-card/px-card.html">
+<dom-module id="news-view">
+<style is="custom-style">
+paper-toggle-button.pink {
+    --paper-toggle-button-checked-bar-color:  var(--paper-pink-500);
+    --paper-toggle-button-checked-button-color:  var(--paper-pink-500);
+    --paper-toggle-button-checked-ink-color: var(--paper-pink-500);
+    --paper-toggle-button-unchecked-bar-color:  var(--paper-indigo-900);
+    --paper-toggle-button-unchecked-button-color:  var(--paper-indigo-900);
+    --paper-toggle-button-unchecked-ink-color: var(--paper-indigo-900);
+  }
+  
+   paper-dialog.colored {
+    border: 2px solid;
+    border-color: var(--paper-green-500);
+    background-color: var(--paper-light-green-50);
+    color: var(--paper-green-500);
+  }
+  </style>
+<template >
+<px-card>
+<paper-toggle-button class="pink" on-click="toggle"><b> INDIA </b></paper-toggle-button>
+<iron-collapse id="collapse">
+<div>
+<paper-toggle-button class="pink" on-click="toggle1"><b> States </b></paper-toggle-button>
+<paper-toggle-button class="pink" on-click="toggle2"><b> Capitals </b></paper-toggle-button>
+</div></iron-collapse>
+
+<iron-collapse id="collapse1"><div><paper-button raised onclick="dialog.open()">jammu kashmir</paper-button>
+<paper-button raised onclick="dialog1.open()">Assam</paper-button>
+<paper-button raised onclick="dialog2.open()">Punjab</paper-button>
+<paper-button raised onclick="dialog3.open()">Gujarat</paper-button>
+<paper-button raised onclick="dialog4.open()">Orrisa</paper-button>
+</div>
+<paper-dialog id="dialog" class="colored"><p>Jammu and Kashmir is a state in northern India, often denoted by the acronym J&K. It is located mostly in the Himalayan mountains, and shares borders with the states of Himachal Pradesh and Punjab to the south.</p></paper-dialog>
+<paper-dialog id="dialog1" class="colored"><p>Assam is a state in northeastern India known for its wildlife, archeological sites and tea plantations. In the west, Guwahati, Assam’s largest city, features silk bazaars and the hilltop Kamakhya Temple. Umananda Temple sits on Peacock Island in the Brahmaputra river. The state capital, Dispur, is a suburb of Guwahati. The ancient pilgrimage site of Hajo and Madan Kamdev, the ruins of a temple complex, lie nearby..</p></paper-dialog>
+<paper-dialog id="dialog2" class="colored"><p>Punjab, a state bordering Pakistan, is the heart of India’s Sikh community. The city of Amritsar, founded in the 1570s by Sikh Guru Ram Das, is the site of Harmandir Sahib, the holiest gurdwara (Sikh place of worship). Known in English as the Golden Temple, and surrounded by the Pool of Nectar, it's a major pilgrimage site. Also in Amritsar is Durgiana Temple, a Hindu shrine famed for its engraved silver doors.</p></paper-dialog>
+<paper-dialog id="dialog3" class="colored"><p>Gujarat, India's westernmost state, has varied terrain and numerous sacred sites. In its urban center of Ahmedabad is the Calico Museum of Textiles, displaying antique and modern Indian fabrics. Spiritual leader Mahatma Gandhi's base from 1917–1930 was Sabarmati Ashram, where his living quarters remain on view. The Jama Masjid (Friday Mosque), built in the 15th century, has a huge courtyard and a columned design.</p></paper-dialog>
+<paper-dialog id="dialog4" class="colored"><p>Odisha (formerly Orissa), an eastern Indian state on the Bay of Bengal, is known for its tribal cultures and its many ancient Hindu temples. The capital, Bhubaneswar, is home to hundreds of temples, notably the intricately-carved Mukteshvara. The Lingaraj Temple complex, dating to the 11th century, is set around sacred Bindusagar Lake. The Odisha State Museum is focused on the area’s history and environment.</p></paper-dialog>
+
+</iron-collapse>
+
+
+
+<iron-collapse id="collapse2"><div><paper-material elevation="4">Shimla</paper-material>
+<paper-material elevation="4">Dispur</paper-material>
+<paper-material elevation="4"> Chandigarh</paper-material>
+<paper-material elevation="4">Gandhinagar</paper-material>
+<paper-material elevation="4">Bhubaneswar</paper-material>
+</div>
+</iron-collapse>
+                <div >
+                <a href="http://localhost:5000/#/alertpage" tabindex="-1"> <paper-button raised>ALERT</paper-button>  </a>
+                </div>
+
+</div>
+</px-card>
+</template>
+<script>
+    Polymer({
+      is:'news-view',
+
+      properties: {
+	  },
+	  toggle:function(){
+	  this.$.collapse.toggle();
+	  },
+	  toggle1:function(){
+	  this.$.collapse1.toggle();
+	  },
+	  toggle2:function(){
+	  this.$.collapse2.toggle();
+	  }
+        });
+		
+		</script>
+</dom-module>

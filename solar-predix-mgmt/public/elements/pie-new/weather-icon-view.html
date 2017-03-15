@@ -1,0 +1,56 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/image-icons.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+
+
+
+<dom-module id="weather-icon-view">
+  <template>
+
+
+<paper-material style="background-color:grey;width:600px;height:100px">
+<div style="padding-top:5px;width:620px;height:120px">
+	<div style="width:200px;height:120px;float:left">
+		<paper-material elevation="5" style="background-color:white;width:200px;height:120px">
+			<div >
+				<div style="padding-top:5px;text-align:center;"><b>Thu</b></div>
+				<div style="align:center;"><center><iron-icon style="padding:5px;width:100px;height:60px;" src="cloudy.jpg"></center></div>
+				<div style="padding-top:5px;text-align:center;"><b>29&deg;   15&deg;</b></div>
+			</div>		
+		</paper-material>
+	</div>
+	<div style="width:10px;height:100px;background-color:grey;float:left"></div>
+	<div style="width:200px;height:120px;float:left">
+		<paper-material elevation="5" style="background-color:white;width:200px;height:120px">
+			<div >
+				<div style="padding-top:5px;text-align:center;"><b>Fri</b></div>
+				<div style="align:center;"><center><iron-icon style="padding:5px;width:100px;height:60px;" src="sunny.jpg"></center></div>
+				<div style="padding-top:5px;text-align:center;"><b>31&deg;   16&deg;</b></div>
+			</div>		
+		</paper-material>
+	</div>
+	<div style="width:10px;height:100px;background-color:grey;float:left"></div>
+	<div style="width:200px;height:120px;float:left">
+		<paper-material elevation="5" style="background-color:white;width:200px;height:120px">
+			<div >
+				<div style="padding-top:5px;text-align:center;"><b>Sat</b></div>
+				<div style="align:center;"><center><iron-icon style="padding:5px;width:100px;height:60px;" src="sunny.jpg"></center></div>
+				<div style="padding-top:5px;text-align:center;"><b>31&deg;   16&deg;</b></div>
+			</div>		
+		</paper-material>
+	</div>
+</div>
+</paper-material>
+ 
+   </template>
+  <script>
+    Polymer({
+      is: 'weather-icon-view',
+
+      properties: {
+	  }
+
+ });
+  </script>
+</dom-module>

@@ -1,0 +1,132 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!-- <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../iron-icons/maps-icons.html">
+
+<link rel="import" href="../google-chart.html">
+
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>  -->
+ <dom-module id="messages-new1" >
+<template>
+<script>
+
+ 
+ //document.getElementById("currenttime").innerHTML = formatDate(d, "dddd h:mmtt d MMM yyyy");
+<!--  $("#currenttime").append(); -->
+ <!-- var date = new Date().toLocaleString(); -->
+ <!-- var dates = date.split(","); -->
+<!--  $("#currenttime").append("<center>"+dates[0]+"<br>"+dates[1]+"</center>"); -->
+<!--  alert(dates[1]); -->
+
+
+</script>
+       
+<style is="custom-style">
+
+
+
+  paper-material{
+
+  
+   background-color:white;
+ 
+  }
+  paper-icon-button{
+  height:90px;
+  width:90px;
+  
+  }
+  
+
+  
+  .rate-image {
+    width: 90px;
+    height: 90px;
+    float: left;
+	
+  }
+  
+ 
+  .rate-name { color: var(--paper-grey-600); margin: 10px ; }
+  
+  
+</style>
+  <iron-ajax id="ajax"
+            auto
+            url={{url}}
+            last-response="{{data}}"
+            on-response="_onResponse"
+            handleAs="json">
+  </iron-ajax>
+
+ <div  style="width:100%;float:left; ">
+ 
+<paper-material elevation="3" style=" width:78%%;margin-top: 2.5%;height:100px; background-color:{{paper-material-bg-color}};"  >
+
+
+
+  
+    <div >
+      <!-- <div ><b><span style="float:left;margin-top:30px;font-size:18px;color:#666666;font-color:red"> <font size="6" color="green" >{{data.data.0.value}}</font></span></b></div> -->
+  
+	<!--   <div> <b style="padding-top: 5%;font-family: bebas;color:#228b22;font-size: 200%;margin-top:20px;margin-left:20px;"> <iron-image id="treeImage" alt="treelogo" src="tree.png" style="width:30px;padding-top: 5%;"></iron-image>2,870</b> 
+	  <div style="padding-top: 2%;float: right;padding-right:3%;font-size: 200%;font-family: bebas;color:#666;"> &nbsp;&nbsp; Trees <br> Savings</div> </div>
+   -->
+  
+	</div>
+</paper-material>
+
+</div>
+
+
+<!--
+<paper-material elevation="5">
+<div>
+<div style="height:90px;width:100px;float:left;background-color:red">
+
+<paper-icon-button style="color:{{iconColor}};"icon="hourglass-{{iconType}}"></paper-icon-button>
+</div><br><br>
+ <div class="progress"  style="height:16px; "  >
+                    <div  id="rawTank"class="progress-bar" style="width: 70%;background-color:#00C0EF;"></div>
+                  </div>
+</div>
+</paper-material>-->
+    </template>
+
+    <script>
+     
+   
+        Polymer({
+          is: 'messages-new1',
+		 
+          _updateData: function() {
+            this.async(function() {
+              this.$.ajax.generateRequest();
+            }, 10000);
+          },
+          _onResponse: function() {
+            console.log('received response');
+            this._updateData();
+          }
+       
+      });
+   
+	
+    </script>
+
+
+                           
+
+
+</dom-module>

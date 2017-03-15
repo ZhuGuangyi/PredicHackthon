@@ -1,0 +1,200 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+
+<dom-module id="my-greeting">
+<template>
+
+        <style>
+            .container {
+                font-family: Roboto, Noto, 'Trebuchet MS', sans-serif;
+            }
+            
+            #batteryEnd {
+                width: 50px;
+            }
+            
+            #batteryEnd div {
+                width: 35px;
+                height: 15px;
+                margin-left: 30px;
+                background-color: red;
+            }
+            
+            #batteryBody {
+                width: 75px;
+                height: 200px;
+                border: 10px grey solid;
+            }
+            
+            #indicator {
+                width: 100%;
+                background-color: var(--battery-status-indicator-background, #FFF);
+            }
+
+            .full {
+                background-color: var(--battery-status-full-color, lightgreen);
+            }
+
+            .good {
+                background-color: var(--battery-status-good-color, lightblue);
+            }
+
+            .medium {
+                background-color: var(--battery-status-medium-color, #FFFF00);
+            }
+
+            .low {
+                background-color: var(--battery-status-low-color, #FFC800);
+            }
+
+            .empty {
+                background-color: var(--battery-status-empty-color, #FF5200);
+            }
+            
+            #status {
+                top: 90px;
+                position: relative;
+                text-align: center;
+                width: 100%;
+                font-size: 30px;
+                font-weight: 700;
+                display: block;
+            }
+        </style>
+		
+        
+        <div class="container">
+            <div id="batteryEnd">
+                <div></div>
+            </div>
+            <div id="batteryBody" class$="[[_calculateLevelStyle(level)]]">
+                <div id="indicator">
+                    <span id="status">[[level]]%</span>
+                </div>
+            </div>
+        </div>
+		
+    </template>
+
+    <script>
+        (function(){
+            Polymer({
+                is: 'my-greeting',
+
+                properties: {
+                    /**
+                     * `level` indicates level of battery 
+                     */
+                    level: {
+                        type: Number,
+                        value: 50,
+                        observer: '_levelChanged'
+                    },
+					level: {
+                        type: Number,
+                        value: 20,
+                        observer: '_levelChanged'
+                    },
+					level: {
+                        type: Number,
+                        value: 10,
+                        observer: '_levelChanged'
+                    },
+                    /**
+                     * `detect` indicates if the component will use Battery API to get 
+                     * current _state or just show provided value. When detect attribute 
+                     * provided component will use Battery API
+                     */
+                    detect: {
+                        type: Boolean,
+                        value: false
+                    }
+                },
+                
+                // Element Lifecycle
+                
+                attached: function() {
+                
+                    var self = this;
+                    
+                    //Show initial level of battery
+                    self.$.indicator.style.height = (100 - self.level) + '%'; 
+                    
+                    if(!self.detect){
+                        return;
+                    }
+                    
+                    navigator.getBattery()
+                        .then(function (battery) {             
+                            //Assign level property 
+                            self.level = battery.level * 100;
+                            
+                            //Listen for level change event
+                            battery.addEventListener('levelchange', function(e) {
+                                self.level = battery.level * 100;
+                            }, false); 
+                        });
+                },
+
+                // Element Behavior
+                        
+                /**
+                 * `_levelChanged` is called every time battery level is changed
+                 */
+                _levelChanged: function(){
+                    var self = this;
+                    
+                    //Make sure that it is not lower than 0
+                    if(self.level < 0){
+                        self.level = 0;
+                    }
+                    if(self.level > 100){
+                        self.level = 100;
+                    }
+                    
+                    self.$.indicator.style.height = (100 - self.level) + '%';
+                },
+
+                /**
+                 * `_calculateLevelStyle` returns string that describes level
+                 */
+                _calculateLevelStyle: function(level){
+                    
+                    if(level <= 10){
+                        return 'empty';
+                    }
+                    else if(level <= 20){
+                        return 'low';
+                    }
+                    else if(level <= 50){
+                        return 'medium';
+                    }
+                    else if(level <= 80){
+                        return 'good';
+                    }
+                    
+                    return 'full';                  
+                }
+            
+            });
+        })();
+    </script>
+
+
+                           
+
+
+</dom-module>
+<div >
+    <my-greeting ></my-greeting>
+</div>

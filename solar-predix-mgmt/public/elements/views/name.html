@@ -1,0 +1,33 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/0.7.22/webcomponents-lite.min.js"></script>
+<link rel="import" href="https://raw.githubusercontent.com/Polymer/polymer/master/polymer.html">
+<link rel="import" href="../polymer/polymer.html">
+
+
+
+<dom-module id="name-card">
+    <template>
+        <h1>{{firstName}}
+        
+    </template>
+
+    <script>
+        (function(){
+            Polymer({
+                is: 'name-card',
+
+                properties: {
+                    
+                  firstName:String                 
+                }
+            
+            });
+        })();
+    </script>
+</dom-module>
+
+                           
+<div class="example">
+    <name-card first-name="spandana"></name-card>
+</div>
+
+

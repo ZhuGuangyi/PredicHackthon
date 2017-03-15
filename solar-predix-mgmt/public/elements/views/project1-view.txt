@@ -1,0 +1,34 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="project1-view">
+<template>
+<style is="custom-style">
+  .flex-horizontal-with-ratios {
+    @apply(--layout-horizontal);
+  }
+  .flexchild {
+    @apply(--layout-flex);
+  }
+  .flex2child {
+    @apply(--layout-flex-2);
+  }
+  .flex3child {
+    @apply(--layout-flex-3);
+  }
+</style>
+<div class="container flex-horizontal-with-ratios">
+  <div class="flex3child">one</div>
+  <div class="flexchild">two</div>
+  <div class="flex2child">three</div>
+</div>
+</template>
+<script>
+    Polymer({
+      is:'project1-view',
+
+      properties: {
+	  },
+        });
+		
+		</script>
+</dom-module>

@@ -1,0 +1,66 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/px-data-table/px-data-table.html">
+<link rel="import" href="../../bower_components/px-typeahead-master/px-typeahead.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<dom-module id="page4-view">
+<style is="custom-style">
+.table{
+background-color:lightgreen ;
+@apply(--layout-wrap);
+}
+   
+  </style>
+<template>
+<paper-material>
+<div  style=padding:30px;>
+<div style=width:250px;>
+<px-typeahead  placeholder="Search">
+</px-typeahead>
+</div>
+<br>
+<div class="table">
+<px-data-table   table-data='[{"Inverter":"","PanelNumber":"","Sync.":"",
+"Voltage":"","Current":"","Power":"",
+"Est.Power":"","Efficiency":""},{"Inverter":"","PanelNumber":"","Sync.":"",
+"Voltage":"","Current":"","Power":"",
+"Est.Power":"","Efficiency":""},{"Inverter":"","PanelNumber":"","Sync.":"",
+"Voltage":"","Current":"","Power":"",
+"Est.Power":"","Efficiency":""},{"Inverter":"","PanelNumber":"","Sync.":"",
+"Voltage":"","Current":"","Power":"",
+"Est.Power":"","Efficiency":""},{"Inverter":"","PanelNumber":"","Sync.":"",
+"Voltage":"","Current":"","Power":"",
+"Est.Power":"","Efficiency":""},{"Inverter":"","PanelNumber":"","Sync.":"",
+"Voltage":"","Current":"","Power":"",
+"Est.Power":"","Efficiency":""},{"Inverter":"","PanelNumber":"","Sync.":"",
+"Voltage":"","Current":"","Power":"",
+"Est.Power":"","Efficiency":""},{"Inverter":"","PanelNumber":"","Sync.":"",
+"Voltage":"","Current":"","Power":"",
+"Est.Power":"","Efficiency":""},{"Inverter":"","PanelNumber":"","Sync.":"",
+"Voltage":"","Current":"","Power":"",
+"Est.Power":"","Efficiency":""},{"Inverter":"","PanelNumber":"","Sync.":"",
+"Voltage":"","Current":"","Power":"",
+"Est.Power":"","Efficiency":""},{"Inverter":"","PanelNumber":"","Sync.":"",
+"Voltage":"","Current":"","Power":"",
+"Est.Power":"","Efficiency":""},{"Inverter":"","PanelNumber":"","Sync.":"",
+"Voltage":"","Current":"","Power":"",
+"Est.Power":"","Efficiency":""},{"Inverter":"","PanelNumber":"","Sync.":"",
+"Voltage":"","Current":"","Power":"",
+"Est.Power":"","Efficiency":""},{"Inverter":"","PanelNumber":"","Sync.":"",
+"Voltage":"","Current":"","Power":"",
+"Est.Power":"","Efficiency":""},{"Inverter":"","PanelNumber":"","Sync.":"",
+"Voltage":"","Current":"","Power":"",
+"Est.Power":"","Efficiency":""},{"Inverter":"","PanelNumber":"","Sync.":"",
+"Voltage":"","Current":"","Power":"",
+"Est.Power":"","Efficiency":""}]' striped="true" table-rows="true"   table-columns="true" hide-pagination-control="true" table-border-color="green" ></px-data-table>
+</div>
+</paper-material>
+</template>
+<script>
+    Polymer({
+      is:'page4-view',
+
+      properties: {
+                  }
+        });
+                                </script>
+</dom-module>​

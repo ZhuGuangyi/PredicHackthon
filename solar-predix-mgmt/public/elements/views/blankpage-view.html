@@ -1,0 +1,138 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/px-sample-cards/blank-card.html">
+<link rel="import" href="../../bower_components/px-view-header/px-view-header.html">
+<link rel="import" href="../../elements/elements.html">
+
+<!-- <link rel="import" href="../../bower_components/px-layout-design/_objects.layout.scss"> -->
+<!-- <link rel="import" href="../../bower_components/highcharts/highcharts.js">
+<link rel="import" href="../../bower_components/highcharts/highcharts-more.js"> -->
+
+<!-- <link rel="import" href="../../bower_components/highcharts/modules/solid-gauge.js"> -->
+
+<!-- <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+D:\New folder (27)\predix-seed-develop\public\bower_components\highcharts\modules -->
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>	
+ <script src="https://code.highcharts.com/highcharts.js"></script> 
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/solid-gauge.js"></script>	
+
+<dom-module id="blankpage-view">
+<!-- <style include="iron-flex"></style>
+<style is="custom-style"> -->
+	<!--  #second {
+        
+        
+        display: flex;
+        flex-flow: row;
+		
+    } 
+	#com1 {
+        margin:10px 10px 10px 00px;
+        flex:25%;
+		width:30%;
+        order: 1;
+    }
+	#com2{
+        margin:10px 10px 10px 0px;
+        flex:25%;
+		width:30%;
+        order:2;
+    }
+	#com3{
+        margin:10px 10px 10px 0px;
+        flex:25%;
+width:30%;
+        order: 3;
+    } -->
+	<!-- #com4{
+        margin:10px 10px 10px 0px;
+        flex:25%;
+        order: 4;
+    } -->
+<!-- </style> -->
+
+  <template>
+  <style is="custom-style" include="iron-flex">
+	#second {
+        
+        
+        display: flex;
+        flex-flow: row;
+		
+    }
+	#com1 {
+        margin:10px 10px 10px 00px;
+        flex:25%;
+        order: 1;
+    }
+	#com2{
+        margin:10px 10px 10px 0px;
+        flex:25%;
+        order:2;
+    }
+	#com3{
+        margin:10px 10px 10px 0px;
+        flex:25%;
+        order: 3;
+    }
+	#com4{
+        margin:10px 10px 10px 0px;
+        flex:25%;
+        order: 4;
+    }
+</style>
+  
+  
+		<div>	
+			<div style="float: left;width: 45.8%;margin-left: 3%;margin-top: 2%;">
+				  <iotmap-new1>
+				  </iotmap-new1>
+			</div> 
+			<div style="width:512px;float:left;margin:2%;MARGIN-LEFT:3%;">
+				  <pie-new6>
+					</pie-new6>
+			</div> 
+		</div>
+		
+		<div>
+			 <div style="float:left;margin-left:3%;margin-top:2%;">
+				  <messages-new paper-material-bg-color="white " paper-material-width="240px"></messages-new>
+			 </div>  
+			<div style="width:240px;float:left;margin-left:3%;margin-top:1.5%;"><pie-new></pie-new></div>
+      		<div style="width:240px;float:left;margin-left:3%;margin-top:1.5%;"><pie-new1></pie-new1></div>
+      		<div style="width:240px; float:left;margin-left:3%;margin-top:1.5%;"><pie-new2></pie-new2></div>  
+   		</div>
+		
+		
+		<div>
+			<!-- <div style="margin-left:3%;margin-top:1.5%;">
+	             <messages-new1
+                     url="https://solar-test-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/windservices/getSolarDashBoard?requiredtags=DCVoltageToINV2"
+					 paper-material-bg-color="white "
+					 paper-material-width="500px"
+				></messages-new1>
+
+             </div> 
+
+             <div style="float:right;margin-left:30px;margin-top:35px;margin-right:35px;margin-bottom:30px;">
+				<messages-new2
+					url="https://solar-test-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/windservices/getSolarDashBoard?requiredtags=DCVoltageToINV3"
+					icon-to-display="communication:mail-outline"
+					paper-material-bg-color="white "
+					paper-material-width="500px"
+				></messages-new2>
+			</div>   -->
+
+		</div>		
+				
+  </template>
+  <script>
+    Polymer({
+      is: 'blankpage-view',
+      properties: {},
+      ready: function() {
+        console.log('blankpage-view ready()')
+      }
+    });
+  </script>
+</dom-module>

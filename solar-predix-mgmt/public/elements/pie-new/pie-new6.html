@@ -1,0 +1,189 @@
+<!-- <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../bower_components/paper-progress/paper-progress.html"> -->
+<!-- <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html"> -->
+
+<dom-module id="pie-new6">
+        
+		<template>
+		 <iron-ajax id="ajax"
+            auto
+            url="https://solar-test-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/windservices/historicalcharts?startdate=1d-ago&timeinterval=1h"
+            last-response="{{data}}"
+            on-response="_onResponse"
+            handleAs="json">
+  </iron-ajax>
+<paper-material elevation="3" style=" width:100%; background-color:{{paper-material-bg-color}};"  >
+ <div id="container1" style="width: 100%; height: 309px;"></div> 
+</paper-material>
+</template>
+        
+
+ <script>
+       
+            Polymer({
+                is: 'pie-new6',
+				
+				
+				 properties:{
+				  loadValue10: {
+					type: Number,
+					value : [0]
+				},
+      name: {type: Number},
+	  graphValue: {type: Number},
+	  categorieValues:{type:Array},
+	  dataValues:{type:Array}
+    },
+				
+				  _updateData: function() {
+            this.async(function() {
+              this.$.ajax.generateRequest();
+            }, 30000);
+          },
+          _onResponse: function(data) {
+            console.log('received response');
+			console.log(data.detail.response.values);
+			dataValues = data.detail.response.values;
+			<!-- categorieValues=data.detail.response.categories; -->
+			categorieValues = data.detail.response.categories;
+               <!--     i = 0; -->
+                      <!--  do { -->
+                         <!--  console.log(categorieValues[i]); -->
+						 <!--  i++; -->
+                      <!--  } while (categorieValues[10]);  -->
+			
+		
+			
+            this._updateData();
+			if(this.loadValue10 == 0)
+			this._trailgraph(dataValues,categorieValues);
+console.log(categorieValues);			
+			
+          },
+				
+				
+				
+				
+				
+
+
+				
+			 _trailgraph: function (dataValues,categorieValues) {
+			 this.loadValue10 = 1,
+  Highcharts.setOptions({
+            global: {
+                useUTC: false
+            }
+        }),
+				<!-- alert("Eswar"); -->
+                $(this.$.container1).highcharts({
+      // TODO implement sane defaults
+	  
+	 
+	      chart: {
+                type: 'area',
+                animation: Highcharts.svg, // don't animate in old IE
+                marginRight: 10,
+                events: {
+                    load: function () {
+
+                        // set up the updating of the chart each second
+                        var series = this.series[0];
+                        setInterval(function () {
+                            var x = (new Date()).getTime(), // current time
+                                y = Math.random();
+                            series.addPoint([x, y], true, true);
+                        }, 1000);
+                    }
+                }
+            },
+			responsive: {
+  rules: [{
+    condition: {
+      maxWidth: 500
+    },
+    chartOptions: {
+      legend: {
+        enabled: false
+      }
+    }
+  }]
+},
+  
+title: {
+
+	text:'Total Energy',
+
+	         style: {
+
+	            color: '#666',
+
+	            fontWeight: 'bold',
+
+	            fontSize: '20px',
+
+	            fontFamily: 'Trebuchet MS, Verdana, sans-serif'
+
+	 
+
+	         }            
+
+	      },
+
+      xAxis: {
+                type: 'datetime',
+                tickPixelInterval: 150
+            },
+ 
+   yAxis: {
+                title: {
+                    text: 'Value'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: 'green'
+                }]
+            },
+   tooltip: {
+                formatter: function () {
+                    return '<b>' + this.series.name + '</b><br/>' +
+                        Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                        Highcharts.numberFormat(this.y, 2);
+                }
+            },
+			 legend: {
+                enabled: false
+            },
+            exporting: {
+                enabled: false
+            },
+			
+			
+   
+    series: [{
+                name: 'Random data',
+				color: '#3c763d',
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
+
+                    for (i = -19; i <= 0; i += 1) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: Math.random()
+                        });
+                    }
+                    return data;
+                }())
+            }]
+      
+    })
+          }
+        });
+        </script>
+    </dom-module>

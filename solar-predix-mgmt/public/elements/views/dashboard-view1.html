@@ -1,0 +1,427 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/px-card/px-card.html">
+<link rel="import" href="../../bower_components/px-data-table/px-data-table.html">
+<link rel="import" href="../../bower_components/px-typeahead/px-typeahead.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+ <script src="http://code.highcharts.com/highcharts.js"></script> 
+    <script src="http://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+
+<link rel="import" href="../../bower_components/px-tabs/px-tab-set.html"/>
+<link rel="import" href="../../bower_components/px-widget-cards/px-twoup.html"/>
+<link rel="import" href="../../bower_components/px-widget-cards/px-threeup.html"/>
+<link rel="import" href="../../bower_components/px-widget-cards/px-fourup.html"/>
+<link rel="import" href="../../bower_components/px-widget-cards/px-sixup.html"/>
+
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<link rel="stylesheet" hrefhttps://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
+   <link href="css/bootstrap.min.css" rel="stylesheet">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+<dom-module id="dashboard-view1">
+<style is="custom-style" >
+@font-face{
+ 		font-family:'digital-clock-font';
+ 		src: url('digital-7.ttf');
+		}
+	
+	@media (min-width: 200px) { 
+		#container{
+			width:100%;
+			height:700px;
+			background:#CCCCCC;
+		}
+		#leftDiv{
+			width:100%;
+			height:500px;
+			background:#FFFFFF;
+		}
+		#rightDiv{
+			width:100%;
+			height:200px;
+			background:gray;
+		}
+	}
+	
+	@media (min-width: 544px) { 
+		#container{
+			width:100%;
+			height:700px;
+			background:#CCCCCC;
+		}
+		#leftDiv{
+			width:100%;
+			height:500px;
+			background:#FFFFFF;
+		}
+		#rightDiv{
+			width:100%;
+			height:200px;
+			background:gray;
+		}
+	}  
+
+	/*  Medium devices (tablets, 768px and up) */
+	 @media (min-width: 768px) { 
+	 	#container{
+			width:100%;
+			height:700px;
+			background:#CCCCCC;
+		}
+		#leftDiv{
+			width:75%;
+			height:700px;
+			background:#FFFFFF;
+		}
+		#rightDiv{
+			width:25%;
+			height:700px;
+			background:gray;
+			float:right;
+			margin-top:-700px;
+		}
+	} 
+
+	/*  Large devices (desktops, 992px and up) */
+ 	@media (min-width: 992px) { 
+ 		#container{
+			width:100%;
+			height:700px;
+			background:#CCCCCC;
+		}
+		#leftDiv{
+			width:75%;
+			height:700px;
+			background:#FFFFFF;
+		}
+		#rightDiv{
+			width:25%;
+			height:700px;
+			background:gray;
+			float:right;
+			margin-top:-700px;
+		}
+	}
+ 
+	/*  Extra large devices (large desktops, 1200px and up) */
+	 @media (min-width: 1200px) { 
+		#container{
+			width:100%;
+			height:700px;
+			background:#CCCCCC;
+		}
+		#leftDiv{
+			width:75%;
+			height:700px;
+			background:#FFFFFF;
+		}
+		#rightDiv{
+			width:25%;
+			height:700px;
+			background:gray;
+			float:right;
+			margin-top:-700px;
+		}
+		#wetherInfoDiv{
+			height:15%;
+			background:wheat;
+			width:100%;
+		}
+	} 
+	
+	
+</style>
+<template>
+	<div id="container">
+		<div id="leftDiv">
+		<br>
+			<div id="wetherInfoDiv">
+				<div id="tempDiv">test</div>
+				<div id="windDiv">test</div>
+			</div>
+		</div>
+		<div id="rightDiv">
+		
+		</div>
+	
+	</div>
+</template>
+<script>
+     Polymer({
+                is: 'dashboard-view1',
+				
+				
+				 properties:{
+				  loadValue10: {
+					type: Number,
+					value : [0]
+				},
+				 loadValue20: {
+					type: Number,
+					value : [0]
+				},
+      name: {type: Number},
+	  graphValue: {type: Number},
+	  categorieValues:{type:Array},
+	  dataValues:{type:Array}
+    },
+				
+				  _updateData: function() {
+            this.async(function() {
+              this.$.ajax.generateRequest();
+            }, 30000);
+          },
+		  
+		  		  _updateDataNew: function() {
+            this.async(function() {
+              this.$.ajaxOne.generateRequest();
+            }, 30000);
+          },
+		  
+          loadData : function(data){
+      		/* console.log(data.detail.response.wind.speed); */
+      		var value = data.detail.response.main.temp-273;
+      		console.log(value);
+      		$("#tempData").text(Math.round(value, 2)).append("<sup>o</sup>C");
+      		$("#windData").text(data.detail.response.wind.speed).append("<sub><span style='vertical-align: 6px;font-size: 18px;'>NE<M/span></sub>");
+      		$("#humidityData").text(data.detail.response.main.humidity).append("<sub><span style='vertical-align: 6px;font-size: 18px;'>%<M/span></sub>");
+      		
+      		 this.async(function() {
+          		 console.log("Wether API Calling..");
+                   this.$.ajax1.generateRequest();
+                 }, 10000);
+      		
+      	},		
+          _onResponse: function(data) {
+            console.log('received response');
+			console.log(data.detail.response.values);
+			dataValues = data.detail.response.values;
+			<!-- categorieValues=data.detail.response.categories; -->
+			categorieValues = data.detail.response.categories;
+               <!--     i = 0; -->
+                      <!--  do { -->
+                         <!--  console.log(categorieValues[i]); -->
+						 <!--  i++; -->
+                      <!--  } while (categorieValues[10]);  -->
+			
+		
+			
+            this._updateData();
+		if(this.loadValue10 == 0)
+			this._trailgraph();
+console.log(categorieValues);			
+			
+          },
+				
+			  _onResponseNew: function(data) {
+            console.log('received response');
+			console.log(data.detail.response.values);
+			dataValues = data.detail.response.values;
+			<!-- categorieValues=data.detail.response.categories; -->
+			categorieValues = data.detail.response.categories;
+               <!--     i = 0; -->
+                      <!--  do { -->
+                         <!--  console.log(categorieValues[i]); -->
+						 <!--  i++; -->
+                      <!--  } while (categorieValues[10]);  -->
+			
+		
+			
+            this._updateDataNew();
+			if(this.loadValue20 == 0)
+			this._trailgraphNew();
+console.log(categorieValues);			
+			
+          }	
+				
+				,
+				
+
+
+				
+			 _trailgraph: function () {
+			 this.loadValue10 = 1,
+  Highcharts.setOptions({
+            global: {
+                useUTC: false
+            }
+        }),
+				<!-- alert("Eswar"); -->
+                $(this.$.container1).highcharts({
+      // TODO implement sane defaults
+	  
+	 
+	      chart: {
+                type: 'area',
+                animation: Highcharts.svg, // don't animate in old IE
+                marginRight: 10,
+                events: {
+                    load: function () {
+
+                        // set up the updating of the chart each second
+                        var series = this.series[0];
+                        setInterval(function () {
+                            var x = (new Date()).getTime(), // current time
+                                y = Math.random();
+                            series.addPoint([x, y], true, true);
+                        }, 1000);
+                    }
+                }
+            },
+            credits: {
+                enabled: false
+            },
+			responsive: {
+  rules: [{
+    condition: {
+      maxWidth: 500
+    },
+    chartOptions: {
+      legend: {
+        enabled: false
+      }
+    }
+  }]
+},
+  
+title: {
+
+	text:'Total Energy',
+
+	         style: {
+
+	            color: '#666',
+
+	            fontWeight: 'bold',
+
+	            fontSize: '20px',
+
+	            fontFamily: 'Trebuchet MS, Verdana, sans-serif'
+
+	 
+
+	         }            
+
+	      },
+
+      xAxis: {
+                type: 'datetime',
+                tickPixelInterval: 150
+            },
+ 
+   yAxis: {
+                title: {
+                    text: 'Value'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: 'green'
+                }]
+            },
+   tooltip: {
+                formatter: function () {
+                    return '<b>' + this.series.name + '</b><br/>' +
+                        Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                        Highcharts.numberFormat(this.y, 2);
+                }
+            },
+			 legend: {
+                enabled: false
+            },
+            exporting: {
+                enabled: false
+            },
+			
+			
+   
+    series: [{
+                name: 'Random data',
+				color: '#3c763d',
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
+
+                    for (i = -19; i <= 0; i += 1) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: Math.random()
+                        });
+                    }
+                    return data;
+                }())
+            }]
+      
+    })
+          },
+		  
+		  
+				 _trailgraphNew: function () {
+			 this.loadValue20 = 1,
+  Highcharts.setOptions({
+            global: {
+                useUTC: false
+            }
+        }),
+				<!-- alert("Eswar"); -->
+                $(this.$.container2).highcharts({
+      // TODO implement sane defaults
+	  
+	 
+	      chart: {
+            type: 'column',
+            options3d: {
+                enabled: true,
+                alpha: 10,
+                beta: 25,
+                depth: 70
+            }
+        },
+        title: {
+            text: 'TMTC'
+        },
+       
+        plotOptions: {
+            column: {
+                depth: 25
+            }
+        },
+        xAxis: {
+		
+            categories: ['IT1','IT2','CB1','CB2']
+        },
+        yAxis: {
+            title: {
+                text: null
+            }
+        },
+        series: [{
+            name: 'Yield',
+            data: [0.5, 3.5, 2, 1.5]
+        }]
+    })
+          }	  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+        });
+        </script>
+    </dom-module>
+    
+

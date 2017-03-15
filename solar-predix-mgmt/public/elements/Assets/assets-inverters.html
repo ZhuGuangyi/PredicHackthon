@@ -1,0 +1,278 @@
+<link rel="import" href="../../bower_components/px-data-table/px-data-table.html">
+<link rel="import" href="../../bower_components/px-modal/px-modal.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="import" href="../../bower_components/px-spinner/px-spinner.html">
+
+
+<dom-module id="assets-inverters" style="background:white !important;">
+  <template>
+  <style>
+ #content-inverters {
+display:none;
+}
+#load-inverters {
+justify-content:center;
+display:flex;
+margin:auto;
+margin-top:190px;
+}
+  @media  (min-width:300px) {
+        #invertersBG{
+ 		margin-right: 38px;color: #CCCCCC;
+ 	}
+ 	@media  (min-width:600px) {
+        #invertersBG{
+ 		margin-right: 38px;color: #CCCCCC;float:right;
+ 	}
+ 	.dashboard-views{
+       cursor: pointer;
+       margin-left:930px;
+       //margin-bottom:10px;
+       //height: 33px;
+  }
+ 
+       @media (max-width: 414px) {
+        .dashboard-views {
+    margin-left: 0px;
+}
+}
+       @media (max-width: 768px) {
+        .dashboard-views {
+    margin-left: 0px;
+}
+}
+  </style>
+  <px-spinner id="load-inverters" size="70"></px-spinner>
+<div id="content-inverters">
+  <div class="dashboard-views">
+ 
+              <span style="color: #CCCCCC;font-size: 12px;"><iron-icon  style="width:15px;margin-bottom: 2px;"  icon="fa:fa-tachometer">
+   
+  </iron-icon>&nbsp; Home > Manage Inverters</span>
+  </div>
+  <br>
+   <div style="background:#FFFFFF;"> 
+  		<px-modal id="createInverterModal" btn-modal-positive="Create" btn-modal-negative="Cancel" id="popupModel" modal-heading = "New Inverter" style="float:right;padding: 4px;">
+  		<button class='btn btn--primary modal-trigger' style="width: 0px;background:#FFFFFF;"><iron-icon icon="icons:add-circle" style="margin-top: -14px;margin-left: -12px;color:#2abb9b;"></iron-icon></button>
+	<div style='margin-top: -40px;'><span style='visibility:hidden'>@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</span><br>
+	<paper-input label='Name' id='invNameC'></paper-input>
+	<paper-input label='Description' id='invDescC'></paper-input>
+	<iron-ajax id="ajax" auto url="https://solarassetservices.run.aws-usw02-pr.ice.predix.io/Asset/getAssetNames/CBS" last-response="{{data}}" handleAs="json"></iron-ajax>
+	<!-- <paper-dropdown-menu label="Parent">
+  <paper-listbox selected="1">
+    <paper-item>{{data.data}}</paper-item>
+  </paper-listbox>
+</paper-dropdown-menu> -->
+<br>
+<span>Combiner Boxes</span>
+	<px-dropdown display-value="Select" name="filter-location" id="invParent">
+    			<px-dropdown-content extend-dropdown='true' extend-dropdown-by='25' max-cont-character-width='10' 
+    			items='{{data.data}}'>
+    			</px-dropdown-content>
+    		</px-dropdown>
+
+	<paper-input label='Address' id='invAddrC'></paper-input>
+	<paper-input label='City' id='invCityC'></paper-input>  
+	<paper-input label='Country' id='invCountryC'></paper-input>
+	<paper-input label='Latitude' id='invLatC'></paper-input>
+	<paper-input label='Longitude' id='invLonC'></paper-input>
+	</div>
+	</px-modal>
+  </div>
+  	<iron-ajax id="assetInvertersajax" auto url="https://solarassetservices.run.aws-usw02-pr.ice.predix.io/Asset/getAssetModels/Inverters" 
+  last-response="{{data1}}" on-response="appendDataToTable" handleAs="json"></iron-ajax>
+  <px-data-table id="assetsInvertersTable" filterable="true" table-data= striped="true" show-column-chooser="true"  hide-pagination-control="true">
+  		<px-data-table-column name="name" filterable sortable></px-data-table-column>
+    	<px-data-table-column name="uri" type="html" filterable sortable></px-data-table-column>
+    	<px-data-table-column name="description" type="html" filterable sortable></px-data-table-column>
+    	<px-data-table-column name="parent" type="html" filterable sortable></px-data-table-column>
+    	<px-data-table-column name="actions" type="html" filterable sortable></px-data-table-column>
+ </px-data-table>
+ 
+ <iron-ajax id="assetsInverterDel" url="" on-response="reloadDom" handleAs="json" method="DELETE"></iron-ajax>
+   <iron-ajax id="assetsInverterEdit" method="POST" on-response="reloadDom" content-type="application/json" handleAs="json"></iron-ajax>
+  </div>
+  </template>
+  <script>
+  var gAction = "";
+    Polymer({
+      is: 'assets-inverters',
+      listeners: {
+    	  'assetsInvertersTable.btnModalPositiveClicked':'getDataToLoad',
+    	  'createInverterModal.btnModalPositiveClicked':'createInverter'
+        },
+     
+     
+      ready: function() {
+        
+      },
+      createInverter : function(){
+    	  gAction = "Create";
+      	var name = this.$.invNameC.value;
+      	var desc = this.$.invDescC.value;
+      	var parent = this.$.invParent.value;
+      	var addr = this.$.invAddrC.value;
+      	var city = this.$.invCityC.value;
+      	var country = this.$.invCountryC.value;
+      	var lat = this.$.invLatC.value;
+      	var lon = this.$.invLonC.value;
+      	var locationObj = {}, locationArr=[],location={};
+      	location = {
+      			"latitude" : lat,
+  				"longitude" : lon
+      	}
+  		locationObj = {
+  				"uri" : "/Inverters/"+name,
+  				"name" : name,
+  				"description" : desc,
+  				"parent" : "/CBS/"+parent,
+  				"adress" : addr,
+  				"city" : city,
+  				"country" : country,
+  				"location" : location,
+  				"isDeleted" : false,
+  				"timeSeriesTags":[name+"V",name+"P",name+"I"]
+  		}
+      	locationArr.push(locationObj);
+      	//this.doServiceCall(locationArr,assetsLocationsEditajax);
+      	$("#assetsInverterEdit").attr("body",JSON.stringify(locationArr));
+      	$("#assetsInverterEdit").attr("url","https://solarassetservices.run.aws-usw02-pr.ice.predix.io/Asset/createAssetModel/Inverters"); 
+      	this.$.assetsInverterEdit.generateRequest();  
+      	
+        },
+      getDataToLoad : function(event){
+    	var locationid = event.target.id;
+    	console.log(">>>>>>"+locationid);
+    	if(locationid != null && locationid != "" && locationid != undefined){ 
+    		var dataP = locationid.split(":_:");
+    		if(dataP.length == 3){
+    			var action = dataP[1];
+    			var name = dataP[2];
+    			gAction = action;
+    			/* if(action == "Delete"){
+    				var url = "https://solarassetservices.run.aws-usw02-pr.ice.predix.io/Asset/deleteClassification/Blocks/"+name;
+            		$("#assetsCBDel").attr("url",url);	
+        			this.$.assetsCBDel.generateRequest();
+    			} */
+    			//if(action == "Edit"){
+    				var isDeleted = false;
+    				if(action == "Delete")
+    					isDeleted = true;
+    				var timeSeriesTags = $("#timeseriestags"+name).val();
+    				var timeseriesTagsArr = [];
+    				if(timeSeriesTags != undefined && timeSeriesTags != null){
+    					var arrVals = timeSeriesTags.split(",");
+    					var len = arrVals.length;
+    					for(var z=0;z<=len-1;z++){
+    						console.log(z);
+    						timeseriesTagsArr.push(arrVals[z]);
+    					}
+    				}
+    				var name = $("#inverterName"+name).val();
+    				var desc = $("#inverterDesc"+name).val();
+    				var parent = $("#inverterParent"+name).val();
+    				var city = $("#inverterCity"+name).val();
+    				
+    				var locationObj = {}, locationArr=[];
+    				locationObj = {
+    						"uri" : "/Inverters/"+name,
+    						"name" : name,
+    						"description" : desc,
+    						"parent" : parent,
+    						"city" : city,
+    						"isDeleted": isDeleted,
+    						"timeSeriesTags":timeseriesTagsArr
+    				}
+    				locationArr.push(locationObj);
+    				 $("#assetsInverterEdit").attr("body",JSON.stringify(locationArr));
+    	        	$("#assetsInverterEdit").attr("url","https://solarassetservices.run.aws-usw02-pr.ice.predix.io/Asset/createAssetModel/Inverters"); 
+    	        	this.$.assetsInverterEdit.generateRequest(); 
+    			//}
+    		}
+    	}
+    	
+      },
+      reloadDom : function(data){
+    	  if(gAction == "Delete")
+    	 	alert("Inverter Deleted Successfully");
+    	  else if(gAction == "Edit")
+    		  alert("Inverter data updated Successfully");
+    	  else if(gAction == "Create")
+    		  alert("Inverter Created Successfully");
+    	  
+    	 //location.reload();
+    	  $("#assetInvertersajax").attr("url","https://solarassetservices.run.aws-usw02-pr.ice.predix.io/Asset/getAssetModels/Inverters"); 
+    	  this.$.assetInvertersajax.generateRequest(); 
+      },
+      appendDataToTable : function(data){
+    	  var arr = [],obj={};
+    	  console.log(data.detail.response.data);
+    	  var locData = data.detail.response.data;
+    	  for(var i=0;i<=locData.length-1;i++){
+    		  if(locData[i].isDeleted == false){
+    		 var desc = locData[i].description;
+    		 var parent = locData[i].parent;
+    		 var city = locData[i].city;
+    		 var timeSeriesTags = locData[i].timeSeriesTags;
+    		 console.log(desc +"  " + parent +"  " + city);
+    		 if(city == undefined)
+    			 city = "";
+    		 if(desc==undefined)
+    			 desc="";
+    		 if(parent == undefined)
+    			 parent = "";
+    		 if(timeSeriesTags == undefined)
+    			 timeSeriesTags = "";
+    		 
+    		  obj = {
+    				  "name" : locData[i].name,
+    				  "uri" : locData[i].uri,
+    				  "description": desc,
+    				  "parent":parent,
+    				  "actions": "<px-modal id='Model:_:Edit:_:"+locData[i].name+"' btn-modal-positive='Submit'  btn-modal-negative='Cancel' modal-heading='Location : "+locData[i].name+"' scrolling-disabled='true' style='margin-top:-20px;'>"
+    		  		  +"<div style='margin-top: -40px;'><span style='visibility:hidden'>@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</span><br>"
+    		  		  +"<paper-input label='Name' value="+locData[i].name+" id='inverterName"+locData[i].name+"' readonly>"
+    		  		  +"</paper-input><paper-input label='Description' value='"+desc+"' id='inverterDesc"+locData[i].name+"'></paper-input>" 
+    		  		 +"</paper-input><paper-input label='Parent' value='"+parent+"' id='inverterParent"+locData[i].name+"' readonly></paper-input>" 
+    		  		 +"</paper-input><paper-input label='City' value='"+city+"' id='inverterCity"+locData[i].name+"'></paper-input>" 
+    		  		 +"<input type='text' id='timeseriestags"+locData[i].name+"' style='visibility:hidden;' value="+timeSeriesTags+"></div>"
+    				  +"<button class='btn btn--primary modal-trigger' id='locationsEdit' style='margin-left: 10px;padding: 2px 19px;'>Edit</button></px-modal>"
+    				   +"<px-modal id='Model:_:Delete:_:"+locData[i].name+"' btn-modal-positive='Delete'  btn-modal-negative='Cancel' modal-heading='Delete Location' scrolling-disabled='true' style='margin-top:-20px;'>"
+    		  		  +"<div style='    margin-top: -40px;'><span style='visibility:hidden'>@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</span><br><br><span>Do you want to delete </span><span style='font-weight:bold;'> "+locData[i].name+"</span></div>"
+    				  +"<button class='btn btn--primary modal-trigger' id='locationsDelete' style='margin-left: 10px;padding: 2px 19px;'>Delete</button></px-modal>"
+     		  }
+    		  arr.push(obj);
+    		  }
+    	  }
+    	  $("#assetsInvertersTable").removeAttr("table-data");
+    	  $("#assetsInvertersTable").attr("table-data",JSON.stringify(arr));
+      }
+    });
+    function onReady(callback) {
+	        var intervalID = window.setInterval(checkReady,2000);
+
+	        function checkReady() {
+	            if (document.getElementsByTagName('body')[0] !== undefined) {
+	                window.clearInterval(intervalID);
+	                callback.call(this);
+	            }
+	        }
+	    }
+
+	    function show(id, value) {
+	        document.getElementById(id).style.display = value ? 'block' : 'none';
+	    }
+
+	    onReady(function () {
+	        show('load-inverters',false);
+	       show('content-inverters',true);
+	    })
+
+  </script>
+</dom-module>

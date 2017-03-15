@@ -1,0 +1,33 @@
+[
+  {
+    "panel": "TMTC-IT1-CB1-INV1-PANEL1",
+    "maintainedBy": "Kumar S",
+    "cleanedDate": "01-Jan-2017",
+    "nextMaintanenceDate": "01-Feb-2017"
+  },
+  {
+    "panel": "TMTC-IT1-CB1-INV1-PANEL1",
+    "maintainedBy": "Sanju",
+    "cleanedDate": "01-Dec-2016",
+    "nextMaintanenceDate": "01-Jan-2017"
+  },
+  {
+    "panel": "TMTC-IT1-CB1-INV1-PANEL1",
+    "maintainedBy": "Chandu",
+    "cleanedDate": "01-Nov-2016",
+    "nextMaintanenceDate": "01-Dec-2016"
+  },
+  {
+    "panel": "TMTC-IT1-CB1-INV1-PANEL1",
+    "maintainedBy": "King M",
+    "cleanedDate": "01-Oct-2016",
+    "nextMaintanenceDate": "01-Nov-2016"
+  },
+  {
+    "panel": "TMTC-IT1-CB1-INV1-PANEL1",
+    "maintainedBy": "John K",
+    "cleanedDate": "01-Sep-2016",
+    "nextMaintanenceDate": "01-Oct-2016"
+  }
+  
+]

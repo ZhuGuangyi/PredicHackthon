@@ -1,0 +1,612 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import"
+       href="../../bower_components/paper-material/paper-material.html">
+<link rel="import"
+       href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import"
+       href="../../bower_components/iron-data-table-master/iron-data-table.html">
+<link rel="import"
+       href="../../bower_components/px-dropdown/px-dropdown.html">
+<!-- <link rel="import"
+       href="../../bower_components/px-dropdown-content/px-dropdown-content.html"> -->
+<link rel="import" href="../../bower_components/px-tabs/px-tab.html">
+<link rel="import" href="../../bower_components/px-tabs/px-tab-set.html">
+<link rel="import"
+       href="../../bower_components/px-tabs/px-tab-pages.html">
+<link rel="import"
+       href="../../bower_components/paper-input/paper-input.html">
+<link rel="import"
+       href="../../bower_components/paper-input/paper-textarea.html">
+<link rel="import"
+       href="../../bower_components/paper-button/paper-button.html">
+<link rel="import"
+       href="/bower_components/px-widget-cards/px-twoup.html" />
+<link rel="import"
+       href="/bower_components/px-widget-cards/px-threeup.html" />
+<link rel="import"
+       href="/bower_components/px-widget-cards/px-fourup.html" />
+<link rel="import"
+       href="/bower_components/px-widget-cards/px-sixup.html" />
+<link rel="import" href="../../bower_components/px-card/px-card.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/maps-icons.html">
+<link rel="import" href="../../bower_components/px-card/px-card.html">
+<link rel="import" href="../../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/px-tabs/px-tab.html">
+<link rel="import" href="../../bower_components/px-tabs/px-tab-set.html">
+<link rel="import" href="../../bower_components/iron-icons/communication-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/social-icons.html">
+<link rel="import" href="/bower_components/px-card/px-dashboard.html"/>
+<link rel="import" href="/bower_components/px-card/px-deck.html"/>
+<link rel="import" href="../../bower_components/iron-iconset-svg/iron-iconset-svg.html">
+ <link rel="import" href="../../bower_components/px-spinner/px-spinner.html">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+ <link rel="import" href="../../bower_components/px-spinner/px-spinner.html">
+
+ 
+<script
+       src="../../bower_components/web-animations-js/web-animations.min.js"></script>
+
+<dom-module id="alerts-view"> <template>
+<style scope="data-table-row-0">
+.data-table-row-0 {
+       display: flex;
+       flex-direction: column;
+       opacity: 1;
+       cursor: pointer;
+       border-bottom: 1px solid #e3e3e3;
+       height: 46px;
+}
+ 
+.data-table-row-0[header] {
+       display: flex;
+       flex-direction: column;
+       opacity: 1;
+       cursor: pointer;
+       border-bottom: 1px solid #e3e3e3;
+       height: 46px;
+background-color:#117b66;
+}
+ 
+.data-table-row-0[selected] .cells.data-table-row {
+       color: #117b66;
+}
+ 
+.data-table-row-0:not ([header] )[even] {;
+      
+}
+ 
+.data-table-row-0
+ 
+ 
+:not
+ 
+ 
+(
+[
+header
+]
+ 
+ 
+)
+:not
+ 
+ 
+(
+[
+even
+]
+ 
+ 
+)
+{;
+}
+.data-table-row-0:focus {
+       outline: none;
+       background-color: #eee;
+}
+ 
+.data-table-row-0:not ([header] ):hover {
+       background-color: #eee;
+}
+ 
+.data-table-row-0:focus:after {
+       -webkit-transform: scaleX(1.0);
+       transform: scaleX(1.0);
+}
+ 
+.data-table-row-0:after {;
+      
+}
+ 
+.data-table-row-0 .cells.data-table-row {
+       display: flex;
+       flex-direction: row;
+       width: 100%;
+}
+</style>
+<style is="custom-style">
+#load-alerts{
+justify-content:center;
+display:flex;
+margin:auto;
+margin-top:190px;
+
+}
+  #content-alerts{
+visibility:hidden;
+}
+:root { -
+       -iron-data-table: { font-family : "Helvetica Neue", Helvetica, Arial,
+              sans-serif;
+       font-size: 14px;
+       font-weight: 400;
+       line-height: 1.1;
+       color: rgba(0, 0, 0, 0.87);
+}
+ 
+;
+-
+-iron-data-table-header: {
+       background-color: green;
+       color:green;
+       font-size: 14px;
+       font-weight: 700;
+       //color: green;
+       height: 46px;
+}
+ 
+;
+.data-table-row-0 {
+       display: flex;
+       flex-direction: column;
+       opacity: 1;
+       cursor: pointer;
+       border-bottom: 1px solid #e3e3e3;
+       height: 46px;
+}
+ 
+-
+-iron-data-table-row: {
+       border-bottom: 1px solid #e3e3e3;
+}
+ 
+;
+-
+-iron-data-table-row-hover: {
+       background-color: #eee;
+}
+ 
+;
+-
+-iron-data-table-row-selected: {
+       color: #117b66;
+}
+ 
+;
+-
+-iron-data-table-row-focused: {
+       background-color: #eee;
+}
+ 
+;
+-
+-iron-data-table-row-focused-after: {
+       -webkit-transform: scaleX(1.0);
+       transform: scaleX(1.0);
+}
+ 
+;
+}
+.assetTitleSpan {
+       padding: 5px;
+       background: hsla(75, 6%, 11%, 0.09);
+}
+ 
+.assetValSpan {
+       color: #117b66;
+       font-weight: bold;
+}
+ 
+.assetValSpan1 {
+       color: #117b66;
+       font-weight: bold;
+       width: 200px;
+}
+ 
+.tdPanels {
+       width: 10%;
+}
+</style>
+<style>
+.px-dropdown-0 {
+       width: 151px;
+}
+ 
+paper-button.green {
+  background: #117b66;
+  color:white;
+}
+paper-button.comments {
+  background: orange;
+  color:white;
+}
+#cd-timeline {
+       position: relative;
+       padding: 2em 0;
+      
+}
+ 
+#cd-timeline::before {
+       /* this is the vertical line */
+       content: '';
+       position: absolute;
+       top: 0;
+       height: 100%;
+       width: 3px;
+       background: #d7e4ed;
+       left: 3%;
+      
+}
+ 
+.cd-timeline-block {
+       position: relative;
+       margin: 4em 5em;
+       width:90%;
+       align:
+}
+ 
+.cd-timeline-img {
+      
+       left: 2%;
+       //margin-left: -25px;
+       -webkit-transform: translateZ(0);
+       -webkit-backface-visibility: hidden;
+       width:24px;
+       height:22px;
+}
+ 
+.cd-timeline-img {
+       position: absolute;
+       top: 5;
+       border-radius: 50%;
+       background-color:#117b66;
+      
+}
+ 
+.dashboard-views{
+       cursor: pointer;
+       margin-left:1010px;
+       //margin-bottom:10px;
+       //height: 33px;
+  }
+ 
+       @media (max-width: 414px) {
+        .dashboard-views {
+    margin-left: 0px;
+}
+}
+       @media (max-width: 768px) {
+        .dashboard-views {
+    margin-left: 0px;
+}
+}
+   
+.iron-data-table-0 #header {
+    padding-right:0px;
+  }
+</style>
+ <px-spinner id="load-alerts" size="70"></px-spinner>
+<div id="content-alerts">
+  <div class="dashboard-views">
+ 
+              <span style="color: #CCCCCC;font-size: 12px;"><iron-icon  style="width:15px;margin-bottom: 2px;"  icon="fa:fa-tachometer">
+   
+  </iron-icon>&nbsp Home > Alerts</span>
+  </div>
+ 
+ 
+<iron-ajax auto url="sample.json" handle-as="json"
+       last-response="{{ajaxResponse}}"></iron-ajax>
+       <paper-material
+       style="background-color:white;height: 265px;">
+       <iron-data-table
+       style="height: 265px; id="grid"
+       selection-enabled items="[[ajaxResponse]]"
+       selected-item="{{selectedItem}}"> <data-table-column
+       name="Asset ID"> <template>[[item.AssetId]]</template>
+</data-table-column> <data-table-column name="Date"> <template>[[item.Date]]</template>
+</data-table-column> <data-table-column name="Time"> <template>[[item.Time]]</template>
+</data-table-column> <data-table-column name="Alert Description"> <template>[[item.AlertDesc]]</template>
+</data-table-column> <data-table-column name="Asset"> <template>[[item.Asset]]</template>
+</data-table-column> <data-table-column name="Alert Type"> <template>[[item.Alerttype]]</template>
+</data-table-column> <data-table-column name="Assigned To"> <template>[[item.AssignedTo]]</template>
+</data-table-column> <data-table-column name="Status"> <template>[[item.Status]]</template>
+</data-table-column> <data-table-column name="Location"> <template>[[item.Location]]</template>
+</data-table-column> </iron-data-table> </paper-material> <px-tab-set selected="{{selected}}" id="tabPgSelected">
+<px-tab id="tab1">Alert Info</px-tab> <px-tab id="tab6">Send
+Mail</px-tab> <px-tab id="tab6">History</px-tab> <!-- <px-tab id="tab6">Communicatin History</px-tab> -->
+</px-tab-set> <px-tab-pages selected="{{selected}}">
+<div class="tagPages" id="defaultView">
+       <br>
+ 
+ 
+ 
+       <paper-material style="background-color:white" elevation="0">
+       <table style="width: 100%;">
+              <tr>
+                     <td class="tdPanels"><span class="assetTitleSpan">Asset
+                                  ID</span></td>
+                     <td><span class="assetValSpan"> {{selectedItem.AssetId}}</span></td>
+                     <td class="tdPanels"><span class="assetTitleSpan">Time</span></td>
+                     <td><span class="assetValSpan">
+                                  {{selectedItem.Date}}&nbsp;&nbsp;{{selectedItem.Time}}</span></td>
+ 
+              </tr>
+              <tr>
+                     <td>&nbsp;</td>
+                     <td>&nbsp;</td>
+              </tr>
+              <tr>
+                     <td class="tdPanels"><span class="assetTitleSpan">Asset</span></td>
+                     <td><span class="assetValSpan"> {{selectedItem.Asset}}</span></td>
+                     <td class="tdPanels"><span class="assetTitleSpan">Location</span></td>
+                     <td><span class="assetValSpan"> {{selectedItem.Location}}</span></td>
+              </tr>
+              <tr>
+                     <td>&nbsp;</td>
+                     <td>&nbsp;</td>
+              </tr>
+              <tr>
+                     <td class="tdPanels"><span class="assetTitleSpan">AlertDescription</span></td>
+                     <td><span class="assetValSpan">
+                                  {{selectedItem.AlertDesc}}</span></td>
+                     <td class="tdPanels"><span class="assetTitleSpan">Alert
+                                  Type</span></td>
+                     <td><span class="assetValSpan">
+                                  {{selectedItem.Alerttype}}</span></td>
+ 
+ 
+              </tr>
+              <tr>
+                     <td>&nbsp;</td>
+                     <td>&nbsp;</td>
+              </tr>
+              <tr>
+ 
+                     <!--                                     <td class="tdPanels"><span  class = "assetTitleSpan">Status</span></td>
+                                  <td style="width:300px;"><span class="assetValSpan"> <px-dropdown display-value={{selectedItem.Status}}><px-dropdown-content extend-dropdown='true' extend-dropdown-by='25' max-cont-character-width='5' items='[{"key":"1","val":"Pending"},{"key":"2","val":"In Progress"},{"key":"3","val":"Completed"}]'></px-dropdown-content></px-dropdown></span></td> -->
+              </tr>
+              <tr>
+                     <td>&nbsp;</td>
+                     <td>&nbsp;</td>
+              </tr>
+              <tr>
+ 
+                     <td class="tdPanels"><span class=""></span></td>
+                     <td><span class="assetValSpan"> </span></td>
+              </tr>
+ 
+       </table>
+       <table style="width: 100%; margin-top: -50px;">
+ 
+ 
+ 
+              <tr>
+                     <td>&nbsp;</td>
+                     <td>&nbsp;</td>
+              </tr>
+              <tr>
+                     <td class="tdPanels"><span class="assetTitleSpan">Resolution</span></td>
+                     <td><textarea style="width: 256px; height: 97px;"
+                                  placeholder="Type resolution details..."></textarea></span></td>
+              </tr>
+              <tr>
+                     <td>&nbsp;</td>
+                     <td>&nbsp;</td>
+              </tr>
+ 
+              <tr style="width: 150px;">
+                     <td class="tdPanels"><span class="assetTitleSpan">Status</span></td>
+                     <td style="width: 150px;"><span class="assetValSpan"> <px-dropdown
+                                         display-value="Select"> <px-dropdown-content
+                                         extend-dropdown='true' extend-dropdown-by='25'
+                                         max-cont-character-width='5'
+                                         items='[{"key":"1","val":"Pending"},{"key":"2","val":"In Progress"},{"key":"3","val":"Completed"}]'></px-dropdown-content></px-dropdown></span></td>
+                     <td>&nbsp;</td>
+                     <td>&nbsp;</td>
+                     <td>&nbsp;</td>
+                     <td>&nbsp;</td>
+              </tr>
+ 
+              <tr>
+                     <td>&nbsp;</td>
+                     <td>&nbsp;</td>
+              </tr>
+              <tr>
+                     <td class="tdPanels"><span class="assetTitleSpan">Assigned
+                                  To</span></td>
+                     <td><input class="text-input" id="assignedToId" type="text"
+                           style="width: 220px; height: 30px;"></td>
+ 
+              </tr>
+              <tr>
+                     <td class="tdPanels"></td>
+                     <td></td>
+ 
+              </tr>
+ 
+       </table>
+       <paper-button style="float: left;" toggles raised>Apply</paper-button>
+ 
+       </paper-material>
+ 
+ 
+       <br> <br>
+</div>
+<div class="tagPages">
+       <br>
+       <div style="background-color: white">
+              <!--                        <label for="input1">From:&nbsp;&nbsp;&nbsp;&nbsp;</label>
+<input class="text-input" id="input1" type="text" style="
+    width: 365px;height: 20px;
+"> -->
+ 
+ 
+              <label for="input2">To:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+              <input class="text-input" id="input2" type="text"
+                     style="width: 365px; height: 20px;"> <br> <br> <label
+                     for="input3">cc:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+              <input class="text-input" id="input3" type="text"
+                     style="width: 365px; height: 20px;"> <br> <br>
+ 
+ 
+              <textarea id="input4" label="Message"
+                     style="width: 80%; height: 100px;"
+                     placeholder="Type your message here..."></textarea>
+              <!-- <paper-textarea label="Message"></paper-textarea> -->
+       </div>
+       <br>
+       <div style="float: right;">
+              <paper-button toggles raised>Send</paper-button>
+              <paper-button toggles raised>Cancel</paper-button>
+       </div>
+       <br> <br>
+</div>
+ 
+<!-- HISTORY section -->
+<div>
+              <!-- main timeline section -->
+              <div id="cd-timeline">
+                                         <paper-material elevation="3" style="width:110px;height:25px; background-color:red;"   >
+       <span style="font-size:15px;color:white;font-color:red;font-weight:bold;font-family:Trebuchet MS;"> 25 Jan.2017</br><br>
+</paper-material>
+<br>
+                           <div class="cd-timeline-img cd-picture">
+                                  <div><iron-icon icon="communication:email" style="color:white; height:15px;" ></iron-icon></div>
+                                 
+                           </div>
+                     <div class="cd-timeline-block">
+                           <paper-material elevation="1" style="width:80%" >
+                                  <px-card icon='demo-icon' header-text='Hot spots on PV Cell' chevron>
+                                         <h1></h1>
+                                         <p>{{context.name}}</p>
+                                         <p>Due to over temperature hot spots are created on PV cells,it leads to damage of module. It get replaced by new PV module</p>
+                                         <paper-button raised class="green">Read More</paper-button>
+                                                                           <br/>
+                                  </px-card>
+                           </paper-material>
+                     </div>
+                           <br>
+                                         <paper-material elevation="1" style="width:110px;height:25px; background-color:red;"   >
+       <span style="font-size:15px;color:white;font-color:red;font-weight:bold;font-family:Trebuchet MS;"> 8 Jan.2017</br><br>
+</paper-material>
+<br>         
+                    
+                     <div class="cd-timeline-img cd-picture">
+                                  <div><iron-icon icon="social:person" style="color:white; height:15px;" ></iron-icon></div>
+                                 
+                           </div>
+             
+                     <div class="cd-timeline-block">
+                           <paper-material elevation="1" style="width:80%">
+                                  <px-card icon='demo-icon' header-text='Disconnected PV(+) or PV(-)' chevron>
+                                         <h1></h1>
+                                         <p>{{context.name}}</p>
+                                         <p>Due to heavy winds wires get disconnected near the junction box.</p>
+                                         <paper-button raised class="green">Read More</paper-button><!--<paper-button raised>Delete</paper-button> -->
+                                  </px-card>
+                           </paper-material>
+                     </div>
+                                                <br>
+                                         <paper-material elevation="1" style="width:110px;height:25px; background-color:red;"   >
+       <span style="font-size:15px;color:white;font-color:red;font-weight:bold;font-family:Trebuchet MS;"> 29 Dec.2016</br><br>
+</paper-material>
+<br>
+                     <div class="cd-timeline-img cd-picture">
+                                  <div><iron-icon icon="communication:comment" style="color:white; height:15px;" ></iron-icon></div>
+                                 
+                           </div>
+ 
+                     <div class="cd-timeline-block">
+                           <paper-material elevation="1" style="width:80%">
+                                  <px-card icon='demo-icon' header-text='Broken cells and cracks on panel' chevron>
+                                         <p>{{context.name}}</p>
+                                         <p>Due to natural calamities PV module get damaged.It get replaced with new module.</p>
+                                         <paper-button raised class="green">Read More</paper-button>
+                                  </px-card>
+                           </paper-material></br>
+                          
+                     </div>
+              </div>
+       </div>
+ 
+ 
+
+<div class="tagPages">
+ 
+       <px-data-table id="tableData2" filterable="true"
+              table-data={{maintaData}} striped="true"
+              hide-pagination-control="true"> <px-data-table-column
+              name="panel" label="Panel Name"></px-data-table-column> <px-data-table-column
+              name="maintainedBy" label="Maintained By"></px-data-table-column> <px-data-table-column
+              name="cleanedDate" label="Maintained Date"></px-data-table-column> <px-data-table-column
+              name="nextMaintanenceDate" label="Next Maintanence Date"></px-data-table-column>
+       </px-data-table>
+</div>
+<div class="tagPages"></div>
+</px-tab-pages> <br>
+<br>
+</div>
+
+</template>
+ <script>
+       $(window)
+                     .on(
+                                  'scroll',
+                                  function() {
+                                         $timeline_block
+                                                       .each(function() {
+                                                              if ($(this).offset().top <= $(window)
+                                                                           .scrollTop()
+                                                                           + $(window).height() * 0.75
+                                                                           && $(this).find('.cd-timeline-img')
+                                                                                         .hasClass('is-hidden')) {
+                                                                     $(this)
+                                                                                  .find(
+                                                                                                '.cd-timeline-img, .cd-timeline-content')
+                                                                                  .removeClass('is-hidden')
+                                                                                  .addClass('bounce-in');
+                                                              }
+                                                       });
+                                  });
+</script> 
+<script>
+       Polymer({
+              is : 'alerts-view',
+              properties : {}
+       });
+       function onReady(callback) {
+	        var intervalID = window.setInterval(checkReady,2000);
+	    	
+
+	        function checkReady() {
+	        
+	            if (document.getElementsByTagName('body')[0] !== undefined) {
+	                window.clearInterval(intervalID);
+	                callback.call(this);
+	            }
+	        }
+	    }
+
+
+	    
+      onReady(function () {
+   	 
+	        $('#load-alerts').hide();
+	       $('#content-alerts').css("visibility","visible");
+
+	    }) 
+
+</script> </dom-module>

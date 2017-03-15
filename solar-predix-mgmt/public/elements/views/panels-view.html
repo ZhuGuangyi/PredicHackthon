@@ -1,0 +1,790 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/px-sample-cards/blank-card.html">
+<link rel="import" href="../../bower_components/px-view-header/px-view-header.html">
+
+<!-- <link rel="import" href="../../elements/elements.html"> -->
+
+<link rel="import" href="../../bower_components/px-data-table/px-data-table.html">
+<link rel="import" href="../../bower_components/px-dropdown/px-dropdown.html">
+<!-- <link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html"> -->
+<link rel="import" href="../../bower_components/px-modal/px-modal.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+
+<link rel="import" href="../../bower_components/px-tabs/px-tab.html">
+<link rel="import" href="../../bower_components/px-tabs/px-tab-set.html">
+<link rel="import" href="../../bower_components/px-tabs/px-tab-pages.html">
+<link rel="import" href="../../bower_components/px-slider/px-slider.html">
+<link rel="import" href="../../bower_components/px-overlay/px-overlay.html">
+<link rel="import" href="../../bower_components/px-spinner/px-spinner.html">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<!-- <link rel="import" href="../../bower_components/px-handle/px-handle.html"> -->
+<!-- <link rel="import" href="../../bower_components/px-spinner/px-spinner.html"> -->
+
+
+<link rel="import" href="../../bower_components/px-box-design/_objects.box.scss">
+<link rel="import" href="../../bower_components/px-layout-design/_objects.layout.scss">
+<link rel="import" href="../../bower_components/px-buttons-design/_objects.buttons.scss">
+
+<link rel="import" href="../../bower_components/px-overlay/px-overlay.html">
+<link rel="import" href="../../bower_components/px-spinner/px-spinner.html">
+
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!--  <script src="http://code.highcharts.com/highcharts.js"></script> 
+    <script src="http://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/solid-gauge.js"></script> -->
+
+
+
+<dom-module id="panels-view" style="background:white !important;">
+  <template>
+  <style>
+  
+#content-panel{
+display:none;
+}
+#load-panel{
+justify-content:center;
+display:flex;
+margin:auto;
+margin-top:190px;
+
+}
+
+  
+  
+  #scrollBodyTableContainer{
+  	background: #666666 !important;
+  	color: #CCCCCC;
+  }
+  #tableData tr{
+  	background-color: red !important;
+  }
+  .panel-views{
+  	cursor: pointer;
+  	//height: 33px;
+  }
+  #panel_view{
+  	border: 1px solid #CCCCCC;
+  	width: 100px;
+  	border-bottom: 0px solid #CCCCCC;
+  }
+  #block_view{
+  	border: 1px solid #CCCCCC;
+  	width: 100px;
+  	MARGIN-LEFT: 99PX;
+    MARGIN-TOP: -21PX;
+  }
+  #grid{
+  	display: none;
+  	height:600px;
+  	width:100%px;
+  	background:#FFFFFF;
+  }
+  .tagPages{
+  	height:300px;
+  }
+  .assetTitleSpan{
+  	padding:5px;
+  	background : hsla(75, 6%, 11%, 0.09);
+  }
+  .assetValSpan{
+  	    color: #117b66;
+    font-weight: bold;
+  }
+  .tdPanels{
+  	width:20%;
+  }
+  .dashboard-views{
+       cursor: pointer;
+       margin-left:954px;
+       //margin-bottom:10px;
+       //height: 33px;
+  }
+ 
+       @media (max-width: 414px) {
+        .dashboard-views {
+    margin-left: 0px;
+}
+}
+       @media (max-width: 768px) {
+        .dashboard-views {
+    margin-left: 0px;
+}
+}
+  </style>
+  <px-spinner id="load-panel" size="70"></px-spinner>
+<div id="content-panel">
+  <div class="dashboard-views">
+ 
+              <span style="color: #CCCCCC;font-size: 12px;"><iron-icon  style="width:15px;margin-bottom: 2px;"  icon="fa:fa-tachometer">
+   
+  </iron-icon>&nbsp; Home > Panels View</span>
+  </div> 
+  <div class="panel-views">
+  		<div id="panel_view"><center>Tabular View</center></div>
+  		<div id="block_view"><center>Graphical View</center></div>
+  		<!-- <span style="float: right;margin-top: -18px;margin-right: 4px;color: #CCCCCC;" > Home > Panels View</span> -->
+  		<!-- <span style="color: #CCCCCC;font-size: 12px;float: right;margin-top: -18px;margin-right: 4px;"><iron-icon  style="width:15px;margin-bottom: 2px;"  icon="fa:fa-tachometer">
+   
+  </iron-icon>&nbsp; Home > Panels View</span> -->
+  </div>
+ 
+  <div style="background:#FFFFFF;"> 
+  		<px-modal btn-modal-positive="Ok" btn-modal-negative="Back" id="popupModel" style="float:right;margin-top: -1px;">
+  		<button class='btn btn--primary modal-trigger' style="width:10px;background:#e4e4ea;height: 32px;"><iron-icon icon="icons:hourglass-empty" style="margin-left: -13px;margin-top: -3px;"></iron-icon></button>
+ <!--  </div> -->
+  <div class="box box--huge" id="filters" style="background:#FFFFFF;padding:15px;margin-top: -50px;">
+  		<iron-ajax id="ajax" auto url="https://solarassetservices.run.aws-usw02-pr.ice.predix.io/Asset/getNamesInClassification/Locations" last-response="{{data}}" handleAs="json"></iron-ajax>
+            <span id="hideSpan" style="visibility:hidden;">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</span>
+  		<div id="locationsDiv">
+  		<span>Location</span>
+    		<px-dropdown display-value="Select" name="filter-location" id="locations">
+    			<px-dropdown-content extend-dropdown='true' extend-dropdown-by='25' max-cont-character-width='10' 
+    			items='{{data.data}}'>
+    			</px-dropdown-content>
+    		</px-dropdown>
+    	</div>
+    	<br>
+    	<div id="blocksDiv">
+    	<iron-ajax id="blocksAjax" on-response="setBlocksData" handleAs="json"></iron-ajax>
+    		<span>Blocks</span>
+    		<px-dropdown display-value="Select" name="filter_block" id="filter_block" disabled>
+    			<px-dropdown-content extend-dropdown='true' extend-dropdown-by='25' max-cont-character-width='10' 
+    			items={{blocksData.data}} id="blocks_dropDown">
+    			</px-dropdown-content>
+    		</px-dropdown>
+    	</div>
+    	<br>
+    	<div id="cbsDiv">
+    		<iron-ajax id="CBSAjax" on-response="setCbsData" handleAs="json"></iron-ajax>
+    		<span>Control Boxes</span>
+    		<px-dropdown display-value="Select" name="filter_cb" id="filter_cb" disabled>
+    			<px-dropdown-content extend-dropdown='true' extend-dropdown-by='25' max-cont-character-width='10' 
+    			items="" id="cb_dropdown">
+    			</px-dropdown-content>
+    		</px-dropdown>
+    	</div>
+    	<br>
+    	<div id="invertorsDiv">
+    	<iron-ajax id="invertersAjax" on-response="setInvertorsData" handleAs="json"></iron-ajax>
+    		<span>Inverters</span>
+    		<px-dropdown display-value="Select" name="filter_inverter" id="filter_inverter" disabled>
+    			<px-dropdown-content extend-dropdown='true' extend-dropdown-by='25' max-cont-character-width='10' items=[[invertors]] id="inverter_dropdown">
+    			</px-dropdown-content>
+    		</px-dropdown>
+    	</div>	
+    	
+    	<!-- <div style="float:right;">
+    		<button class="btn" id="ok">Ok</button>
+    	</div> -->
+    	
+  </div>
+  </px-modal>
+   <H4 style="padding-top: 18px;margin-left: -18px;background:#FFFFFF;">&nbsp;&nbsp;&nbsp;&nbsp;{{data1.0.inverter}}</H4>
+   
+  </div>
+ 
+  <!-- <iron-ajax id="ajax"
+            auto
+            url="https://solar-test-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/windservices/getSolarDashBoard?requiredtags=ACApparentPowerINV1"
+            last-response="{{data}}"
+            on-response="_onResponse"
+            handleAs="json">
+  </iron-ajax> -->
+  
+  <iron-ajax id="saveMailing" method="GET" on-response="handleResponse"></iron-ajax>
+  
+   <iron-ajax id="getData" method="GET" on-response="prepareDataForTable"></iron-ajax>
+		
+ <!-- <iron-ajax id="dynamicLoadAjax"
+			method="GET"
+			on-response="getTags">
+		</iron-ajax> -->
+				
+<div id="table" style="background:#FFFFFF;margin-top: -48px;">
+     <!-- <px-data-table class="table" table-data='[[tableData]]' hide-pagination-control="false" id="tableData" tableColumns></px-data-table> 
+   -->
+  <!--  <px-spinner size="50"></px-spinner> -->
+   <iron-ajax id="PanelsDataTable" auto url="https://solar-test-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/windservices/getPanelsDetailsByInverter?inverterName=TMTC-IT1-CB1-INV1" 
+  last-response="{{data1}}" on-response="callServiceByInterval" handleAs="json"></iron-ajax>
+    <!-- <iron-ajax id="PanelsDataTable" auto url="http://localhost:9072/services/windservices/getPanelsDetailsByInverter?inverterName=TMTC-IT1-CB1-INV1" 
+  last-response="{{data1}}" on-response="callServiceByInterval" handleAs="json"></iron-ajax>  -->
+  <!-- <paper-button onclick="actions.open('hi')">dialog with actions</paper-button> -->
+   <px-data-table id="tableData1" filterable="true" table-data={{data1}} striped="true" show-column-chooser="true"  hide-pagination-control="true">
+  	 
+    	<!-- <px-data-table-column name="inverter" filterable sortable></px-data-table-column> -->
+    	
+    	<px-data-table-column name="panel" filterable sortable allign="center" label="Panel ID"></px-data-table-column>
+    	
+    	<px-data-table-column name="sync" type="html" filterable sortable allign="center" label="Sync"></px-data-table-column>
+    	
+    	<px-data-table-column name="voltage" type="html" filterable sortable allign="center" label="Voltage"></px-data-table-column>
+    	
+    	<px-data-table-column name="current" type="html" filterable sortable allign="center" label="Current"></px-data-table-column>
+    	
+    	<px-data-table-column name="power" type="html" filterable sortable allign="center" label="Power&nbsp;(w)"></px-data-table-column>
+    	
+    	<px-data-table-column name="estPower" type="html" filterable sortable allign="center" label="Est.&nbsp;Power"></px-data-table-column>
+    	
+    	<px-data-table-column name="efficiency" type="html" filterable sortable allign="center" label="Efficiency"></px-data-table-column>
+    	<px-data-table-column name="cleaningStatus" type="html" filterable sortable allign="center" label="Cleaning&nbsp;Status"></px-data-table-column>
+    	<px-data-table-column name="dueDate" type="html" filterable sortable allign="center" label="Due&nbsp;Date"></px-data-table-column>
+    	<px-data-table-column name="more" type="html" filterable sortable allign="center" label="More"></px-data-table-column>
+    </px-data-table>
+    
+   <!--  <paper-button onclick="actions.open('hi')">dialog with actions</paper-button> -->
+    <paper-dialog id="actions" style="max-height: 500px;border:1px solid rgb(17,123,102);overflow: auto;width:66%;left: 20%;">
+    <!--  <span style="visibility:hidden;">##########################################################################</span>  -->
+    	<px-tab-set selected="{{selected}}" id="tabPgSelected">
+    		<px-tab id="tab1">Panel Info</px-tab>
+    		<px-tab id="tab6">Current Data</px-tab>
+    		<px-tab id="tab2">Maintenance</px-tab>
+    		<px-tab id="tab3">Technical Documents</px-tab>
+    		<px-tab id="tab4">Alerts</px-tab>
+    		<px-tab id="tab5">Rotate Panel</px-tab>
+    	</px-tab-set> 
+    	<px-tab-pages selected="{{selected}}" > 
+    		<div class="tagPages" id="defaultView">
+    			<h4>Asset Details</h4>
+    			<hr style="background: #666666;height: 1px;    margin-top: 0px;">
+    			 <iron-ajax id="panelPopupIron" auto last-response="{{panelAssetData}}" handleAs="json"></iron-ajax> 
+    			<table style="width:100%;">
+    				<tr>
+    					<td class="tdPanels"><span class = "assetTitleSpan">Panel ID</span></td>
+    					<td><span class="assetValSpan"> {{panelAssetData.data.0.name}}</span></td>
+    					<td class="tdPanels"><span  class = "assetTitleSpan">Manufacturer</span></td>
+    					<td><span class="assetValSpan"> TMA</span></td>
+    				</tr>
+    				<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+    				<tr>
+    					<td class="tdPanels"><span class = "assetTitleSpan">Type</span></td>
+    					<td><span class="assetValSpan"> Monocrystalline Solar Pannel</span></td>
+    					<td class="tdPanels"><span  class = "assetTitleSpan">Rated Voltage</span></td>
+    					<td><span class="assetValSpan"> 30.5 V</span></td>
+    				</tr>
+    				<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+    				<tr>
+    					<td class="tdPanels"><span class = "assetTitleSpan">Short Circuit Current</span></td>
+    					<td><span class="assetValSpan"> 12 A</span></td>
+    					<td class="tdPanels"><span  class = "assetTitleSpan">Temperature Coefficient</span></td>
+    					<td><span class="assetValSpan"> -0.7%/<sup>o</sup>C</span></td>
+    				</tr>
+    				<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+    				<tr>
+    					<td class="tdPanels"><span class = "assetTitleSpan">Rated Current</span></td>
+    					<td><span class="assetValSpan"> 7.54 A</span></td>
+    					<td class="tdPanels"><span  class = "assetTitleSpan">Open Circuit Voltage</span></td>
+    					<td><span class="assetValSpan"> 44.5 V</span></td>
+    				</tr>
+    				<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+    				<tr>
+    					<td class="tdPanels"><span  class = "assetTitleSpan">Rated Capacity</span> </td>
+    					<td><span class="assetValSpan"> 230 W</span></td>
+    					<td class="tdPanels"><span  class = "assetTitleSpan">Installed Date</span> </td>
+    					<td><span class="assetValSpan"> 28-Sep-2015 </span></td>
+    				</tr>
+    				<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+    				<tr>
+    					<td class="tdPanels"> <span  class = "assetTitleSpan">Last Maintenance</span> </td>
+    					<td><span class="assetValSpan"> 01-Jan-2017</span></td>
+    					<td class="tdPanels"><span  class = "assetTitleSpan">Status</span> </td>
+    					<td><span class="assetValSpan"> Working </span></td>
+    				</tr>
+    				<!-- <tr>
+    				<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr> -->
+    			</table> 
+    			<!-- <br>
+    			<h4>Panel Information</h4>
+    			<hr style="background: #666666;height: 1px;    margin-top: 0px;">
+    			<span>Voltage : 407.51 Volts</span><br><br>
+    			<span>Power :  103.43 K Watts</span><br><br>
+    			<span>Current :  144.58 Amps</span>
+    			 -->
+    		</div> 
+    		<div class="tagPages">
+    			<h4>Live Data</h4>
+    			<hr style="background: #666666;height: 1px;    margin-top: 0px;">
+    			<!-- span>Voltage : 407.51 Volts</span><br><br>
+    			<span>Current :  144.58 Amps</span><br><br>
+    			<span>Power :  103.43 K Watts</span><br><br>
+    			<span>Efficiency :  69.9%</span><br><br>
+    			<span>Temperature :  38.5<sup>0</sup>C</span><br><br>
+    			<span>Angle :  48<sup>0</sup></span> -->
+    			
+    			<table style="width:100%;">
+    				<tr>
+    					<td class="tdPanels"><span class = "assetTitleSpan">Voltage</span></td>
+    					<td><span class="assetValSpan" id="panelLiveVoltage"> 407.51 V</span></td>
+    					<td class="tdPanels"><span  class = "assetTitleSpan">Current</span></td>
+    					<td><span class="assetValSpan" id="panelLiveCurrent">  144.58 A</span></td>
+    				</tr>
+    				<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+    				<tr>
+    					<td class="tdPanels"><span class = "assetTitleSpan">Power</span></td>
+    					<td><span class="assetValSpan" id="panelLivePower"> 103.43 K W</span></td>
+    					<td class="tdPanels"><span  class = "assetTitleSpan">Efficiency</span></td>
+    					<td><span class="assetValSpan" id="panelLiveEff"> 69.9%</span></td>
+    				</tr>
+    				<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+    				<tr>
+    					<td class="tdPanels"><span class = "assetTitleSpan">Panel Temperature</span></td>
+    					<td><span class="assetValSpan"> 38.5<sup>o</sup>C</span></td>
+    					<td class="tdPanels"><span  class = "assetTitleSpan">Angle</span></td>
+    					<td><span class="assetValSpan"> 48<sup>o</sup></span></td>
+    				</tr>
+    			</table> 
+    		</div>
+    		<div class="tagPages">
+    		<iron-ajax  auto url="m_sample.json" handle-as="json" last-response="{{maintaData}}"></iron-ajax>
+				<px-data-table id="tableData2" filterable="true" table-data={{maintaData}} striped="true" hide-pagination-control="true">
+			    	<px-data-table-column name="panel" label="Panel ID"></px-data-table-column>
+			    	<px-data-table-column name="maintainedBy" label="Maintained By"></px-data-table-column>
+			    	<px-data-table-column name="cleanedDate" label="Last Maintenance Date"></px-data-table-column>
+			    	<px-data-table-column name="nextMaintanenceDate" label="Next Maintenance Date"></px-data-table-column>
+		    </px-data-table>
+			</div>
+			<div class="tagPages">
+			<br>
+				<h5>Installation Manual <iron-icon icon="icons:description" style="cursor:pointer;"></iron-icon></h5> <br>
+				<h5>User Manual <iron-icon icon="icons:description" style="cursor:pointer;"></iron-icon></h5>
+			</div> 
+			<div class="tagPages">
+				<div class="tagPages">
+				<iron-ajax  auto url="m1_sample.json" handle-as="json" last-response="{{alertData}}" on-response="checkData"></iron-ajax>
+				<px-data-table id="tableDat31" filterable="true" table-data={{alertData}} striped="true" hide-pagination-control="true">
+			    	<px-data-table-column name="assetId" label="Panel&nbsp;ID"></px-data-table-column>
+			    	<px-data-table-column name="AlertDesc" label="Alert&nbsp;Description"></px-data-table-column>
+			    	<px-data-table-column name="location" label="Location"></px-data-table-column>
+			    	<px-data-table-column name="alertType" label="Alert&nbsp;Type"></px-data-table-column>
+			    	<px-data-table-column name="AssignedTo" label="Assigned&nbsp;To"></px-data-table-column>
+			    	<px-data-table-column name="Status" label="Status"></px-data-table-column>
+			    	<px-data-table-column name="date" label="Date"></px-data-table-column>
+		    </px-data-table>
+			</div>
+			</div> 
+			<div class="tagPages">
+				<center><div style="width:100%; height:230px;"><img src="panel_side_view.jpg" id="img" style="margin-top:32px;"/>
+				</div><br/></center>
+			
+				<px-slider id="pxSliderID" min="1" max="75" step="1" value="{{myval}}" scale="linear"></px-slider>
+				<center><paper-button style="background: #0a9ec1;color: #FFFFFF;font-weight:normal;"
+				onclick="myFunction()" >Apply</paper-button></center>
+
+    <!-- <div id="background" class="style-scope paper-ripple"></div>
+    <div id="waves" class="style-scope paper-ripple"></div> -->
+  </paper-ripple></paper-button>
+			</div> 
+		</px-tab-pages>
+ 
+  <!-- <h2>Dialog Title</h2>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+    irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+   --><div class="buttons">
+   <!--  <paper-button>More Info...</paper-button>
+    <paper-button dialog-dismiss>Decline</paper-button> -->
+    <paper-button dialog-confirm autofocus style="background: #117b66;color: #FFFFFF;font-weight:normal;">Close</paper-button>
+  </div>
+</paper-dialog>
+  </div>
+  <div id="grid" > 
+  <br>
+  		<div id="grid1">
+  		</div>
+  		<!-- <span id="grid2" style="background:green;width:50px;height:50px;">&nbsp;&nbsp;
+  		</span>
+  		<span id="grid3" style="background:orange;width:50px;height:50px;">&nbsp;&nbsp;
+  		</span> -->
+  		
+  </div>
+  </div>
+  </template>
+  <script>
+  var block = null,cb=null,invertor=null,tableData=null,panelName="";
+  var records=0,totalRecords=0,tableData=[],invertersDataArr = [];
+  var flag = false;
+    Polymer({
+      is: 'panels-view',
+      properties: {
+    	  myval:{
+    		type:Number,
+    		value:0,
+    		notify:true
+    	  
+    	  }},
+        // Listeners START
+      listeners: {
+          'locations.px-dropdown-value-changed':'regularTap',
+          'filter_block.px-dropdown-value-changed':'blockChanged',
+          'filter_cb.px-dropdown-value-changed':'cbchanged',
+          'filter_inverter.px-dropdown-value-changed':'invertorChanged',
+          'popupModel.btnModalPositiveClicked':'getValuesToLoad',
+          'panel_view.tap':'showPanelsView',
+          'block_view.tap':'showGridView',
+          'tab2.tap':'setStyletoTab',
+          'tab3.tap':'setStyletoTab',
+          'tab4.tap':'setStyletoTab',
+          'tab5.tap':'setStyletoTab',
+          'tab6.tap':'setStyletoTab',
+          'pxSliderID.notifyResize':'resizerShouldNotify'
+          //'btnModalPositive.tap':'test'
+          //'ok.tap':'getValuesToLoad'
+        },
+        resizerShouldNotify : function(){
+        	alert("kjlh");
+        },
+        checkData : function(data){
+        	console.log(">>>>>>>>>>>>>>>>"+data.detail.response);
+        },
+        testing : function(){
+        	//alert("lkjlkjlk");
+        },
+        regularTap : function(){
+        	block = null,cb=null,invertor=null;
+        	$("#blocksAjax").attr("url","https://solarassetservices.run.aws-usw02-pr.ice.predix.io/Asset/getBlockClassificationNamesByLocation/Blocks/"+this.$.locations.value);
+        	this.$.blocksAjax.generateRequest();
+        },
+        blockChanged : function(event){
+        	block = this.$.filter_block.value;
+        	$("#CBSAjax").attr("url","https://solarassetservices.run.aws-usw02-pr.ice.predix.io/Asset/getCBClassificationNamesByBlock/CBS/"+block);
+        	this.$.CBSAjax.generateRequest();
+        },
+        cbchanged : function(){
+        	cb = this.$.filter_cb.value;
+        	$("#invertersAjax").attr("url","https://solarassetservices.run.aws-usw02-pr.ice.predix.io/Asset/getInverterNamesByCB/Inverters/"+cb);
+        	this.$.invertersAjax.generateRequest();
+        },
+        invertorChanged : function(){
+        	invertor = this.$.filter_inverter.value;
+        },
+        // Listeners END
+        getValuesToLoad : function(){
+        	if(invertor == "" || invertor == null || invertor == undefined)
+        		invertor = "TMTC-IT1-CB1-INV1";
+        	var location = this.$.locations.value;
+        	var url = "https://solar-test-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/windservices/getPanelsDetailsByInverter?inverterName="+invertor;
+        	//this.loadValues();
+        	$("#PanelsDataTable").removeAttr("url");	
+    		$("#PanelsDataTable").attr("url",url);	
+			this.$.PanelsDataTable.generateRequest();
+        },
+        loadValues : function(){
+        	var location = this.$.locations.value
+        	if(invertor == "All"){
+        		console.log("From All : " + invertersDataArr);
+        		alert(invertersDataArr[0]);
+        		console.log(invertersDataArr.length);
+        		invertor = invertersDataArr.length;
+        			var url = "https://solarassetservices.run.aws-usw02-pr.ice.predix.io/Asset/getPanelsByInverter/Panels/"+invertersDataArr[0];
+            		$("#saveMailing").attr("url",url);	
+        			this.$.saveMailing.generateRequest();
+        	}else{
+        		var url = "https://solarassetservices.run.aws-usw02-pr.ice.predix.io/Asset/getPanelsByInverter/Panels/"+invertor;
+        		$("#saveMailing").attr("url",url);	
+    			this.$.saveMailing.generateRequest();
+        	}
+        	
+        	 this.async(function() {
+        		 console.log("Async Called");
+                 this.$.saveMailing.generateRequest();
+               }, 60000);
+        },
+        setStyletoTab : function(){
+        	if(flag){
+            	$("#defaultView").attr("class","tagPages style-scope panels-view");
+            	$("#tab1").attr("class","style-scope panels-view x-scope px-tab-0");
+            	$("#tab1").children().attr("class","style-scope px-tab tab-title");
+            	//flag = false;
+            }
+        },
+        callServiceByInterval : function(data){
+        	//console.log(data);
+        	 this.async(function() {
+        		 console.log("Async Called");
+                 this.$.PanelsDataTable.generateRequest();
+               }, 10000);
+        	 
+        //$("#tabPgSelected").attr("selected","{{0}}"); 
+        if(!flag){
+        	$("#defaultView").attr("class","tagPages style-scope panels-view iron-selected");
+        	$("#tab1").attr("class","style-scope panels-view x-scope px-tab-0 iron-selected");
+        	$("#tab1").children().attr("class","style-scope px-tab tab-title tab-title--selected");
+        	flag = true;
+        }
+        	 
+        	//console.log(data.detail.response);
+        	$("#grid1").empty();
+        	var panelsData = data.detail.response;
+        	//console.log(panelsData.length);
+        	//var panelsData1 = 10;
+        	var count = 0;
+        	for(var i=0;i<=panelsData.length-1;i++){
+        	//alert(panelsData[i].effeciencyVal)
+        	var backg = "green";
+        	var effVal = panelsData[i].effeciencyVal;
+        	if(effVal < 30)
+        		backg = "red";
+        	else if(effVal < 50 && effVal >= 30)
+        		backg = "#FFC200";
+        		count = count+1;
+        		$("#grid1").append("<span style='height:10%;width:10%;border: 1px solid #CCCCCC;padding: 1% 1% 1% 1%;font-size:13px;cursor:pointer;background:"+backg+"' title='Panel : "+panelsData[i].panel+"\nVoltage : "+panelsData[i].voltageVal+" V \nPower : "+panelsData[i].powerVal+" W \nCurrent : "+panelsData[i].currentVal+" A \nEfficiency : "+panelsData[i].effeciencyVal+" %'>&nbsp;</span>");
+        		//console.log(panelsData[i]);
+        		if(count == 38){
+        			$("#grid1").append("<br><br>");
+        			count = 0;
+        		}
+        	}
+        	
+        },
+        handleResponse : function(data){
+        	//console.log(data.detail.response);
+        	//console.log(dara);
+        	records=0,totalRecords=0;
+        	tableData=[];
+        	if(data.detail.response != null && data.detail.response != undefined){
+        		if(data.detail.response.data != null && data.detail.response.data != undefined){
+        			var objectsLen = data.detail.response.data.length;
+        			totalRecords = objectsLen;
+                	for(var i=0;i<=objectsLen-1;i++){
+                		panelName = data.detail.response.data[i].name;
+                		var url = "https://solar-test-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/windservices/getSolarDashBoard?requiredtags="+data.detail.response.data[i].timeseries_tags[0]+","+data.detail.response.data[i].timeseries_tags[1]+","+data.detail.response.data[i].timeseries_tags[2]
+                		$("#getData").attr("url",url);	
+            			this.$.getData.generateRequest();
+                	} 
+        		}else{
+        			alert("No Time Series Tags To Load Panel"); return;
+        			
+        		}
+        	}else{
+        		alert("No Time Series Tags To Load Panel"); return;
+        	}
+        	//console.log(data);
+        	/* console.log(data.detail.response);
+        	
+        	 var tableData=[],tableDataObj={};
+        	var objectsCnt = data.detail.response.data.length; */
+        	//console.log(JSON.stringify(data.detail.response.data[0].tagName));
+        	/* tableDataObj = {
+    				"Control Box": cb,
+    				"Number" : cb,
+    				"Sync" : '',
+    				"Voltage" : data.detail.response.data[0].value,
+    				"Current" : data.detail.response.data[1].value,
+    				"Power" : data.detail.response.data[2].value,
+    				"Est.\nPower": 100,
+    				"Efficiency": (data.detail.response.data[2].value*100)/100
+    		}   */
+        	
+        	//tableData.push(tableDataObj);
+        	//console.log(JSON.stringify(tableData));
+        	
+        	//$("#tableData").attr("table-data",JSON.stringify(tableData));
+        },
+        prepareDataForTable : function(data){
+        	//console.log(data.target);
+        	
+        	//console.log($("#getData").attr("url"));
+    		records = records+1;
+    		if(totalRecords >= records){
+    			 var tableDataObj={};
+    	        	var objectsCnt = data.detail.response.data.length; 
+    	        	var name = data.detail.response.data[1].tagName;
+    	        	name = name.replace("Panel","");
+    	        	name = name.replace("Voltage","");
+    	        	//var htmlCurr = data.detail.response.data[2].value;
+    	        	var htmlCurr = "<iron-ajax id="+name+" auto url='https://solar-test-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/windservices/getSolarDashBoard?requiredtags='Panel620Current' handleAs='json'></iron-ajax>";
+    	        	
+    	        	if(data.detail.response.data[2].value < 4)
+    	        		htmlCurr += "<div style='background:red;' id='"+name+"val'>"+data.detail.response.data[2].value+"</div>";
+    	        	else{
+    	        		htmlCurr += data.detail.response.data[2].value;
+    	        		}	
+    	        	 tableDataObj = {
+    	    				"Inverter": invertor,
+    	    				"Panel Name" : invertor+"-Panel"+name,
+    	    				"Sync" : '',
+    	    				"Voltage" : data.detail.response.data[1].value,
+    	    				"Current" : htmlCurr,
+    	    				"Power" : data.detail.response.data[0].value,
+    	    				"Est. Power": 200,
+    	    				"Efficiency": (data.detail.response.data[2].value*200)/200+"%"
+    	    		}   
+    	        	tableData.push(tableDataObj);
+    		}
+    		if(totalRecords == records){
+    			$("#tableData").removeAttr("table-data");
+        		$("#tableData").attr("table-data",JSON.stringify(tableData));
+        		
+        		//console.log($("#101val").text());
+        		//console.log($("#101val").html());
+    		}
+    		//console.log($("#101val").text());
+    		//$("#101val").css("background","green");
+    	},
+        // for getting the blocks based on the location
+        setBlocksData : function(data){
+        	setDataToDropDown(data,"blocks");
+        },
+        setCbsData : function(data){
+        	setDataToDropDown(data,"cbs");
+        },
+        setInvertorsData : function(data){
+        	setDataToDropDown(data,"inverters");
+        },
+        getTags : function(data){
+        	//handleTags(data);
+        	console.log(data);
+        	console.log(JSON.stringify(data.detail.response));
+        },
+        showPanelsView : function(){
+        	console.log("from panels View");
+        	$("#table").css("display","block");
+        	$("#grid").css("display","none");
+        	$("#panel_view").css("border-bottom","0px");
+        	$("#block_view").css("border-bottom","1px solid #CCCCCC").css("margin-top","-21px");
+        },
+        showGridView : function(){
+        	console.log("From grid view");
+        	$("#table").css("display","none");
+        	$("#grid").css("display","block");
+        	$("#block_view").css("border-bottom","0px").css("margin-top","-22px");
+        	$("#panel_view").css("border-bottom","1px solid #CCCCCC");
+        },
+      ready: function() {
+        console.log('solar-summery-home ready()');
+        
+       // $("#scrollBodyTableContainer").attr("style","background:red;color:#CCCCCC");
+       /*   var data=[],obje = {}
+        for(var i=1;i<=125;i++){
+        	obje = {
+        			"uri":"/Panels/TMTC-IT1-CB1-INV1-PANEL"+i,
+        			"name":"TMTC-IT1-CB1-INV1-PANEL"+i,
+        			"description":"TMTC-IT1-CB1-INV1 - Panel - "+i,
+        			"parent":"/Inverters/TMTC-IT1-CB1-INV1",
+        			"timeseries_tags":["Panel"+i+"Power","Panel"+i+"Voltage","Panel"+i+"Current"]
+        	}
+        	data.push(obje);
+        }
+        console.log(JSON.stringify(data));  */
+       // var url = "http://localhost:8080/Asset/getInvertersTimeSeriesTags/TMTC/TMTC-IT1/TMTC-IT1-CB1";
+      //  console.log(url);
+      //  $("#dynamicLoadAjax").attr("url",url);
+    	//this.$.dynamicLoadAjax.generateRequest();
+      },
+    });
+
+    /* Java Script function Start*/
+    function setDataToDropDown(data,from){
+    	console.log(JSON.stringify(data.detail.response.data));
+    	if(data.detail.response != null && data.detail.response != undefined){
+    		if(data.detail.response.data != null && data.detail.response.data != undefined && data.detail.response.data.length >0){
+    			var size = data.detail.response.data.length;
+    			var obj={},arr=[];
+    			if(from == "inverters"){
+    				//obj = {"Key": "All","val" : "All"};
+    				//arr.push(obj);
+    				
+    				invertersDataArr = data.detail.response.data;
+    				
+    			}
+    			for(var i=0;i<=size-1;i++){
+    				obj = {"Key": data.detail.response.data[i],"val" : data.detail.response.data[i]}	
+    				arr.push(obj);
+    			}
+    			//$("#filter_block").removeAttr("disabled");
+    			//$("#blocks_dropDown").removeAttr("items");
+    			//alert(from);
+    			if(from == "blocks"){
+    				$("#filter_block").removeAttr("disabled");
+    				$("#blocks_dropDown").attr("items",JSON.stringify(arr));
+    			}
+    			else if(from=="cbs"){
+    				$("#filter_cb").removeAttr("disabled");
+    				$("#cb_dropdown").attr("items",JSON.stringify(arr));
+    			}else if(from=="inverters"){
+    				$("#filter_inverter").removeAttr("disabled");
+    				$("#inverter_dropdown").attr("items",JSON.stringify(arr));
+    			}
+    			
+    		}else{
+    			alert("No Data found to Display on this combination!!, Select Other Combination");return;
+    		}
+    	}else{
+    		alert("No Data found to Display on this combination!!, Select Other Combination");return;
+    	}
+    }
+    function openPanelInfo(panelName,voltage,current,power,efficiency){
+    	//alert(panelName);
+    	$("#panelLiveEff").text(efficiency).append(" %");
+    	$("#panelLiveVoltage").text(voltage).append(" V");
+    	$("#panelLiveCurrent").text(current).append(" A");
+    	$("#panelLivePower").text(power).append(" KW");
+    	$("#panelPopupIron").attr("url","https://solarassetservices.run.aws-usw02-pr.ice.predix.io/Asset/getSpecificAssetModel/panels/"+panelName);
+    	actions.open();
+    }
+    function myFunction() {
+    	var v=document.getElementById("pxSliderID").value;
+    	$("#img").attr("style","transform:rotate("+v+"deg);margin-top:32px;");
+    	}
+    function showToolTip(){
+    	alert("tooltip");
+    }
+   function checkVoltage(){
+	   //alert("lkjhlk");
+   }
+   
+  
+    /* function solarLocations(){
+    	return [{"key":"TMTC","val":"TMTC"}];
+    }
+    
+    function solarBlocks(){
+    	return [{"key":"TMTC-IT1","val":"TMTC-IT1"},{"key":"TMTC-IT2","val":"TMTC-IT2"}];
+    }
+    function controlBoxes(){
+    	console.log("called boxes");
+    	if(block == "TMTC-IT1")
+    		return [{"key":"TMTC-IT1-CB1","val":"TMTC-IT1-CB1"},{"key":"TMTC-IT1-CB2","val":"TMTC-IT1-CB2"}];
+    	else if(block == "TMTC-IT2")
+    		return [{"key":"TMTC-IT2-CB1","val":"TMTC-IT2-CB1"},{"key":"TMTC-IT2-CB2","val":"TMTC-IT2-CB2"}];
+    }
+    function invertors(){
+    	console.log("Block : " + block +" CB : " + cb);
+    	if(block == "TMTC-IT1" && cb == "TMTC-IT1-CB1")
+    		return [{"key":"TMTC-IT1-CB1-INV1","val":"TMTC-IT1-CB1-INV1"},{"key":"TMTC-IT1-CB1-INV2","val":"TMTC-IT1-CB1-INV2"},{"key":"TMTC-IT1-CB1-INV3","val":"TMTC-IT1-CB1-INV3"},{"key":"TMTC-IT1-CB1-INV4","val":"TMTC-IT1-CB1-INV4"},{"key":"TMTC-IT1-CB1-INV5","val":"TMTC-IT1-CB1-INV5"},{"key":"TMTC-IT1-CB1-INV6","val":"TMTC-IT1-CB1-INV6"}];
+    	else if(block == "TMTC-IT1" && cb == "TMTC-IT1-CB2")
+    		return [{"key":"TMTC-IT1-CB2-INV1","val":"TMTC-IT1-CB2-INV1"},{"key":"TMTC-IT1-CB2-INV2","val":"TMTC-IT1-CB2-INV2"},{"key":"TMTC-IT1-CB2-INV3","val":"TMTC-IT1-CB2-INV3"},{"key":"TMTC-IT1-CB2-INV4","val":"TMTC-IT1-CB2-INV4"},{"key":"TMTC-IT1-CB2-INV5","val":"TMTC-IT1-CB2-INV5"},{"key":"TMTC-IT1-CB2-INV6","val":"TMTC-IT1-CB2-INV6"}];
+    	else if(block == "TMTC-IT2" && cb == "TMTC-IT2-CB1")
+    		return [{"key":"TMTC-IT2-CB1-INV1","val":"TMTC-IT2-CB1-INV1"},{"key":"TMTC-IT2-CB1-INV2","val":"TMTC-IT2-CB1-INV2"},{"key":"TMTC-IT2-CB1-INV3","val":"TMTC-IT2-CB1-INV3"},{"key":"TMTC-IT2-CB1-INV4","val":"TMTC-IT2-CB1-INV4"},{"key":"TMTC-IT2-CB1-INV5","val":"TMTC-IT2-CB1-INV5"},{"key":"TMTC-IT2-CB1-INV6","val":"TMTC-IT2-CB1-INV6"}];
+    	else if(block == "TMTC-IT2" && cb == "TMTC-IT2-CB2")
+    		return [{"key":"TMTC-IT2-CB2-INV1","val":"TMTC-IT2-CB2-INV1"},{"key":"TMTC-IT2-CB2-INV2","val":"TMTC-IT2-CB2-INV2"},{"key":"TMTC-IT2-CB2-INV3","val":"TMTC-IT2-CB2-INV3"},{"key":"TMTC-IT2-CB2-INV4","val":"TMTC-IT2-CB2-INV4"},{"key":"TMTC-IT2-CB2-INV5","val":"TMTC-IT2-CB2-INV5"},{"key":"TMTC-IT2-CB2-INV6","val":"TMTC-IT2-CB2-INV6"}];
+    	
+    } */
+    function onReady(callback) {
+	        var intervalID = window.setInterval(checkReady, 5000);
+
+	        function checkReady() {
+	            if (document.getElementsByTagName('body')[0] !== undefined) {
+	                window.clearInterval(intervalID);
+	                callback.call(this);
+	            }
+	        }
+	    }
+
+	    function show(id, value) {
+	        document.getElementById(id).style.display = value ? 'block' : 'none';
+	    }
+
+	    onReady(function () {
+	        show('load-panel', false);
+	       show('content-panel', true);
+	    })
+
+  </script>
+</dom-module>

@@ -1,0 +1,84 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/px-simple-line-chart/px-simple-line-chart.html">
+<link rel="import" href="../../bower_components/px-card/px-card.html">
+<link rel="import" href="../../bower_components/px-chart/px-chart.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/px-simple-bar-chart/px-simple-bar-chart.html">
+<dom-module id="chart-view">
+<template>
+<px-card header-text="Demo Card" chevron="true" icon="fa-suitcase">
+<h4>Hello World</h4>
+
+<!-- <iron-ajax
+    auto
+    url="https://www.googleapis.com/youtube/v3/search"
+    params='{"part":"snippet", "q":"polymer", "key": "YOUTUBE_API_KEY", "type": "video"}'
+    handle-as="json"
+    on-response="handleResponse"
+last-response="{{ajaxResponse}}">
+</iron-ajax> -->
+<br/>
+<hr/>
+Hi <!-- <iron-ajax 
+auto
+url="http://api.openweathermap.org/data/2.5/forecast/"
+params='{"id":"524901","appid":"e6ed46e8ef1669a77c2e6ea3713a9638​"}'
+handle-as="json"
+on-response="handleResponse"
+last-response="{{ajaxResponse}}">
+<span>{{ajaxResponse.city.id}}</span>
+</iron-ajax> -->
+</px-card>
+<!-- <px-chart>
+    <px-chart-controls data-controls show-refresh="true" show-date-range="true"></px-chart-controls>
+    <px-chart-yaxis opposite="true" offset="0" id="fan"></px-chart-yaxis>
+    <px-chart-yaxis opposite="true" offset="-10" id="vib"></px-chart-yaxis>
+<!--     <iron-ajax
+        url="https://trial-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/windservices/yearly_data/sensor_id/my-new-data-tag?taglimit=1000&startdate=1y-ago"
+        handle-as="json"
+last-response="{{rpm1}}" auto
+></iron-ajax>
+    <px-chart-series-line name="Time_Series" axis-id="fan" data="{{rpm1.tags.0.results.0.values}}" >
+   </px-chart-series-line>
+</px-chart>
+ -->
+
+<!-- <iron-ajax
+        url="https://athira-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/windservices/yearly_data/sensor_id/dip-tag?taglimit=1000&startdate=1y-ago"
+        handle-as="json"
+last-response="{{rpm1}}" auto
+></iron-ajax>
+    <px-chart-series-line reversed id="Time_Series" name="Time_Series" data="{{rpm1.tags.0.results.0.values}}" >
+      
+    </px-chart-series-line >
+</px-chart>  -->
+<px-chart>
+    <px-chart-controls data-controls show-refresh="true" show-date-range="true"></px-chart-controls>
+    <px-chart-yaxis opposite="true" offset="0" id="fan"></px-chart-yaxis>
+    <px-chart-yaxis opposite="true" offset="-10" id="vib"></px-chart-yaxis>
+	<iron-ajax
+        url="https://athira-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/windservices/yearly_data/sensor_id/mine-tag?taglimit=1000&startdate=1y-ago"
+        handle-as="json"
+		
+last-response="{{rpm1}}" auto
+></iron-ajax>
+    <px-simple-bar-chart reversed id="Time_Series" name="Time_Series" data="{{rpm1.tags.0.results.0.values}}" >
+      
+    </px-simple-bar-chart >
+</px-chart>
+	
+
+ </template>
+<script>
+    Polymer({
+      is:'chart-view',
+
+      properties: {
+                  },
+handleResponse:function(){
+console.log('handleResponse() method is called...');
+}
+        });
+ </script>
+</dom-module>​

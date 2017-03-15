@@ -1,0 +1,85 @@
+
+<link rel="import" href="../../bower_components/px-data-table/px-data-table.html">
+<link rel="import" href="../../bower_components/px-modal/px-modal.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<!-- <link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html"> -->
+<link rel="import" href="../../bower_components/px-dropdown/px-dropdown.html">
+<link rel="import" href="../../bower_components/px-overlay/px-overlay.html">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<link rel="import" href="../../bower_components/px-spinner/px-spinner.html">
+
+<dom-module id="devices-view" style="background:white !important;">
+  <template>
+  <style>
+   #content-devices{
+display:none;
+}
+#load-devices{
+justify-content:center;
+display:flex;
+margin:auto;
+margin-top:190px;
+
+}
+  
+  	.dashboard-views{
+       cursor: pointer;
+       margin-left:990px;
+       //margin-bottom:10px;
+       //height: 33px;
+  }
+ 
+       @media (max-width: 414px) {
+        .dashboard-views {
+    margin-left: 0px;
+}
+}
+       @media (max-width: 768px) {
+        .dashboard-views {
+    margin-left: 0px;
+}
+}
+  </style>
+  <px-spinner id="load-devices" size="70"></px-spinner>
+<div id="content-devices">
+  <div class="dashboard-views">
+ 
+              <span style="color: #CCCCCC;font-size: 12px;"><iron-icon  style="width:15px;margin-bottom: 2px;"  icon="fa:fa-tachometer">
+   
+  </iron-icon>&nbsp; Home > Devices</span>
+  </div>
+  	<br>
+  	<div>
+  		<center><img alt="" src="under-cons.png"><h2 style="color:rgb(17,123,102);">Under Construction.. It will be released soon...</h2></center>
+  	</div>
+  	</div>
+   </template>
+  <script>
+  var gAction = "";
+    Polymer({
+      is: 'devices-view',
+     
+    });
+    function onReady(callback) {
+	        var intervalID = window.setInterval(checkReady,2000);
+
+	        function checkReady() {
+	            if (document.getElementsByTagName('body')[0] !== undefined) {
+	                window.clearInterval(intervalID);
+	                callback.call(this);
+	            }
+	        }
+	    }
+
+	    function show(id, value) {
+	        document.getElementById(id).style.display = value ? 'block' : 'none';
+	    }
+
+	    onReady(function () {
+	        show('load-devices',false);
+	       show('content-devices',true);
+	    })
+
+
+  </script>
+</dom-module>

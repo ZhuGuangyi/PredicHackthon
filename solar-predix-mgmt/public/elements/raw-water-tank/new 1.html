@@ -1,0 +1,99 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../iron-icons/maps-icons.html">
+<link rel="import" href="../paper-progress.html">
+<link rel="import" href="../google-chart.html">
+ <dom-module id="raw-water-tank" attributes="bgColor">
+<template>
+
+       
+<style is="custom-style">
+paper-progress.blue{
+    --paper-progress-active-color: var(--paper-light-blue-500);
+    --paper-progress-height:8px;
+	
+  }
+paper-progress{
+    --paper-progress-active-color:red;
+    --paper-progress-height:15px;	
+width:100%;
+ 
+ }
+
+
+  paper-material{
+  height:110px;
+  width:300px;
+  }
+  paper-icon-button{
+  height:100px;
+  width:100px;
+  color:white;
+  }
+  
+  paper-card.rate { @apply(--layout-horizontal); }
+  
+  .rate-image {
+    width: 100px;
+    height: 110px;
+    background-color: #00C0EF;
+    background-size: cover;
+	float: left;
+  }
+  .rate-content {
+    @apply(--layout-flex);
+    
+  }
+  h4 { margin: 10px ; }
+  .rate-name { color: var(--paper-grey-600); margin: 10px ; }
+  paper-icon-button.rate-icon {
+    --iron-icon-fill-color: white;
+    --iron-icon-stroke-color: var(--paper-grey-600);
+  }
+</style>
+<paper-material elevation="5">
+<paper-card class="rate">
+<div class="rate-image"><paper-icon-button icon="hourglass-{{icon}}"></paper-icon-button></div>
+  <div class="rate-content">
+    <div class="card-content">
+      <h4>{{tankName}}</h4>
+      <div class="rate-name">{{capacity}}</div>
+    <div class="color"><paper-progress value="{{value}}"  ></paper-progress></div>
+    </div>
+	<h4 style="text-align:center">{{waterLevel}}</h4>
+    
+  </div>
+  
+  
+</paper-card>
+
+</paper-material>
+
+
+
+    </template>
+
+    <script>
+        (function(){
+            Polymer({
+                is: 'raw-water-tank',
+          
+            });
+        })();
+    </script>
+
+
+                           
+
+
+</dom-module>

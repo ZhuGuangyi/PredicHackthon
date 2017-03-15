@@ -1,0 +1,146 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../iron-icons/maps-icons.html">
+
+<link rel="import" href="../google-chart.html">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+ <dom-module id="analytics-new" >
+<template>
+
+       
+<style is="custom-style">
+
+
+
+  #full{
+  height:230px;
+   width:100%;
+   background-color:white;
+   
+
+  }
+  paper-icon-button{
+  height:90px;
+  width:90px;
+  border-radius:50%;
+	border:3px solid white;
+	margin-top:20px;
+
+  position:relative;
+  }
+  
+
+  
+  .rate-image {
+    width:100%;
+    height: 130px;
+    align:center;
+	
+  }
+  #headContent{
+  color:white;
+
+  }
+  #content{
+  display:flex;
+  flex-flow:row;
+  margin-left:10px;
+  
+  }
+  #sub1{
+  margin:10px 10px 10px 0px;
+  flex:20%; 
+  }
+  #sub2{
+  margin:10px 10px 10px 0px;
+  flex:20%; 
+  }
+  #sub3{
+  margin:10px 10px 10px 0px;
+  flex:20%; 
+  }
+ 
+  .rate-name { color: var(--paper-grey-600); margin: 10px ; }
+  
+  .flex-center-justified {
+    @apply(--layout-horizontal);
+    @apply(--layout-center-justified);
+  }
+  
+   .flex-end-justified {
+    @apply(--layout-horizontal);
+    @apply(--layout-end-justified);
+  }
+   .flex-start-justified {
+    @apply(--layout-horizontal);
+    @apply(--layout-start-justified);
+  }
+  
+   .flex-center-justified {
+    @apply(--layout-horizontal);
+    @apply(--layout-center-justified);
+  }
+</style>
+ <div  style="width:100%;height:100%;float:left;">
+ 
+<paper-material id="full" elevation="3" >
+
+
+ <div class="rate-image" style="background-color:{{iconBgColor}};">
+ <div id="headContent" style="margin-left:20px;margin-top:-10px;"><h3>{{tankName}}</h3>Capacity:{{tankCapacity}}</div>
+ 
+ <div class="flex-center-justified">
+ <paper-icon-button style="color:{{iconColor}};background-color:{{iconBg}}" icon="hourglass-{{iconType}}"></paper-icon-button>
+ </div>
+ <div id="content">
+ <paper-material elevation="0" id="sub1" class="flex-start-justified" style="float:left;text-align:center;">
+ 55
+</br>
+Available
+ </paper-material>
+ <paper-material elevation="0"id="sub2" class="flex-center-justified" style="float:left;text-align:center;">
+  55
+</br>
+Available
+ </paper-material>
+ <paper-material elevation="0" id="sub3" class="flex-end-justified" style="float:left;text-align:center;">
+  55
+</br>
+Available
+ </paper-material>
+ </div>
+ 
+ 
+</paper-material>
+
+</div>
+
+</template>
+
+    <script>
+        (function(){
+            Polymer({
+                is: 'analytics-new',
+			
+            });
+        })();
+    </script>
+
+
+                           
+
+
+</dom-module>

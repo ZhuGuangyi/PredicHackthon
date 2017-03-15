@@ -1,0 +1,360 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/px-sample-cards/blank-card.html">
+<link rel="import" href="../../bower_components/px-view-header/px-view-header.html">
+<link rel="import" href="../../elements/elements.html">
+<link rel="import" href="../../bower_components/px-data-table/px-data-table.html">
+<link rel="import" href="../../bower_components/px-dropdown/px-dropdown.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+
+
+<link rel="import" href="../../bower_components/px-box-design/_objects.box.scss">
+<link rel="import" href="../../bower_components/px-layout-design/_objects.layout.scss">
+<link rel="import" href="../../bower_components/px-buttons-design/_objects.buttons.scss">
+
+ <script src="http://code.highcharts.com/highcharts.js"></script> 
+    <script src="http://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+
+
+
+<dom-module id="solar-summary-home" style="background:white !important;">
+  <template>
+  <style>
+  </style>
+  <br>
+  <div class="box box--huge" id="filters" style="background:#FFFFFF;padding:15px;">
+  		<iron-ajax id="ajax"
+            auto
+            url="https://solarassetservices.run.aws-usw02-pr.ice.predix.io/Asset/getNamesInClassification/Locations"
+            last-response="{{data}}"
+            handleAs="json"></iron-ajax>
+  		<div id="locationsDiv">
+  		<span>Location</span>
+    		<px-dropdown display-value="Select" name="filter-location" id="locations">
+    			<px-dropdown-content extend-dropdown='true' extend-dropdown-by='25' max-cont-character-width='10' 
+    			items='{{data.data}}'>
+    			</px-dropdown-content>
+    		</px-dropdown>
+    	</div>
+    	<br>
+    	<div id="blocksDiv">
+    	<iron-ajax id="blocksAjax" on-response="setBlocksData" handleAs="json"></iron-ajax>
+    		<span>Blocks</span>
+    		<px-dropdown display-value="Select" name="filter_block" id="filter_block" disabled>
+    			<px-dropdown-content extend-dropdown='true' extend-dropdown-by='25' max-cont-character-width='10' 
+    			items={{blocksData.data}} id="blocks_dropDown">
+    			</px-dropdown-content>
+    		</px-dropdown>
+    	</div>
+    	<br>
+    	<div id="cbsDiv">
+    		<iron-ajax id="CBSAjax" on-response="setCbsData" handleAs="json"></iron-ajax>
+    		<span>Control Boxes</span>
+    		<px-dropdown display-value="Select" name="filter_cb" id="filter_cb" disabled>
+    			<px-dropdown-content extend-dropdown='true' extend-dropdown-by='25' max-cont-character-width='10' 
+    			items="" id="cb_dropdown">
+    			</px-dropdown-content>
+    		</px-dropdown>
+    	</div>
+    	<br>
+    	<div id="invertorsDiv">
+    	<iron-ajax id="invertersAjax" on-response="setInvertorsData" handleAs="json"></iron-ajax>
+    		<span>Inverters</span>
+    		<px-dropdown display-value="Select" name="filter_inverter" id="filter_inverter" disabled>
+    			<px-dropdown-content extend-dropdown='true' extend-dropdown-by='25' max-cont-character-width='10' items=[[invertors]] id="inverter_dropdown">
+    			</px-dropdown-content>
+    		</px-dropdown>
+    	</div>	
+    	<br>
+    	<div style="float:right;">
+    		<button class="btn" id="ok">Ok</button>
+    	</div>
+    	<br>
+    	<br>
+  </div>
+  <br>
+  <!-- <iron-ajax id="ajax"
+            auto
+            url="https://solar-test-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/windservices/getSolarDashBoard?requiredtags=ACApparentPowerINV1"
+            last-response="{{data}}"
+            on-response="_onResponse"
+            handleAs="json">
+  </iron-ajax> -->
+  
+  <iron-ajax id="saveMailing" method="GET" on-response="handleResponse"></iron-ajax>
+  
+   <iron-ajax id="getData" method="GET" on-response="prepareDataForTable"></iron-ajax>
+		
+ <!-- <iron-ajax id="dynamicLoadAjax"
+			method="GET"
+			on-response="getTags">
+		</iron-ajax> -->
+				
+<div class="box box--huge" id="table" style="background:#FFFFFF;padding:15px;">
+     <px-data-table class="table" table-data='[[tableData]]' hide-pagination-control="false" id="tableData" tableColumns></px-data-table> 
+  </div>
+  </template>
+  <script>
+  var block = null,cb=null,invertor=null,tableData=null;
+  var records=0,totalRecords=0,tableData=[];
+    Polymer({
+      is: 'solar-summary-home',
+      //properties START
+        /* properties: {
+        	 locations: {
+                 type: Array,
+                 value: function() {
+                   //return [{"key":"TMTC","val":"TMTC"}]
+                  // return solarLocations();
+                 }
+               },
+               blocks: {
+                   type: Array,
+                   value: function() {
+                   //  return solarBlocks();
+                   }
+                 },
+                 control_boxes: {
+                     type: Array,
+                     value: function() {
+                    //   return controlBoxes();
+                     }
+                   },
+        }, */
+        //properties END
+        
+        // Listeners START
+      listeners: {
+          'locations.px-dropdown-value-changed':'regularTap',
+          'filter_block.px-dropdown-value-changed':'blockChanged',
+          'filter_cb.px-dropdown-value-changed':'cbchanged',
+          'filter_inverter.px-dropdown-value-changed':'invertorChanged',
+          'ok.tap':'getValuesToLoad'
+        },
+        regularTap : function(){
+        	block = null,cb=null,invertor=null;
+        	$("#blocksAjax").attr("url","https://solarassetservices.run.aws-usw02-pr.ice.predix.io/Asset/getBlockClassificationNamesByLocation/Blocks/"+this.$.locations.value);
+        	this.$.blocksAjax.generateRequest();
+        },
+        blockChanged : function(event){
+        	block = this.$.filter_block.value;
+        	$("#CBSAjax").attr("url","https://solarassetservices.run.aws-usw02-pr.ice.predix.io/Asset/getCBClassificationNamesByBlock/CBS/"+block);
+        	this.$.CBSAjax.generateRequest();
+        },
+        cbchanged : function(){
+        	cb = this.$.filter_cb.value;
+        	$("#invertersAjax").attr("url","https://solarassetservices.run.aws-usw02-pr.ice.predix.io/Asset/getInverterNamesByCB/Inverters/"+cb);
+        	this.$.invertersAjax.generateRequest();
+        },
+        invertorChanged : function(){
+        	invertor = this.$.filter_inverter.value;
+        },
+        // Listeners END
+        getValuesToLoad : function(){
+        	var location = this.$.locations.value
+        	console.log(location +" >< " + block +" >< " + cb +" >< " + invertor );
+        	if(location == "Select" || location == "" || location == null){ alert("Please select Location"); return;
+        	}
+        	
+        	if(block == "Select" || block == "" || block == null){ alert("Please select  Block"); return;}
+        	if(cb == "Select" || cb == "" || cb == null){ alert("Please enter Control Box"); return;}
+        	
+        	var url = "https://solarassetservices.run.aws-usw02-pr.ice.predix.io/Asset/getInvertersTimeSeriesTags/TMTC/TMTC-IT1/TMTC-IT1-CB1";
+        	//if(invertor == "Select" || invertor == "" || invertor == null)
+        		//url += "ACVoltageCB,ACCurrentCB,AC_Total_S_CB";
+        	/* else{
+        		if(invertor.indexOf("INV1") > 0)
+        			url += "ACVoltageCB,ACCurrentCB,PowerFactorCB";
+        	} */
+        	console.log(url);
+        	
+        	$("#saveMailing").attr("url",url);	
+        		
+			this.$.saveMailing.generateRequest();
+        	
+        },
+        handleResponse : function(data){
+        	//console.log(data.detail.response);
+        	records=0,totalRecords=0;
+        	if(data.detail.response != null && data.detail.response != undefined){
+        		if(data.detail.response.data != null && data.detail.response.data != undefined){
+        			var objectsLen = data.detail.response.data.length;
+        			totalRecords = objectsLen;
+                	//console.log(objectsLen);
+                	for(var i=0;i<=objectsLen-1;i++){
+                		//console.log(i);
+                		var url = "https://solar-test-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/windservices/getSolarDashBoard?requiredtags="+data.detail.response.data[i][0]+","+data.detail.response.data[i][1]+","+data.detail.response.data[i][2]
+                		$("#getData").attr("url",url);	
+            			this.$.getData.generateRequest();
+                	}
+        		}else{
+        			alert("No Time Series Tags To Load Panel"); return;
+        			
+        		}
+        	}else{
+        		alert("No Time Series Tags To Load Panel"); return;
+        	}
+        	//console.log(data);
+        	/* console.log(data.detail.response);
+        	
+        	 var tableData=[],tableDataObj={};
+        	var objectsCnt = data.detail.response.data.length; */
+        	//console.log(JSON.stringify(data.detail.response.data[0].tagName));
+        	/* tableDataObj = {
+    				"Control Box": cb,
+    				"Number" : cb,
+    				"Sync" : '',
+    				"Voltage" : data.detail.response.data[0].value,
+    				"Current" : data.detail.response.data[1].value,
+    				"Power" : data.detail.response.data[2].value,
+    				"Est.\nPower": 100,
+    				"Efficiency": (data.detail.response.data[2].value*100)/100
+    		}   */
+        	
+        	//tableData.push(tableDataObj);
+        	//console.log(JSON.stringify(tableData));
+        	
+        	//$("#tableData").attr("table-data",JSON.stringify(tableData));
+        },
+        prepareDataForTable : function(data){
+    		
+    		records = records+1;
+    		var invertor = "";
+    		if(totalRecords >= records){
+    			console.log(data.detail.response.data);
+    			if(records == 1)
+    				invertor = "TMTC-IT1-CB1-INV1";
+    			else if(records == 2)
+    				invertor = "TMTC-IT1-CB1-INV2";
+    			else if(records == 3)
+    				invertor = "TMTC-IT1-CB1-INV3";
+    			else if(records == 4)
+    				invertor = "TMTC-IT1-CB1-INV4";
+    			else if(records == 5)
+    				invertor = "TMTC-IT1-CB1-INV5";
+    			else if(records == 6)
+    				invertor = "TMTC-IT1-CB1-INV6";
+    			
+    			 var tableDataObj={};
+    	        	var objectsCnt = data.detail.response.data.length; 
+    	        	console.log(JSON.stringify(data.detail.response.data[0].tagName));
+    	        	 tableDataObj = {
+    	    				"Control Box": "TMTC-IT1-CB1",
+    	    				"Inverter" : invertor,
+    	    				"Sync" : '',
+    	    				"Voltage" : data.detail.response.data[0].value,
+    	    				"Current" : data.detail.response.data[1].value,
+    	    				"Power" : data.detail.response.data[2].value,
+    	    				"Est.\nPower": 90,
+    	    				"Efficiency": (data.detail.response.data[2].value*100)/90+"%"
+    	    		}   
+    	        	
+    	        	tableData.push(tableDataObj);
+    	        	
+    		}
+    		if(totalRecords == records){
+    		//	console.log(records);
+    		//	var tdata = JSON.stringify(tableData);
+    		//	console.log(JSON.parse(tdata));
+    		//	console.log(tdata);
+    		//	$("#tableData").remove();
+    		//	$("#table").append("<px-data-table class='table' table-data="+tdata+" hide-pagination-control='false' id='tableData' tableColumns></px-data-table>")
+    			$("#tableData").removeAttr("table-data");
+        		$("#tableData").attr("table-data",JSON.stringify(tableData));
+    		}
+        	//$("#tableData").remove();
+        	//$("table").append("<px-data-table class='table' table-data="+JSON.stringify(tableData)+" hide-pagination-control='false' id='tableData' tableColumns></px-data-table>")
+    	},
+        // for getting the blocks based on the location
+        setBlocksData : function(data){
+        	setDataToDropDown(data,"blocks");
+        },
+        setCbsData : function(data){
+        	setDataToDropDown(data,"cbs");
+        },
+        setInvertorsData : function(data){
+        	setDataToDropDown(data,"inverters");
+        },
+        getTags : function(data){
+        	//handleTags(data);
+        	console.log(data);
+        	console.log(JSON.stringify(data.detail.response));
+        },
+      ready: function() {
+        console.log('solar-summery-home ready()');
+       /*  var url = "http://localhost:8080/Asset/getInvertersTimeSeriesTags/TMTC/TMTC-IT1/TMTC-IT1-CB1"; */
+      //  console.log(url);
+      //  $("#dynamicLoadAjax").attr("url",url);
+    	//this.$.dynamicLoadAjax.generateRequest();
+      },
+    });
+
+    /* Java Script function Start*/
+    function setDataToDropDown(data,from){
+    	console.log(JSON.stringify(data.detail.response.data));
+    	if(data.detail.response != null && data.detail.response != undefined){
+    		if(data.detail.response.data != null && data.detail.response.data != undefined && data.detail.response.data.length >0){
+    			var size = data.detail.response.data.length;
+    			var obj={},arr=[];
+    			if(from == "inverters"){
+    				obj = {"Key": "All","val" : "All"};
+    				arr.push(obj);
+    			}
+    			for(var i=0;i<=size-1;i++){
+    				obj = {"Key": data.detail.response.data[i],"val" : data.detail.response.data[i]}	
+    				arr.push(obj);
+    			}
+    			//$("#filter_block").removeAttr("disabled");
+    			//$("#blocks_dropDown").removeAttr("items");
+    			alert(from);
+    			if(from == "blocks"){
+    				$("#filter_block").removeAttr("disabled");
+    				$("#blocks_dropDown").attr("items",JSON.stringify(arr));
+    			}
+    			else if(from=="cbs"){
+    				$("#filter_cb").removeAttr("disabled");
+    				$("#cb_dropdown").attr("items",JSON.stringify(arr));
+    			}else if(from=="inverters"){
+    				$("#filter_inverter").removeAttr("disabled");
+    				$("#inverter_dropdown").attr("items",JSON.stringify(arr));
+    			}
+    			
+    		}else{
+    			alert("No Data found to Display on this combination!!, Select Other Combination");return;
+    		}
+    	}else{
+    		alert("No Data found to Display on this combination!!, Select Other Combination");return;
+    	}
+    }
+    
+    function handleTags(){
+    	
+    }
+    /* function solarLocations(){
+    	return [{"key":"TMTC","val":"TMTC"}];
+    }
+    
+    function solarBlocks(){
+    	return [{"key":"TMTC-IT1","val":"TMTC-IT1"},{"key":"TMTC-IT2","val":"TMTC-IT2"}];
+    }
+    function controlBoxes(){
+    	console.log("called boxes");
+    	if(block == "TMTC-IT1")
+    		return [{"key":"TMTC-IT1-CB1","val":"TMTC-IT1-CB1"},{"key":"TMTC-IT1-CB2","val":"TMTC-IT1-CB2"}];
+    	else if(block == "TMTC-IT2")
+    		return [{"key":"TMTC-IT2-CB1","val":"TMTC-IT2-CB1"},{"key":"TMTC-IT2-CB2","val":"TMTC-IT2-CB2"}];
+    }
+    function invertors(){
+    	console.log("Block : " + block +" CB : " + cb);
+    	if(block == "TMTC-IT1" && cb == "TMTC-IT1-CB1")
+    		return [{"key":"TMTC-IT1-CB1-INV1","val":"TMTC-IT1-CB1-INV1"},{"key":"TMTC-IT1-CB1-INV2","val":"TMTC-IT1-CB1-INV2"},{"key":"TMTC-IT1-CB1-INV3","val":"TMTC-IT1-CB1-INV3"},{"key":"TMTC-IT1-CB1-INV4","val":"TMTC-IT1-CB1-INV4"},{"key":"TMTC-IT1-CB1-INV5","val":"TMTC-IT1-CB1-INV5"},{"key":"TMTC-IT1-CB1-INV6","val":"TMTC-IT1-CB1-INV6"}];
+    	else if(block == "TMTC-IT1" && cb == "TMTC-IT1-CB2")
+    		return [{"key":"TMTC-IT1-CB2-INV1","val":"TMTC-IT1-CB2-INV1"},{"key":"TMTC-IT1-CB2-INV2","val":"TMTC-IT1-CB2-INV2"},{"key":"TMTC-IT1-CB2-INV3","val":"TMTC-IT1-CB2-INV3"},{"key":"TMTC-IT1-CB2-INV4","val":"TMTC-IT1-CB2-INV4"},{"key":"TMTC-IT1-CB2-INV5","val":"TMTC-IT1-CB2-INV5"},{"key":"TMTC-IT1-CB2-INV6","val":"TMTC-IT1-CB2-INV6"}];
+    	else if(block == "TMTC-IT2" && cb == "TMTC-IT2-CB1")
+    		return [{"key":"TMTC-IT2-CB1-INV1","val":"TMTC-IT2-CB1-INV1"},{"key":"TMTC-IT2-CB1-INV2","val":"TMTC-IT2-CB1-INV2"},{"key":"TMTC-IT2-CB1-INV3","val":"TMTC-IT2-CB1-INV3"},{"key":"TMTC-IT2-CB1-INV4","val":"TMTC-IT2-CB1-INV4"},{"key":"TMTC-IT2-CB1-INV5","val":"TMTC-IT2-CB1-INV5"},{"key":"TMTC-IT2-CB1-INV6","val":"TMTC-IT2-CB1-INV6"}];
+    	else if(block == "TMTC-IT2" && cb == "TMTC-IT2-CB2")
+    		return [{"key":"TMTC-IT2-CB2-INV1","val":"TMTC-IT2-CB2-INV1"},{"key":"TMTC-IT2-CB2-INV2","val":"TMTC-IT2-CB2-INV2"},{"key":"TMTC-IT2-CB2-INV3","val":"TMTC-IT2-CB2-INV3"},{"key":"TMTC-IT2-CB2-INV4","val":"TMTC-IT2-CB2-INV4"},{"key":"TMTC-IT2-CB2-INV5","val":"TMTC-IT2-CB2-INV5"},{"key":"TMTC-IT2-CB2-INV6","val":"TMTC-IT2-CB2-INV6"}];
+    	
+    } */
+  </script>
+</dom-module>

@@ -1,0 +1,892 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/px-card/px-card.html">
+<link rel="import" href="../../bower_components/px-data-table/px-data-table.html">
+<link rel="import" href="../../bower_components/px-typeahead/px-typeahead.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+ <script src="https://code.highcharts.com/highcharts.js"></script> 
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
+ 
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+<dom-module id="dashboard-view">
+<style is="custom-style" >
+#card
+{
+ 
+  padding:1%;
+  padding-bottom:1%;
+}
+
+
+
+
+.material1
+{
+background-color:white;
+ }
+.material2{
+background-color:white;
+padding:3%;
+
+
+}
+  
+  
+.size6{
+height:70px;
+background-color:rgba(82, 81, 86, 0.39);
+font-size:2.1vh;
+color:green;
+text-align:center;
+font-family:Times New Roman;
+}
+
+
+
+.size7{
+height:70px;
+
+background-color:rgba(82, 81, 86, 0.39);
+/* font-size: 2.3vh; */
+color:white;
+text-align:center;
+font-family:Times New Roman;
+}
+
+
+
+.container{
+               width:100%;
+              height:25px;
+			  }
+
+ 
+.wrapper3{
+           
+          
+           
+               display:flex;
+			   flex-direction:row;
+           
+ }
+ 
+
+.contain2
+{
+width:100%;
+display:flex;
+flex-direction:row;
+             
+               
+}
+
+ .size1{
+width:100%;
+
+
+
+border-collapse:collapse;
+    font-weight: 200;
+}
+
+
+
+.size3{
+width:33%;
+height:3%;
+padding:3%;
+margin:1%;
+/* font-size:1.8vh; */
+background-color:#27ae60;
+font-family:Times New Roman; 
+}
+.size4{
+width:33%;
+height:3%;
+padding:3%;
+margin:1%;
+/* font-size:1.8vh; */
+background-color:#82E0AA;
+font-family:Times New Roman;
+}
+.size8{
+
+height:310px;
+padding:1%;
+
+background-color:rgba(0, 0, 0, 0.03);
+/* font-size: 1.5vh; */
+color:grey;
+text-align:left;
+font-family:Times New Roman;
+}
+h4{
+text-align:right;
+}
+.size9{
+width:100%;
+height:350px;
+padding:1%;
+margin:1.5%;
+background-color:#FFFFFF;;
+/* font-size: 1.5vh; */
+color:#FFFFFF;
+text-align:left;
+font-family:Times New Roman;
+}
+ paper-toolbar.red {
+    --paper-toolbar-background:#117b66;
+                --paper-toolbar-color:white;
+			/* 	--paper-toolbar-font-size:2.0vh; */
+                --paper-toolbar-red: {
+              /*   font-size:1.5vh; */
+    };
+               
+  }
+
+
+
+@font-face{
+ 		font-family:'digital-clock-font';
+ 		src: url('digital-7.ttf');
+		}
+	
+	
+	
+	
+
+
+
+
+	.spanDT	{
+	font-size:16px;
+	    font-family: "GE Inspira Sans",sans-serif;
+	}
+	
+	
+	
+	#circuit_main{
+
+	height: 156px;
+    width:100%;
+    background: #1abc9c;
+    font-family: digital-clock-font;
+    font-size: 20px;
+    border: 3px solid #C0C0C0;
+  
+   
+	}
+	.digital_color{
+		color:yellow;
+	}
+	#circuit_leftDiv1{
+		color: #FFFFFF;float:left;    margin-top: 40px;    margin-left: 5px;
+	}
+	#circuit_leftDiv2{
+		color: #FFFFFF;float:right;    margin-top: 40px;    margin-right: 5px;
+	}
+	
+	
+	#wrapper1{
+	display:flex;
+	flex-flow:row;
+	}
+	#r1{
+	flex:25%;
+	
+	margin:10px;
+	}
+	#r2{
+	flex:25%;
+	margin:10px;
+	}
+	#r3{
+	flex:25%;
+	margin:10px;
+	}
+	#r4{
+	flex:25%;
+	margin:10px;
+	}
+	
+	 @media all and (max-width:762px) {
+        #wrapper1 {
+            flex-direction: column;
+        }
+  }
+	
+	
+	
+	
+	
+	
+	#contain1{
+	display:flex;
+	flex-flow:row;
+	}
+	
+	#ty{
+	flex:50%;
+	margin:10px;
+	}
+	#cb{
+	flex:50%;
+	margin:10px;
+	}
+	@media all and (max-width:762px) {
+        #contain1 {
+            flex-direction: column;
+        }
+  }
+	
+	#main{
+	display:flex;
+	flex-flow:row;
+	}
+	
+	#one{
+	flex:70%;
+	margin:10px;
+	}
+	#two{
+	flex:30%;
+	margin:10px;
+	
+	}
+	@media all and (max-width:800px) {
+        #main {
+            flex-direction: column;
+        }
+  }
+	
+	
+	#tables{
+	display:flex;
+	flex-flow:column;
+	}
+	
+	
+	
+	
+	
+	  table,th,td{
+  border:1px solid black;
+  border-collapse:collapse;
+ padding:1%;
+
+ font-weight: 200;
+  
+  }
+  
+  
+  table th {
+    background-color:#27ae60;
+    color: white;
+	height:30px;
+}
+@media  (min-width:300px) {
+        #dashBG{
+ 		margin-right: 16px;font-weight: normal;color:#CCCCCC;
+ 	}
+ 	@media  (min-width:762px) {
+        #dashBG{
+ 		float:right;margin-right: 16px;font-weight: normal;color:#CCCCCC;
+ 	}
+	
+</style>
+<template>
+<paper-material id="card">
+<p><b>Summary Dashboard</b><b id="dashBG">Home > Dashboard </b></p>
+<div id="main">
+     <div id="one">
+      <paper-material  class="material1" elevation="1">
+<!-- <iron-ajax id="ajax1" auto url="http://api.openweathermap.org/data/2.5/weather?lat=17.571171&lon=78.436106&appid=6b4fec3cfeb666ed226daff42cb09a95"  -->
+<iron-ajax id="ajax1" auto url="https://solarassetservices.run.aws-usw02-pr.ice.predix.io/Asset/getWetherInfo" 
+last-response="{{data}}" on-response=loadData handleAs="json"></iron-ajax>
+	  <div id="wrapper1">
+	  <div id="r1">
+	 <paper-material   class="size6" elevation="1" id="" style="background:#f39c12;color:#FFFFFF;">
+	 <div style="float:LEFT;margin-top: 22px;margin-left: 10px;">
+	 <img src="temp.png" style="height:25px;">
+	 </div>
+	 <br>
+	 <div  class="spanDT" style="margin-top: -7px;"> Temperature</div>
+	 <span id="tempData" style="font-size: 25px;"></span>
+	 </paper-material>
+	 </div>
+	 
+	 
+	  <div id="r2">
+      <paper-material  class="size7"  elevation="1" style="background-color:#27ae60;color:#FFFFFF;" >
+       <div style="float:LEFT;margin-top: 15px;margin-left: 10px;">
+	 	<img src="wind.png" style="height:35px;">
+	 </div>
+	 <br>
+	  <div class="spanDT" style="margin-top: -7px;">Wind</div>
+	  <span id="windData" style="font-size: 25px;"></span>
+	  </paper-material>
+	  </div>
+	  
+	  <div id="r3">
+      <paper-material  class="size6" elevation="1" style="background:#1abc9c;color:#FFFFFF;">
+       <div style="float:LEFT;margin-top: 15px;margin-left: 10px;">
+	 	<img src="humidity.png" style="height:35px;">
+	 </div>
+	 <br>
+	  <div class="spanDT" style="margin-top: -7px;">Humidity</div>
+	  <span id="humidityData" style="font-size: 25px;"></span>
+	  
+	  </paper-material>
+	  </div>
+	  
+	  <div id="r4">
+      <paper-material  class="size7" elevation="1" style="background-color:#7f8c8d;color:#FFFFFF;">
+      <div style="float:LEFT;margin-top: 22px;margin-left: 10px;">
+	 	<img src="clds.png" style="height:25px;">
+	 </div>
+	 <br>
+	  <div class="spanDT" style="margin-top: -7px;">Clouds</div>
+	 <span id="rainfallData" style="font-size: 25px;"></span>
+	 
+	  </paper-material> 
+	  	 </div>
+       </div>	  
+       <!-- div class="wrapper1">
+	
+	 <paper-material   class="size6" elevation="1"><span id="tempData" style="font-size: 29px;margin-left: 5px;"><sup>o</sup>C</span><span style="margin-top: 45px;margin-left: 0px;">Temperature<span></paper-material>
+      <paper-material  class="size7"  elevation="1" style="background-color:rgb(0, 128, 0)"><span id="windData" style="font-size: 29px;margin-left: 4px;">&nbsp;&nbsp;</span><span style="margin-top: 45px;margin-left: 50px;">wind<span></paper-material>
+      <paper-material  class="size6" elevation="1"><span id="humidityData" style="font-size: 29px;margin-left: 4px;">&nbsp;&nbsp;</span><span style="margin-top: 45px;margin-left: 35px;">Humidity<span></paper-material>
+      <paper-material  class="size7" elevation="1" style="background-color:rgb(0, 128, 0)"><span id="humidityData" style="font-size: 29px;margin-left: 4px;">0.0</span><span style="margin-top: 45px;margin-left: 53px;">Rainfall<span></paper-material> 
+       </div> -->
+	   <div id="contain1">
+	   <div id="ty">
+   <paper-material class="size8" elevation="1">
+   <paper-toolbar class="red" style="height:32px;">
+   <h4 style="margin-top: -15px;">IT1 Yield</h4>
+   </paper-toolbar>
+   
+   	 <!-- <iron-ajax id="ajax"
+            auto
+            url="http://localhost:8080/Asset/getClassifications/CBS"
+            last-response="{{data}}"
+            on-response="_onResponse"
+            handleAs="json">
+  </iron-ajax> -->
+   </iron-ajax>
+     	 <iron-ajax id="ajaxLatestData"
+            auto
+            url="https://solar-test-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/windservices/getGraphData?tagName=AC_Total_S_CB"
+            last-response="{{data}}"
+            on-response="_onResponseLatestData"
+            handleAs="json">
+  </iron-ajax>
+<div id="container1" style="width: 100%; height: 270px;"></div> 
+   </paper-material>
+   </div>
+   
+   	   <div id="cb">
+   <paper-material class="size8" elevation="1">
+   <paper-toolbar class="red" style="height:32px;">
+    <iron-ajax id="circuitDataT" auto url="https://solar-test-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/windservices/getSelectedTagsData?requiredtags=AC_Total_S_CB,ACVoltageCB,ACCurrentCB,ACFrequencyCB,EnergyCB" 
+  last-response="{{data1}}" on-response="callServiceByInterval" handleAs="json"></iron-ajax>
+   <h4 style="    margin-top: -15px;">IT1 Combiner Box</h4> <!-- <h2><iron-icon icon="icons:menu" style="margin-left: 195px;margin-top: -22px;"></iron-icon></h2> -->
+   </paper-toolbar><br>
+   
+			<div style="padding:2%">
+   			<div id="circuit_main">
+    		<div id="circuit_leftDiv1">
+    			<span >P: <span class="digital_color"><span id="dashPowerC">{{data1.0.value}}</span></span> K Watts</span><br>
+    			<span >V: <span class="digital_color">{{data1.1.value}}</span> Volts</span><br>
+    			<span >I : <span class="digital_color">{{data1.2.value}}</span> Amps</span><br>
+    		</div>
+    		<div id="circuit_leftDiv2">
+    			<span style="float:right;">F: <span class="digital_color">{{data1.3.value}}</span> Hz</span><br>
+    			<span style="float:right;">E: <span class="digital_color" id="dEnergy">{{data1.4.value}}</span> KWh</span>
+    	</div>
+    	
+    	
+    	</div>
+    	</div>
+   </paper-material>
+   
+   </div>
+   </div>
+ <!--   <div class="contain2">
+   <paper-material class="size9" elevation="1">
+   <paper-toolbar class="red" style="height:40px;">
+   <h1>Yeild Zones</h1>
+   </paper-toolbar>
+    <iron-ajax id="ajaxOne"
+            auto
+            url="http://localhost:8080/Asset/getClassifications/CBS"
+            last-response="{{data}}"
+            on-response="_onResponseNew"
+            handleAs="json">
+  </iron-ajax> --><!-- 
+  <div id="container2" style="height: 300px; min-width: 155px; max-width: 800px;margin: 0 auto;"></div> -->
+   
+ <!--   </paper-material>
+   </div> -->
+   
+   
+   
+	 </paper-material>
+	 </div>
+	 
+    <div id="two">
+	<paper-material  class="material2" elevation="1">
+	
+
+<div  class="wrapper3">
+<paper-material  class="size3" elevation="1" style="color:#FFFFFF;cursor:pointer;" id="dayTab">Day</paper-material>
+<paper-material  class="size4" elevation="1" style="color:#FFFFFF;cursor:pointer;" id="weekTab">Week</paper-material>
+<paper-material  class="size4" elevation="1" style="color:#FFFFFF;cursor:pointer;" id="monthTab">Month</paper-material>
+</div>
+<br>
+<div>
+YIELD
+<table style="width:100%">
+<tr><th align="center">Block</th><th align="center">Energy</th><th align="center">Grid</th></tr>
+
+<tr><td align="center">IT-1</td><td align="center"><span id="YieldIT1">134.5 Kwh</span></td><td align="center">0Kwh</td></tr>
+
+<tr><td align="center">IT-2</td><td align="center">142.8 Kwh</td><td align="center">0Kwh</td></tr>
+
+<tr><td align="center">CB-1</td><td align="center">135.2 Kwh</td><td align="center">0Kwh</td></tr>		
+		
+<tr><td align="center">CB-2</td><td align="center">135.9 Kwh</td><td align="center">0Kwh</td></tr>				
+</table>
+</div>
+<br>
+
+<div>
+IRRADIANCE
+<table style="width:100%">
+<tr><th align="center">Block</th><th align="center">Irradiance</th><th align="center">Energy</th></tr>
+
+<tr><td align="center">IT-1</td><td align="center">1062 W/m2</td><td align="center">134.5 Kwh</td></tr>
+
+<tr><td align="center">IT-2</td><td align="center">1045 W/m2</td><td align="center">142.8 Kwh</td></tr>
+
+<tr><td align="center">CB-1</td><td align="center">1033 W/m2</td><td align="center">135.2 Kwh</td></tr>		
+		
+<tr><td align="center">CB-2</td><td align="center">1048 W/m2</td><td align="center">135.9 Kwh</td></tr>				
+</table>
+
+</div>
+
+	
+	
+	
+	
+<!-- <div id="tables">
+<div>
+YEILD
+<px-data-table  class="size1" table-data=
+'[{"Block":"IT-1","Power":"128Kwh","Grid":"0Kwh"},
+{"Block":"IT-1","Power":"128Kwh","Grid":"0Kwh"},
+{"Block":"IT-1","Power":"128Kwh","Grid":"0Kwh"},
+{"Block":"IT-1","Power":"128Kwh","Grid":"0Kwh"}]' 
+striped="true" hide-pagination-control="true">
+</px-data-table>
+</div>
+
+<div>
+IRRADIANCE
+<px-data-table  class="size1" table-data=
+'[{"Block":"IT-1","Power":"128Kwh","Grid":"0Kwh"},
+{"Block":"IT-1","Power":"128Kwh","Grid":"0Kwh"},
+{"Block":"IT-1","Power":"128Kwh","Grid":"0Kwh"},
+{"Block":"IT-1","Power":"128Kwh","Grid":"0Kwh"}]' 
+striped="true" hide-pagination-control="true">
+</px-data-table>
+</div>
+</div> -->
+
+</paper-material>
+
+</div>
+</div>
+
+
+ <div class="contain2" >
+   <paper-material class="size9" elevation="1">
+   <paper-toolbar class="red" style="height:32px;">
+   <h4 style="margin-top: -15px;">TMTC Total Yield</h4>
+   </paper-toolbar>
+    <iron-ajax id="ajaxOne"
+            auto
+            url="https://solarassetservices.run.aws-usw02-pr.ice.predix.io/Asset/getClassifications/CBS"
+            last-response="{{data}}"
+            on-response="_onResponseNew"
+            handleAs="json">
+  </iron-ajax>  
+  <div id="container2" style="height: 300px; min-width: 155px; max-width: 800px;margin: 0 auto;"></div> 
+   
+   </paper-material>
+   </div>
+   
+   
+
+</paper-material>
+
+ <iron-ajax id="yieldDataAjax" auto url="https://solar-test-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/windservices/getDatabyFilter?filterType=day&tagName=AC_Total_S_CB" 
+  last-response="{{yieldData}}" on-response="setValuesToYieldData" handleAs="json"></iron-ajax>
+
+</template>
+<script>
+     Polymer({
+                is: 'dashboard-view',
+				
+				
+				 properties:{
+				  loadValue10: {
+					type: Number,
+					value : [0]
+				},
+				 loadValue20: {
+					type: Number,
+					value : [0]
+				},
+      name: {type: Number},
+	  graphValue: {type: Number},
+	  categorieValues:{type:Array},
+	  dataValues:{type:Array}
+    },
+    listeners : {
+    	'dayTab.tap':'getDayReport',
+    	'weekTab.tap':'getWeeklyReport',
+    	'monthTab.tap':'getMonthlyReport'
+    },
+    getDayReport : function(){
+    	$("#dayTab").css("background","#27ae60");
+    	$("#weekTab").css("background","#82E0AA");
+    	$("#monthTab").css("background","#82E0AA");
+    	
+    	var url = "https://solar-test-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/windservices/getDatabyFilter?filterType=day&tagName=AC_Total_S_CB";
+    	$("#yieldDataAjax").attr("url",url);
+    	//this.$.yieldDataAjax.generateRequest();
+    },
+    getWeeklyReport : function(){
+    	$("#dayTab").css("background","#82E0AA");
+    	$("#weekTab").css("background","#27ae60");
+    	$("#monthTab").css("background","#82E0AA");
+    	
+    	var url = "https://solar-test-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/windservices/getDatabyFilter?filterType=week&tagName=AC_Total_S_CB";
+    	$("#yieldDataAjax").attr("url",url);
+    	//this.$.yieldDataAjax.generateRequest();
+    },
+    getMonthlyReport : function(){
+    	$("#dayTab").css("background","#82E0AA");
+    	$("#weekTab").css("background","#82E0AA");
+    	$("#monthTab").css("background","#27ae60");
+    	
+    	var url = "https://solar-test-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/windservices/getDatabyFilter?filterType=month&tagName=AC_Total_S_CB";
+    	$("#yieldDataAjax").attr("url",url);
+    	//this.$.yieldDataAjax.generateRequest();
+    },
+    callServiceByInterval : function(data){
+    	this.async(function() {
+   		 console.log("Async Called");
+            this.$.circuitDataT.generateRequest();
+          }, 10000);	
+    	var value = data.detail.response[0].value/1000;
+    	$("#dashPowerC").text(Math.round(value * 100) / 100);
+    	
+    },
+    setValuesToYieldData : function(data){
+    	console.log("IT1-Energy : " + data.detail.response.AC_Total_S_CB + " Kwh");
+    	$("#YieldIT1").text(data.detail.response.AC_Total_S_CB +" Kwh");
+    	
+    	this.async(function() {
+            this.$.yieldDataAjax.generateRequest();
+          }, 20000);
+    },
+		/* 		  _updateData: function() {
+            this.async(function() {
+              this.$.ajax.generateRequest();
+            }, 30000);
+          }, */
+		  
+		  		  _updateDataNew: function() {
+            this.async(function() {
+              this.$.ajaxOne.generateRequest();
+            }, 30000);
+          },
+		  
+       
+          
+          
+          loadData : function(data){
+      		/* console.log(data.detail.response.wind.speed); */
+      		console.log(data.detail.response.data); 
+      		var value = data.detail.response.data.main.temp-273;
+      		$("#tempData").text(Math.round(value, 2)).append("<sup>o</sup>C");
+      		$("#windData").text(data.detail.response.data.wind.speed).append("<sub><span style='vertical-align: 6px;font-size: 18px;'>m/s</span></sub>");
+      		$("#humidityData").text(data.detail.response.data.main.humidity).append("<sub><span style='vertical-align: 6px;font-size: 18px;'>%</span></sub>");
+      		$("#rainfallData").text(data.detail.response.data.clouds.all).append("<sub><span style='vertical-align: 6px;font-size: 18px;'>%</span></sub>");
+      		 this.async(function() {
+          		 console.log("Wether API Calling..");
+                   this.$.ajax1.generateRequest();
+                 }, 10000);
+      		
+      	},		
+      	 /* _onResponse: function(data) {
+            console.log('received response');
+			console.log(data.detail.response.values);
+			dataValues = data.detail.response.values;
+			<!-- categorieValues=data.detail.response.categories; -->
+			categorieValues = data.detail.response.categories;
+               <!--     i = 0; -->
+                      <!--  do { -->
+                         <!--  console.log(categorieValues[i]); -->
+						 <!--  i++; -->
+                      <!--  } while (categorieValues[10]);  -->
+			
+		
+			
+            this._updateData();
+		if(this.loadValue10 == 0)
+			this._trailgraph();
+console.log(categorieValues);			
+			
+          }, */
+				
+			  _onResponseNew: function(data) {
+           // console.log('received response');
+			//console.log(data.detail.response.values);
+			dataValues = data.detail.response.values;
+			<!-- categorieValues=data.detail.response.categories; -->
+			categorieValues = data.detail.response.categories;
+               <!--     i = 0; -->
+                      <!--  do { -->
+                         <!--  console.log(categorieValues[i]); -->
+						 <!--  i++; -->
+                      <!--  } while (categorieValues[10]);  -->
+			
+		
+			
+            this._updateDataNew();
+			if(this.loadValue20 == 0)
+			this._trailgraphNew();
+			
+          }	
+				
+				,
+				  _updateLatestDataNew: function() {
+			            this.async(function() {
+			              this.$.ajaxLatestData.generateRequest();
+			            }, 100000);
+			          },
+
+				_onResponseLatestData : function(data){
+		      		/* console.log(data.detail.response.wind.speed); */
+		      		var categories = data.detail.response.categories;
+					var values = data.detail.response.values;
+					var TEnergy = 0;
+					for(var t=0;t<=values.length-1;t++){
+						TEnergy = TEnergy+values[t];
+					}
+					console.log("Total Energy : "+TEnergy);
+					var vals = (TEnergy.toFixed(2))/1000;
+					$("#dEnergy").text(Math.round(vals * 100) / 100);
+					//$("#YieldIT1").text((Math.round(vals * 100) / 100) +" Kwh");
+			    	//$("#dEnergy").text(Math.round(value * 100) / 100);
+		      		//console.log(categories+" categories in _onResponseLatestData");
+		      		//console.log(values+" values in _onResponseLatestData");
+				this._updateLatestDataNew();
+				if(this.loadValue10 == 0)
+		      		this._trailgraph(categories,values);
+		      	},	
+
+				
+			 _trailgraph: function (categories,values) {
+				//alert(values);
+					 this.loadValue10 = 0,
+		  Highcharts.setOptions({
+		            global: {
+		                useUTC: false
+		            }
+		        }),
+						<!-- alert("Eswar"); -->
+		                $(this.$.container1).highcharts({
+		      // TODO implement sane defaults
+			  
+			 
+			      chart: {
+		                type: 'area',
+		                animation: Highcharts.svg, // don't animate in old IE
+		                marginRight: 10
+						
+					
+		           
+		            },
+		            credits: {
+		                enabled: false
+		            },
+					responsive: {
+		  rules: [{
+		    condition: {
+		      maxWidth: 500
+		    },
+		    chartOptions: {
+		      legend: {
+		        enabled: false
+		      }
+		    }
+		  }]
+		},
+		  
+		title: {
+
+			text:'',
+
+			         style: {
+
+			            color: '#666',
+
+			            fontWeight: 'bold',
+
+			            fontSize: '20px',
+
+			            fontFamily: 'Trebuchet MS, Verdana, sans-serif'
+
+			 
+
+			         }            
+
+			      },
+
+		   
+					
+					 xAxis: {
+		            //categories: ['9 A.M', '10 A.M', '11 A.M', '12 P.M', '1 P.M','2 P.M', '3 P.M', '4 P.M', '5 P.M', '6 P.M', '7 P.M', '8 P.M','9 P.M', '10 P.M', '11 P.M', '12 A.M', '1 A.M','2 A.M', '3 A.M', '4 A.M', '5 A.M', '6 A.M', '7 A.M', '8 A.M'],
+						
+						categories:categories ,
+		          
+		        },
+		 
+		   yAxis: {
+		                title: {
+		                    text: 'Power(W)'
+		                },
+		                plotLines: [{
+		                    value: 0,
+		                    width: 1,
+		                    color: 'green'
+		                }]
+		            },
+		   tooltip: {
+			   formatter: function () {
+                   return '<b>' + this.series.name + '</b><br/>' +
+                       this.x + '<br/>' +
+                       Highcharts.numberFormat(this.y, 2);
+               }
+		            },
+					 legend: {
+		                enabled: false
+		            },
+		            exporting: {
+		                enabled: false
+		            },
+					
+					
+				  series: [ {
+					  name:'Power',
+				 	color:'#e67e22',
+					data:values,
+		             //data: [14, 20, 24, 28, 27, 26, 14,15, 19, 34, 16, 16, 15, 15,15, 16, 16, 16, 16, 17, 16,17, 18,19]
+		       }]
+					
+					
+					
+					
+					
+					
+		   
+		   
+		      
+		    })
+			 },
+		  
+		  
+				 _trailgraphNew: function () {
+			 this.loadValue20 = 1,
+  Highcharts.setOptions({
+            global: {
+                useUTC: false
+            }
+        }),
+				<!-- alert("Eswar"); -->
+                $(this.$.container2).highcharts({
+      // TODO implement sane defaults
+	  
+	 
+	      chart: {
+            type: 'column',
+            options3d: {
+                enabled: true,
+                alpha: 10,
+                beta: 25,
+                depth: 70
+            }
+        },
+        title: {
+            text: ''
+        },
+        credits:{
+			enabled: false
+			},
+			  tooltip: {
+		            valueSuffix: 'kWh/day'
+		        },
+        plotOptions: {
+            column: {
+                depth: 25
+            }
+        },
+        xAxis: {
+            categories: ['Yield']
+        },
+        yAxis: {
+            title: {
+                text: "Energy (Kwh)"
+            }
+        },
+        legend: {
+            layout: 'horizontal',
+            align: 'bottom',
+            verticalAlign: 'bottom',
+            borderWidth: 0,
+            x: 300,
+            y: 25
+        },
+        series: [
+                 {
+            name: 'IT1',color:'#4DAF7C',data:[134.5]},
+            {
+                name: 'IT2',color:'#2ABB9B',data:[142.8]},
+                {
+                    name: 'CB1',color:'#00B16A',data:[135.2]},
+                    {
+                        name: 'CB2',color:'#049372',data:[135.9]}
+            //data:[{y:134.5,color:'#4DAF7C'}, {y:142.8,color:'#2ABB9B'}, {y:135.2,color:'#00B16A'}, {y:135.9,color:'#049372'}]
+        ]
+    })
+          }	  
+		  
+        });
+        </script>
+    </dom-module>
+    
+

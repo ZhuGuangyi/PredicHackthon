@@ -1,0 +1,134 @@
+
+    <dom-module id="pie-new4">
+	
+        <template>
+		  <iron-ajax id="ajax"
+            auto
+            url="https://solar-test-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/windservices/getSolarDashBoard?requiredtags=DCVoltageToINV3"
+            last-response="{{data}}"
+            on-response="_onResponse"
+            handleAs="json">
+  </iron-ajax>
+        <!--     <div id="container" style="max-width:300px; height: 180px;"></div> -->
+			
+			 <div  style="width:100%;float:left;">
+ 
+<paper-material elevation="3" style=" width:{{paper-material-width}}; background-color:{{paper-material-bg-color}};"  >
+ <div id="container" style="width: 300px; height: 200px;"></div> 
+</paper-material>
+</div>
+        </template>
+
+        <script>
+            Polymer({
+            is: "pie-new4",
+			
+			   properties:{
+      name: {type: Number},
+	  graphValue: {type: Number}
+    },
+	givenValue:{
+	type:Number
+	},
+  
+			
+			
+			   _updateData: function() {
+            this.async(function() {
+              this.$.ajax.generateRequest();
+            }, 10000);
+          },
+          _onResponse: function(data) {
+            console.log('received response');
+			console.log(data.detail.response.data[0].value);
+			graphValue = data.detail.response.data[0].value;
+            this._updateData();
+			this._trailgraph(graphValue); 
+			
+          },
+            _trailgraph: function (graphValue) {
+
+				<!-- alert("Eswar"); -->
+                $(this.$.container).highcharts({
+				
+				 chart :{      
+      type: 'solidgauge',
+	   renderTo: 'container'
+   },
+   title: {
+ text:'POWER',
+         style: {
+            color: '#666',
+            fontWeight: 'bold',
+            fontSize: '20px',
+            fontFamily: 'Trebuchet MS, Verdana, sans-serif'
+
+         }            
+      },
+				
+		 pane : {
+      center: ['50%', '85%'],
+      size: '140%',
+      startAngle: -90,
+      endAngle: 90,
+      background: {
+         backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+         innerRadius: '60%',
+         outerRadius: '100%',
+         shape: 'arc'
+      }
+   },
+
+              tooltip : {
+      enabled: false
+   },
+       
+               yAxis : {
+      stops: [
+         [0.1, '#55BF3B'], // green
+         [0.5, '#DDDF0D'], // yellow
+         [0.9, '#DF5353'] // red
+      ],
+      lineWidth: 0,
+      minorTickInterval: null,
+      tickPixelInterval: 400,
+      tickWidth: 0,
+      title: {
+         y: -70
+      },
+      labels: {
+         y: 16
+      },
+	  min: 0,
+      max: 500,
+      title: {
+         text: ''
+      }
+   },	   
+
+  plotOptions :{
+      solidgauge: {
+         dataLabels: {
+            y: 5
+            
+         }
+      }
+   },
+			  
+               credits :{
+      enabled: false
+   },
+
+   series : [{
+      name: '',
+      data: [graphValue],
+            tooltip: {
+         valueSuffix: ' v'
+      }
+   }]
+             
+            })
+          }
+        });
+        </script>
+    </dom-module>

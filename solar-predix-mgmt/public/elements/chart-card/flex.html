@@ -1,0 +1,56 @@
+<html lang="en">
+  <head>
+    <style>
+    
+
+    #main {
+        min-height: 800px;
+        margin: 0px;
+        padding: 0px;
+        display: flex;
+        flex-flow: row;
+    }
+ 
+    #main > article {
+        margin: 4px;
+        padding: 5px;
+        border: 1px solid #cccc33;
+        border-radius: 7pt;
+        background: #dddd88;
+        flex:  40%;
+        order: 2;
+    }
+
+    
+  
+    #main > aside {
+        margin: 4px;
+        padding: 5px;
+        border: 1px solid #8888bb;
+        border-radius: 7pt;
+        background: #ccccff;
+        flex:20%;
+        order: 3;
+    }
+ 
+    
+ 
+    /* Too narrow to support three columns */
+    @media all and (max-width: 640px) {
+        #main, #page {
+            flex-direction: column;
+        }
+
+        
+    </style>
+  </head>
+  <body>
+    
+    <div id='main'>
+      <article>article</article>
+     
+      <aside>aside</aside>
+    </div>
+    
+  </body>
+</html>

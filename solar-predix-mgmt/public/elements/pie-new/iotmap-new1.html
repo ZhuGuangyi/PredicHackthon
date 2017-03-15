@@ -1,0 +1,203 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!-- <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../iron-icons/maps-icons.html">
+
+<link rel="import" href="../google-chart.html">
+
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>  -->
+<!--   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"> -->
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+
+
+ <dom-module id="iotmap-new1" >
+  <style include="iron-flex"></style>
+<template>
+
+       
+<style is="custom-style">
+
+
+
+  paper-material{
+  }
+ 
+  
+
+  
+
+      #map_canvas{
+		width:72.5%;
+		
+		
+	}
+	
+
+	#infotable {
+	width:20%;
+	
+    border-collapse: collapse;
+   
+	}
+
+	 th, td {
+		text-align: left;
+		padding: 8px;
+	} 
+
+	tr:nth-child(even){background-color: rgb(222, 166, 42);}
+	tr:nth-child(odd){background-color: #FFFFFF}
+	
+	
+
+  
+</style>
+
+		<paper-material elevation="5" >
+			<div style="width:100%;">
+			
+		
+ <div class="layout horizontal">
+ <div id="map_canvas" ></div>
+			
+		
+		 <div id="infotable" style="height:300px;margin-top:8px;">
+		
+			<table style="border-right: 1px solid #CCCCCC;">				
+				<tr>
+				<td >Sun Rise</td>
+				<td id="SunRise">6:00AM</td>
+				</tr>
+				<tr>
+				<td>Sun Set</td>
+				<td id="SunSet">5:30PM</td>
+				</tr>
+				<tr>
+				<td>Wind Speed</td>
+				<td id="WindSpeed">1.5</td>
+				</tr>
+				<tr>
+				<td>Wind Direction</td>
+				<td id="WindDirection">100</td>
+				</tr>
+			<!--  <tr>
+				<td>Temperature</td>
+				<td id="">31</td>
+				</tr> --> 
+				 <tr>
+				<td>Humidity</td>
+				<td id="Humidity">62</td>
+				</tr>
+				<tr>
+				<td>Pressure</td>
+				<td id="Pressure">62</td>
+				</tr>
+				<td>Weather</td>
+				<td id="weather">62</td>
+				</tr>
+			</table>
+			</div>  
+			</div>
+			</div>
+	 			</paper-material>
+		
+	
+	
+	
+	 
+	 
+			
+			
+	<!-- 	 </div> -->
+    <script>
+function initMap() {
+	var point = {lat: 17.571171, lng: 78.436106};	
+    var mapoption = {
+			zoom: 19,
+		  center: point,
+		  mapTypeId: 'satellite'
+    };
+
+    map = new google.maps.Map(document.getElementById('map_canvas'), mapoption);
+	var marker = new google.maps.Marker({
+          position: point,
+          map: map
+        });
+		
+		gettingJSON();
+
+};
+
+   function gettingJSON(){     
+        $.getJSON("http://api.openweathermap.org/data/2.5/weather?lat=17.571171&lon=78.436106&appid=6b4fec3cfeb666ed226daff42cb09a95",function(json){
+            console.log(JSON.stringify(json));
+			console.log((json));
+			
+						var utcSeconds = json.sys.sunrise;
+var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+d.setUTCSeconds(utcSeconds);
+var date1=d.getHours()+":"+d.getSeconds()+"AM";
+			document.getElementById("SunRise").innerHTML = date1;
+			
+			
+			
+			
+									var utcSeconds1 = json.sys.sunset;
+var d1 = new Date(0); // The 0 there is the key, which sets the date to the epoch
+d1.setUTCSeconds(utcSeconds1);
+var date2=d1.getHours()+":"+d1.getSeconds()+"PM";
+			document.getElementById("SunSet").innerHTML = date2;
+			
+
+			
+			
+			document.getElementById("Humidity").innerHTML = json.main.humidity;
+			document.getElementById("Pressure").innerHTML = json.main.pressure;
+			temperature = (json.main.temp)-273 ;
+			document.getElementById("Temperature").innerHTML = temperature;
+			document.getElementById("weather").innerHTML = json.weather[0].description;
+			
+        });
+    }
+
+google.maps.event.addDomListener(window, 'load', initMap);
+    </script>
+    </template>
+
+    <script>
+     
+   
+        Polymer({
+          is: 'iotmap-new1',
+		 
+          _updateData: function() {
+            this.async(function() {
+              this.$.ajax.generateRequest();
+            }, 10000);
+          },
+          _onResponse: function() {
+            console.log('received response');
+            this._updateData();
+          }
+       
+      });
+   
+	
+    </script>
+
+
+                           
+
+
+</dom-module>

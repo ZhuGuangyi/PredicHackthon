@@ -1,0 +1,18 @@
+---
+applications:
+  - name: solar-predix-mgmt-dev
+    memory: 512M
+    buildpack: nodejs_buildpack
+    command: node server/app.js
+    path: dist
+services:
+   - sy-uaa
+ # - <your-name>-timeseries-instance
+ # - <your-name>-asset-instance
+env:
+    node_env: cloud
+    uaa_service_label : predix-uaa
+    # Add these values for authentication in the cloud
+    clientId: sy-client-id
+    base64ClientCredential: c3ktY2xpZW50LWlkOnN5LWNsaWVudC1pZA==
+    #windServiceURL: "{URL of the microservice <your-name>-winddata-timeseries-service}, e.g.  https://your-name-winddata-timeseries-service.run.asw-usw02-pr.predix.io"

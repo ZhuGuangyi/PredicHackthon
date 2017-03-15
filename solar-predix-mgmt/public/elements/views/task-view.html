@@ -1,0 +1,91 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/px-dropdown/px-dropdown.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/px-app-nav/px-app-nav.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/px-spinner/px-spinner.html">
+<link rel="import" href="../../bower_components/px-modal-master/px-modal.html">
+<link rel="import" href="../../bower_components/px-progress-bar-master/px-progress-bar.html">
+<link rel="import" href="../../bower_components/px-box-design-master/index.html">
+<link rel="import" href="../../bower_components/iron-swipeable-container/iron-swipeable-container.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<dom-module id="task-view">
+<template>
+<div style="float:left">
+<px-app-nav
+    nav-items='[{"path": "", "icon": "fa-exclamation-triangle", "label":"alerts","subitems": [{"label": "Sub Category 1"}, {"label": "Sub Category 2"}]},{"path": "tab2", "icon": "fa-briefcase", "label": "Cases"}]'
+        <any-arbitrary-content></any-arbitrary-content>
+        <div class="auth">
+            <any-auth-control></any-auth-control>
+        </div>
+</px-app-nav></div>
+<div style="float:right">
+<button raised>Welcome to india tourism</button>
+
+<iron-icon src="img.jpg" style="width:200px;height:200px;"></iron-icon>
+</div>
+<div>
+<px-dropdown display-value="India">
+  <px-dropdown-content class="px-dropdown-content"  items='[{"key":"one", "val": "Tamilnadu"}, {"key":"two", "val": "Kerala"}, {"key":"three", "val": "Karnataka"}, {"key":"four", "val": "Andhra pradesh"}]'>
+  </px-dropdown-content>
+</px-dropdown>
+</div>
+<div style="float:bottom">
+<p>Click on a place to advance to the next one.</p>
+<iron-pages selected="0">
+  <div>One</div>
+  <div>Two</div>
+  <div>Three</div>
+</iron-pages>
+<style is="custom-style">
+  iron-pages {
+    width: 100%;
+    height: 200px;
+    font-size: 50px;
+    color: white;
+    text-align: center;
+  }
+  iron-pages div {
+    width: 100%;
+    height: 100%;
+    padding: 80px 0;
+  }
+  iron-pages div:nth-child(1) {
+    background-color: var(--google-blue-500);
+  }
+  iron-pages div:nth-child(2) {
+    background-color: var(--google-red-500);
+  }
+  iron-pages div:nth-child(3) {
+    background-color: var(--google-green-500);
+  }
+</style>
+<script>
+  var pages = document.querySelector('iron-pages');
+  pages.addEventListener('click', function(e) {
+    pages.selectNext();
+  });
+</script>
+</div>
+<div>
+<button>Loading<px-spinner size="50" ></px-spinner></button></div>
+<px-modal btn-modal-positive="Continue" btn-modal-positive-disabled="true" btn-modal-negative="Back" modal-heading="Sign-in required" scrolling-disabled="true"><button class='btn btn--primary modal-trigger'>Open Modal</button><p><b>Please sign-in to access this part of the application.</b></p></px-modal>
+<p><px-progress-bar value="50" animated="true" striped="true"></px-progress-bar>
+<div class="box box--flush">
+  I LOVE INDIA
+</div>
+<iron-swipeable-container>
+  <div>I can be swiped</div>
+  <paper-card heading="Me too!"></paper-card>
+</iron-swipeable-container>
+</template>
+<script>
+    Polymer({
+      is:'task-view',
+
+      properties: {
+	  }
+        });
+		</script>
+</dom-module>

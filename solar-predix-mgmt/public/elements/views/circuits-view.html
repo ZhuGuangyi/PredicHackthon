@@ -1,0 +1,803 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/px-sample-cards/blank-card.html">
+<link rel="import" href="../../bower_components/px-view-header/px-view-header.html">
+ 
+<link rel="import" href="../../elements/elements.html">
+ 
+<link rel="import" href="../../bower_components/px-vis/px-vis.html"/>
+<link rel="import" href="../../bower_components/px-vis/px-vis-event.html"/>
+<link rel="import" href="../../bower_components/px-vis/px-vis-scatter.html"/>
+ 
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html"/>
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html"/>
+ 
+<link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<link rel="import" href="../../bower_components/px-spinner/px-spinner.html">
+<link rel="import" href="../../bower_components/px-dropdown/px-dropdown.html">
+<!-- <link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html"> -->
+<link rel="import" href="../../bower_components/px-modal/px-modal.html">
+ 
+<dom-module id="circuits-view" style="background:white !important;">
+  <template>
+  <style>
+               @font-face{
+                               font-family:'digital-clock-font';
+                               src: url('digital-7.ttf');
+                                }
+                h3{
+                                color: #666666;
+                }
+                #circuit_main{
+                                height:120px;width:380px;background:#1abc9c;font-family:digital-clock-font;font-size:20px;border: 3px solid #C0C0C0;
+                }
+                #circuit_leftDiv1{
+                                float:left;line-height: 35px;
+                margin-left: 5px;
+                MARGIN-TOP: 3px;
+                }
+                #circuit_leftDiv2{
+                                float:right;line-height: 40px;
+    margin-right: 5px;
+    margin-top: 15px;
+                }
+                .circuit_leftcls{
+                                color: #FFFFFF;float:left;
+                }
+                .digital_color{
+                                color:yellow;
+                }
+                .circuit_rightcls{
+                                color: #FFFFFF;float:right;
+                }
+                #line_div{
+                                height:80px;width:1px;background:#CCCCCC;
+                }
+               
+ 
+               
+               
+                /*  Small devices (landscape phones, 544px and up) */
+                @media (min-width: 200px) {
+                                #circuit_main{
+                                 height:141px;width:216px;background:#1abc9c;font-family:digital-clock-font;font-size:20px;border: 3px solid #C0C0C0;margin-left:-1%;
+                               }
+                               #line_div{
+                                               /* margin-left:7.5%; */
+                                               margin-left:5%;
+                               }
+                               #circuit_leftDiv1{
+                                float:left;line-height: 26px;
+                margin-left: 30px;
+                MARGIN-TOP: 3px;
+                }
+                #circuit_leftDiv2{
+                                float:left;line-height: 26px;
+    margin-right: 65px;
+       margin-top: -1px;
+       margin-left: 30px;
+                }
+               
+                .circuit_rightcls{
+                                color: #FFFFFF;float:left;
+                }
+               
+                }
+               
+                @media (min-width: 544px) {
+                .seed-app-0 main.seed-app {
+    margin-left: 0rem !important;
+}
+                                #circuit_main{
+                                height:120px;width:300px;background:#1abc9c;font-family:digital-clock-font;font-size:20px;border: 3px solid #C0C0C0;
+                                margin-left:5%;
+                               }
+                               #line_div{
+                                               margin-left:20.4%;
+                               }
+                               #circuit_main{
+                                height:120px;width:380px;background:#1abc9c;font-family:digital-clock-font;font-size:20px;border: 3px solid #C0C0C0;
+                }
+                #circuit_leftDiv1{
+                                float:left;line-height: 35px;
+                margin-left: 5px;
+                MARGIN-TOP: 3px;
+                }
+                #circuit_leftDiv2{
+                                float:right;line-height: 40px;
+    margin-right: 5px;
+    margin-top: 15px;
+                }
+                .circuit_leftcls{
+                                color: #FFFFFF;float:left;
+                }
+                .digital_color{
+                                color:yellow;
+                }
+                .circuit_rightcls{
+                                color: #FFFFFF;float:right;
+                }
+                } 
+ 
+                /*  Medium devices (tablets, 768px and up) */
+                @media (min-width: 768px) {
+                 .seed-app-0 main.seed-app {
+    margin-left: 0rem !important;
+}
+                               #circuit_main{
+                                height:120px;width:300px;background:#1abc9c;font-family:digital-clock-font;font-size:20px;border: 3px solid #C0C0C0;
+                                margin-left:16%;
+                               }
+                               #line_div{
+                                               margin-left:26%;
+                               }
+                               #circuit_main{
+                                height:120px;width:380px;background:#1abc9c;font-family:digital-clock-font;font-size:20px;border: 3px solid #C0C0C0;
+                }
+                #circuit_leftDiv1{
+                                float:left;line-height: 35px;
+                margin-left: 5px;
+                MARGIN-TOP: 3px;
+                }
+                #circuit_leftDiv2{
+                                float:right;line-height: 40px;
+    margin-right: 5px;
+    margin-top: 15px;
+                }
+                .circuit_leftcls{
+                                color: #FFFFFF;float:left;
+                }
+                .digital_color{
+                                color:yellow;
+                }
+                .circuit_rightcls{
+                                color: #FFFFFF;float:right;
+                }
+                }
+ 
+                /*  Large devices (desktops, 992px and up) */
+               @media (min-width: 992px) {
+                .seed-app-0 main.seed-app {
+    margin-left: 0rem !important;
+}
+                                #circuit_main{
+                                height:120px;width:350px;background:#1abc9c;font-family:digital-clock-font;font-size:20px;border: 3px solid #C0C0C0;
+                                margin-left:25%;
+                               }
+                               #line_div{
+                                               margin-left:43%;
+                               }
+                               #circuit_main{
+                                height:120px;width:380px;background:#1abc9c;font-family:digital-clock-font;font-size:20px;border: 3px solid #C0C0C0;
+                }
+                #circuit_leftDiv1{
+                                float:left;line-height: 35px;
+                margin-left: 5px;
+                MARGIN-TOP: 3px;
+                }
+                #circuit_leftDiv2{
+                                float:right;line-height: 40px;
+    margin-right: 5px;
+    margin-top: 15px;
+                }
+                .circuit_leftcls{
+                                color: #FFFFFF;float:left;
+                }
+                .digital_color{
+                                color:yellow;
+                }
+                .circuit_rightcls{
+                                color: #FFFFFF;float:right;
+                }
+                }
+                /*  Extra large devices (large desktops, 1200px and up) */
+                @media (min-width: 1200px) {
+                                #circuit_main{
+                                 height:120px;width:380px;background:#1abc9c;font-family:digital-clock-font;font-size:20px;border: 3px solid #C0C0C0;
+                                margin-left:31%;
+                               }
+                               #line_div{
+                                               margin-left:49%;
+                               }
+                               #circuit_main{
+                                height:120px;width:380px;background:#1abc9c;font-family:digital-clock-font;font-size:20px;border: 3px solid #C0C0C0;
+                }
+                #circuit_leftDiv1{
+                                float:left;line-height: 35px;
+                margin-left: 5px;
+                MARGIN-TOP: 3px;
+                }
+                #circuit_leftDiv2{
+                                float:right;line-height: 40px;
+    margin-right: 5px;
+    margin-top: 15px;
+                }
+                .circuit_leftcls{
+                                color: #FFFFFF;float:left;
+                }
+                .digital_color{
+                                color:yellow;
+                }
+                .circuit_rightcls{
+                                color: #FFFFFF;float:right;
+                }
+                }
+               
+                .dashboard-views{
+       cursor: pointer;
+       margin-left:960px;
+       //margin-bottom:10px;
+       //height: 33px;
+  }
+       @media (max-width: 414px) {
+        .dashboard-views {
+    margin-left: 0px;
+}
+}
+       @media (max-width: 768px) {
+        .dashboard-views {
+    margin-left: 0px;
+}
+}
+  #content-circuits{
+visibility:hidden;
+}
+#load-circuits{
+justify-content:center;
+display:flex;
+margin:auto;
+margin-top:190px;
+
+}
+               
+  </style>
+ <px-spinner id="load-circuits" size="70"></px-spinner>
+<div id="content-circuits">
+    <div class="dashboard-views">
+              <span style="color: #CCCCCC;font-size: 12px;"><iron-icon  style="width:15px;margin-bottom: 2px;"  icon="fa:fa-tachometer">
+  </iron-icon>&nbsp; Home > Smart Box</span>
+  </div>
+ 
+  <div style="background:#FFFFFF;">
+                                <px-modal btn-modal-positive="Ok" btn-modal-negative="Back" id="popupModel" style="float:right;padding: 4px;margin-right: -147px;">
+                                <button class='btn btn--primary modal-trigger'>Filters</button>
+<!--  </div> -->
+  <div class="box box--huge" id="filters" style="background:#FFFFFF;padding:15px;margin-top: -50px;">
+                                <iron-ajax id="ajax" auto url="https://solarassetservices.run.aws-usw02-pr.ice.predix.io/Asset/getNamesInClassification/Locations" last-response="{{data}}" handleAs="json"></iron-ajax>
+            <span id="hideSpan" style="visibility:hidden;">@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</span>
+                                <div id="locationsDiv">
+                                <span>Location</span>
+                                <px-dropdown display-value="Select" name="filter-location" id="locations">
+                                                <px-dropdown-content extend-dropdown='true' extend-dropdown-by='25' max-cont-character-width='10'
+                                                items='{{data.data}}'>
+                                                </px-dropdown-content>
+                                </px-dropdown>
+                </div>
+                <br>
+                <div id="blocksDiv">
+                <iron-ajax id="blocksAjax" on-response="setBlocksDataA" handleAs="json"></iron-ajax>
+                                <span>Blocks</span>
+                                <px-dropdown display-value="Select" name="filter_block" id="filter_block" disabled>
+                                                <px-dropdown-content extend-dropdown='true' extend-dropdown-by='25' max-cont-character-width='10'
+                                                items={{blocksData.data}} id="blocks_dropDown">
+                                                </px-dropdown-content>
+                                </px-dropdown>
+                </div>
+                <br>
+                <div id="cbsDiv">
+                                <iron-ajax id="CBSAjax" on-response="setCbsData" handleAs="json"></iron-ajax>
+                                <span>Control Boxes</span>
+                                <px-dropdown display-value="Select" name="filter_cb" id="filter_cb" disabled>
+                                                <px-dropdown-content extend-dropdown='true' extend-dropdown-by='25' max-cont-character-width='10'
+                                                items="" id="cb_dropdown">
+                                                </px-dropdown-content>
+                                </px-dropdown>
+                </div>
+                <br>
+  </div>
+  </px-modal>
+   <H4 style="padding-top: 18px;margin-left: 25px;background:#FFFFFF;">&nbsp;&nbsp;&nbsp;&nbsp;{{data1.0.inverter}}</H4>
+  </div>
+ 
+  
+   <iron-ajax id="circuitDataT" auto url="https://solar-test-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/windservices/getSelectedTagsData?requiredtags=AC_Total_S_CB,ACVoltageCB,ACCurrentCB,ACFrequencyCB,EnergyCB"
+  last-response="{{data1}}" on-response="callServiceByInterval" handleAs="json"></iron-ajax>
+                <div id="height:600px;width:100%;">
+                <div id="mainDiv" style="height:;">
+                <center><h3>Smart Box <span id="combinerBoxName"></span></h3></center>
+               
+                <div id="circuit_main">
+                                <div id="circuit_leftDiv1">
+                                                <span class="circuit_leftcls">P: <span class="digital_color"><span id="circuitPowerC">{{data1.0.value}}</span></span> K Watts</span><br>
+                                                <span class="circuit_leftcls">V: <span class="digital_color">{{data1.1.value}}</span> Volts</span><br>
+                                                <span class="circuit_leftcls">I : <span class="digital_color">{{data1.2.value}}</span> Amps</span><br>
+                                </div>
+                                <div id="circuit_leftDiv2">
+                                                <span class = "circuit_rightcls">F: <span class="digital_color">{{data1.3.value}}</span> Hz</span><br>
+                                                <span class = "circuit_rightcls">E: <span class="digital_color">{{data1.4.value}}</span> KWh</span>
+                </div>
+               
+               
+                </div>
+                <div id="line_div"></div>
+    </div>
+    </div>
+    <iron-ajax id="solarsDataAjax"
+    auto
+    url="https://solarassetservices.run.aws-usw02-pr.ice.predix.io/Asset/getClassifications/Inverters"
+    on-response="setBlocksData" handleAs="json"></iron-ajax>
+ <!--   <iron-ajax id="rowsRes"  on-response="setDetailsToBlock" sync="true"  handleAs="json"></iron-ajax> -->
+    </div>
+  </template>
+  <script>
+  var global,gCount=0,windowWidth=0;
+  var globalURLS = [];
+  var globalURLSTest = [];
+  var block = null,cb=null,invertor=null,tableData=null,panelName="";
+  var records=0,totalRecords=0,tableData=[],invertersDataArr = [];
+    Polymer({
+      is: 'circuits-view',
+      listeners: {
+                  'locations.px-dropdown-value-changed':'regularTap',
+          'filter_block.px-dropdown-value-changed':'blockChanged',
+          'filter_cb.px-dropdown-value-changed':'cbchanged',
+          'popupModel.btnModalPositiveClicked':'getValuesToLoad'
+          //'iron-resize': "_resizeHandler"
+        },
+        regularTap : function(){
+                block = null,cb=null,invertor=null;
+                $("#blocksAjax").attr("url","https://solarassetservices.run.aws-usw02-pr.ice.predix.io/Asset/getBlockClassificationNamesByLocation/Blocks/"+this.$.locations.value);
+                this.$.blocksAjax.generateRequest();
+        },
+        blockChanged : function(event){
+                block = this.$.filter_block.value;
+                $("#CBSAjax").attr("url","https://solarassetservices.run.aws-usw02-pr.ice.predix.io/Asset/getCBClassificationNamesByBlock/CBS/"+block);
+                this.$.CBSAjax.generateRequest();
+        },
+        cbchanged : function(){
+                cb = this.$.filter_cb.value;
+               
+                //$("#invertersAjax").attr("url","https://solarassetservices.run.aws-usw02-pr.ice.predix.io/Asset/getInverterNamesByCB/Inverters/"+cb);
+                //this.$.invertersAjax.generateRequest();
+                //alert(cb);
+        },
+        setBlocksDataA : function(data){
+                setDataToDropDown(data,"blocks");
+        },
+        setCbsData : function(data){
+                setDataToDropDown(data,"cbs");
+        },
+        getValuesToLoad : function(){
+                var location = this.$.locations.value;
+                //alert(location);
+                // windowWidth = $( window ).width();
+                $(".verticleDiv").remove();
+                $(".divBar").remove();
+                $(".divBar1").remove();
+                $(".divBar2").remove();
+                $("#combinerBoxName").text(" : "+cb).css("color","green");
+                url="https://solarassetservices.run.aws-usw02-pr.ice.predix.io/Asset/getInverterNamesByCB/Inverters/"+cb+"?isAll=true";
+                $("#solarsDataAjax").removeAttr("url");             
+                                $("#solarsDataAjax").attr("url",url);       
+                                                //this.$.solarsDataAjax.generateRequest();
+                /* var url = "https://solar-test-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/windservices/getPanelsDetailsByInverter?inverterName="+invertor;
+                $("#PanelsDataTable").removeAttr("url");          
+                                $("#PanelsDataTable").attr("url",url);    
+                                                this.$.PanelsDataTable.generateRequest(); */
+        },
+      ready: function() {
+        console.log('circuits-summery-home ready()');
+        //alert($( window ).width());
+         windowWidth = $( window ).width();
+        console.log(windowWidth);
+        console.log(windowWidth+17);
+        console.log(navigator.platform);
+        //alert(windowWidth+17);
+      },
+      callServiceByInterval : function(data){
+                  var value = data.detail.response[0].value/1000;
+                //$("#dashPowerC").text(Math.round(value * 100) / 100);
+                  $("#circuitPowerC").text(Math.round(value * 100) / 100);
+                  this.async(function() {
+                                 console.log("Async Called");
+              this.$.circuitDataT.generateRequest();
+            }, 30000);
+     },
+    /*  _resizeHandler : function(){
+                alert("Hello");
+     }, */
+    
+     
+     
+     setBlocksData : function(data){
+                 global = 0;
+                  if(data != null && data != undefined){
+                                  if(data.detail != null && data.detail != undefined){
+                                                  if(data.detail.response != null && data.detail.response != undefined){
+                                                                  if(data.detail.response.data != null && data.detail.response.data != "" && data.detail.response.data != undefined && data.detail.response.data.length >0){
+                                                                                 // appendInverters(data.detail.response.data.length,data.detail.response.data);
+                                                                                  var count = data.detail.response.data.length;
+                                                                                  gCount = count;
+                                                                                  var data = data.detail.response.data;
+                                                                                 globalURLS = [];
+                                                                                  if(count > 0){
+                                                                                                  
+                                                                                                if(count == 1){
+                                                                                                                $("#mainDiv").append('<center><div style="height:100px;width:200px;background:#CCCCCC;cursor:pointer;" onclick="getPanelDetails()"></div></center>');
+                                                                                                }else if(count == 2){
+                                                                                                                $("#mainDiv").append('<center><div style="height:1px;width:80%;background:#CCCCCC;"></div></center>');
+                                                                                                                for(var i=0;i<=count-1;i++){
+                                                                                                                                var floatSty="left;MARGIN-LEFT: 10%;";
+                                                                                                                                var panSty = "left;MARGIN-LEFT: -7%;";
+                                                                                                                                if(i==1){
+                                                                                                                                                floatSty="right;MARGIN-right: 10%;";
+                                                                                                                                                panSty = "RIGHT;MARGIN-RIGHT: -7%;";
+                                                                                                                                }
+                                                                                                                                $("#mainDiv").append(' <center><div id="inverter'+i+'" style="height:80px;width:1px;background:#CCCCCC;FLOAT: '+floatSty+'"></div></center>');
+                                                                                                                                $("#mainDiv").append('<div style="height:15%;width:15%;background:#CCCCCC;margin-top:80px;cursor:pointer;float:'+panSty+'" onclick="getPanelDetails()"><div style="height:12%;width:10%;float:right;background:green;border-radius:20px;margin-top:5px;margin-right:5px;"></div><center><div style="margin-top: 30%;"></div></center></div>');
+                                                                                                                }
+                                                                                                }else{
+                                                                                                                console.log("inside else > 2");
+                                                                                                                if(windowWidth+17 >= 992){
+                                                                                                                                $("#mainDiv").append('<center><div style="height:1px;width:90%;background:#CCCCCC;" class="divBar"></div></center>');
+                                                                                                                }
+                                                                                                                var i=0;
+                                                                                                                 do{
+                                                                                                               
+                                                                                                               
+                                                                                        
+                                                                                                                 
+                                                                                                                 
+                                                                                                                 
+                                                                                                                 
+                                                                                                                 
+                                                                                                                //this.$.rowsRes.generateRequest();
+                                                                                                                 
+                                                                                                                                var floatSty="left;MARGIN-LEFT: 5%;";
+                                                                                                                                var panSty = "left;MARGIN-LEFT: -5%;";
+                                                                                                                                if(i==0){
+                                                                                                                                                floatSty="left;MARGIN-LEFT: 5%;";
+                                                                                                                                panSty = "left;MARGIN-LEFT: -5%;";
+                                                                                                                                }
+                                                                                                                               else if(i==count-1){
+                                                                                                                                                floatSty="right;MARGIN-right: 5%;";
+                                                                                                                                                panSty = "RIGHT;MARGIN-RIGHT: -5%;";
+                                                                                                                                }else{
+                                                                                                                                                var width = 55;
+                                                                                                                                                if(count>6){width=45;}
+                                                                                                                                                var len = width/count;
+                                                                                                                                               
+                                                                                                                                                floatSty="left;MARGIN-LEFT: "+len+"%;";
+                                                                                                                                panSty = "left;MARGIN-LEFT: -5%;";
+                                                                                                                                }
+                                                                                                                                if(windowWidth+17 < 544){
+                                                                                                                                                $("#mainDiv").append('<center class="verticleDiv"><div style="height:150px;width:1px;background:#CCCCCC;margin-left:-90%;"  class="divBarVer'+i+'">'+
+                                                                                                                                                                '<hr style="height:1px;width:50px;background:#CCCCCC;margin-top:-2px; margin-left: 1px;"><iron-icon icon="icons:arrow-upward" style="margin-top: -82px;margin-left: 12px;"></iron-icon>'+
+                                                                                                                                                                '<div style="height:120px;width:150px;border: 1.5px solid green;background:#f0f7eb;margin-left: 50px;margin-top: -100px;"><div style="height:10%;width:8%;float:right;background:green;border-radius:20px;margin-top:5px;margin-right:5px;z-index: 999;font-size: 10px;">&nbsp;</div><div style="margin-top: 13%;margin-left: 5px;font-family:digital-clock-font;line-height: 30px;color:black;font-size: 20px;" id="inverterData'+i+'">'+
+                                                                                                                                                                '<div style="float:left;"><span>P:</span><span id="inverterDataPower'+i+'" style="color:#E31837;">'+
+                                                                                                                                                                '</span><span>K WATTS</span><br><span>V:</span><span id="inverterDataVoltage'+i+'" style="color:#E31837;"></span>'+
+                                                                                                                                                                '<span>VOLTS</span><br><span>I :</span><span id="inverterDataCurrent'+i+'" style="color:#E31837;"> </span><span>AMPS</span></div></div><div style="font-size: 100%;background: green;color: #FFFFFF;margin:111px 0px 0px 0px;width: 102%;margin-left: -2px;"><span>'+data[i].name+'</span></div></div></center>');
+                                                                                                                               
+                                                                                                                                }
+                                                                                                                                else if(windowWidth+17 >= 401 && windowWidth+17 < 768){
+                                                                                                                                                $("#mainDiv").append('<center class="verticleDiv"><div style="height:150px;width:1px;background:#CCCCCC;margin-left:-59%;"  class="divBarVer'+i+'">'+
+                                                                                                                                                                '<hr style="height:1px;width:50px;background:#CCCCCC;margin-top:-2px;    margin-left: 1px;"><iron-icon icon="icons:arrow-upward" style="margin-top: -82px;margin-left: 12px;"></iron-icon>'+
+                                                                                                                                                                '<div style="height:120px;width:150px;border: 1.5px solid green;background:#f0f7eb;margin-left: 50px;margin-top: -100px;"><div style="height:10%;width:8%;float:right;background:green;border-radius:20px;margin-top:5px;margin-right:5px;z-index: 999;font-size: 10px;">&nbsp;</div><div style="margin-top: 13%;margin-left: 5px;font-family:digital-clock-font;line-height: 30px;color:black;font-size: 20px;" id="inverterData'+i+'"><span>P:</span><span id="inverterDataPower'+i+'" style="color:#E31837;"> </span><span>K WATTS</span><br><span>V:</span><span id="inverterDataVoltage'+i+'" style="color:#E31837;"> </span><span>VOLTS</span><br><span>I :</span><span id="inverterDataCurrent'+i+'" style="color:#E31837;"> </span><span>AMPS</span></div><div style="font-size: 100%;background: green;color: #FFFFFF;margin:0px 0px 0px 0px;width: 102%;margin-left: -1px;"><span>'+data[i].name+'</span></div></div></center>');
+                                                                                                                                               
+                                                                                                                                }
+                                                                                                                                else if(windowWidth+17 >= 768 && windowWidth+17 < 992){
+                                                                                                                                                $("#mainDiv").append('<center class="verticleDiv"><div style="height:150px;width:1px;background:#CCCCCC;margin-left:-48%;" class="divBarVer'+i+'">'+
+                                                                                                                                                                '<hr style="height:1px;width:50px;background:#CCCCCC;margin-top:-2px;    margin-left: 1px;"><iron-icon icon="icons:arrow-upward" style="margin-top: -82px;margin-left: 12px;"></iron-icon>'+
+                                                                                                                                                                '<div style="height:120px;width:150px;border: 1.5px solid green;background:#f0f7eb;margin-left: 50px;margin-top: -100px;"><div style="height:10%;width:8%;float:right;background:green;border-radius:20px;margin-top:5px;margin-right:5px;z-index: 999;font-size: 10px;">&nbsp;</div><div style="margin-top: 13%;margin-left: 5px;font-family:digital-clock-font;line-height: 30px;color:black;font-size: 20px;" id="inverterData'+i+'"><span>P:</span><span id="inverterDataPower'+i+'" style="color:#E31837;"> </span><span>K WATTS</span><br><span>V:</span><span id="inverterDataVoltage'+i+'" style="color:#E31837;"> </span><span>VOLTS</span><br><span>I :</span><span id="inverterDataCurrent'+i+'" style="color:#E31837;"> </span><span>AMPS</span></div><div style="font-size: 100%;background: green;color: #FFFFFF;margin:0px 0px 0px 0px;width: 102%;margin-left: -1px;"><span>'+data[i].name+'</span></div></div></center>');
+                                                                                                                                               
+                                                                                                                                }
+                                                                                                                                /* else if(windowWidth < 992){
+                                                                                                                                                $("#mainDiv").append('<center><div style="height:150px;width:1px;background:#CCCCCC;" class="divBar">'+
+                                                                                                                                                '<hr style="height:1px;width:80px;background:#CCCCCC;margin-top:-2px;">'+
+                                                                                                                                                '<div style="height:120px;width:150px;border: 1.5px solid green;background:#f0f7eb;margin-left: 80px;margin-top: -53px;"><div style="height:10%;width:8%;float:right;background:green;border-radius:20px;margin-top:5px;margin-right:5px;z-index: 999;font-size: 10px;">&nbsp;</div><div style="margin-top: 13%;margin-left: 5px;font-family:digital-clock-font;line-height: 30px;color:black;font-size: 20px;" id="inverterData'+i+'"><span>P:</span><span id="inverterDataPower'+i+'" style="color:#E31837;"> </span><span>WATTS</span><br><span>V:</span><span id="inverterDataVoltage'+i+'" style="color:#E31837;"> </span><span>VOLTS</span><br><span>I:</span><span id="inverterDataCurrent'+i+'" style="color:#E31837;"> </span><span>AMPS</span></div><div style="font-size: 100%;background: green;color: #FFFFFF;margin:0px 0px 0px 0px;width: 102%;margin-left: -1px;"><span>'+data[i].name+'</span></div></div></center>');
+                                                                                                                                } */else{
+                                                                                                                                                $("#mainDiv").append('<center><div class="divBar1" id="inverter'+i+'" style="height:80px;width:1px;background:#CCCCCC;FLOAT: '+floatSty+'"></div></center>');
+                                                                                                                                                $("#mainDiv").append('<div class="divBar2" style="height:15%;width:13%;background:#f0f7eb;margin-top:80px;cursor:pointer;border: 1.5px solid #1abc9c;float:'+panSty+'" onclick="getPanelDetails()"><div style="height:13%;width:9%;float:right;background:green;border-radius:20px;margin-top:5px;margin-right:5px;z-index: 999;font-size: 10px;">&nbsp;</div><div style="margin-top: 13%;margin-left: 5px;font-family:digital-clock-font;line-height: 30px;color:black;font-size: 15px;" id="inverterData'+i+'"><span>P:</span><span id="inverterDataPower'+i+'" style="color:#E31837;"> </span><span>K WATTS</span><br><span>V:</span><span id="inverterDataVoltage'+i+'" style="color:#E31837;"> </span><span>VOLTS</span><br><span>I:</span><span id="inverterDataCurrent'+i+'" style="color:#E31837;"> </span><span>AMPS</span></div><div style="font-size: 100%;background: #1abc9c;color: #FFFFFF;margin:13px 0px 0px 0px;"><span>'+data[i].name+'</span></div></div>');
+                                                                                                                                                $("#inverter"+i).append("<div class='arrow-upward' style='margin-top: 32px;'> <iron-icon icon='icons:arrow-upward'></iron-icon></div>");
+                                                                                                                                }
+                                                                                                                               
+                                                                                                                               
+                                                                                                                               
+                                                                                                                                console.log("in while loop.."+i);
+                                                                                                                                console.log("inside loop "+ global);
+                                                                                                                                var url = "https://solar-test-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/windservices/getSelectedTagsData?requiredtags=";
+                                                                                                                                var tags="";
+                                                                                                                                var tsTags = data[i].timeSeriesTags;
+                                                                                                                                for(var j=0;j<=tsTags.length-1;j++){
+                                                                                                                                                tags+=tsTags[j]+",";
+                                                                                                                                }
+                                                                                                                                tags = tags.substr(0,tags.length-1)
+                                                                                                                                url+=tags;
+                                                                                                                                console.log(i+".......>>>>"+url);
+                                                                                                                                globalURLS.push(url);
+                                                                                                                                //globalURLSTest.push(url);
+                                                                                                                                console.log("url........"+url);
+                                                                                                                //$("#rowsRes").attr("url",url);
+                                                                                                                 
+                                                                                                                //$("#rowsRes").attr("sync",true);
+                                                                                                               
+                                                                       $.ajax({
+                                                                                                async:false,
+      url:url, 
+      dataType: "json",
+      success:function(data) {
+                  var len = data.length;
+                  for(var k=0;k<=len-1;k++){
+                  console.log("?>>>>>>"+data[k].tagName);
+                  $("#inverterDataPower"+i).text(data[0].value+" ");
+                  
+                  $("#inverterDataVoltage"+i).text(data[1].value+" ");
+                  $("#inverterDataCurrent"+i).text(data[2].value+" ");
+                  }
+         return data;
+      }
+   });
+                                               
+                                               
+                                                                                                               
+                                                                                                                                                //this.$.rowsRes.generateRequest();
+                                                                                                                                                //console.log(data);
+                                                                                                                                console.log("after request");
+                                                                                                                                //console.log(globalURLs.length+"globalURLs.length");
+                                                                                                                                i++;
+                                                                                                                               
+                                                                                                                }while(i<=count-1);
+                                                                                               
+                                                                                                                //var cnt = count-1;
+                                                                                                                //$(".divBarVer"+cnt).css("height","77px");
+                                                                                                }
+                                                                                }
+                                                                                  
+                                                                  }else{
+                                                                                  alert("No Inverters data For Selected Combine Box");
+                                                                  }
+                                                  }else{
+                                                                  alert("No Inverters data For Selected Combine Box");
+                                                  }
+                                  }else{
+                                                  alert("No Inverters data For Selected Combine Box");
+                                  }
+                  }else{
+                                  alert("No Inverters data For Selected Combine Box");
+                  }
+                  
+     },
+    
+     //setInterval(function(){ alert("Hello"); }, 3000);
+    
+     
+    
+                // setInterval(setBlocksDataTest(globalURLS), 1000);
+               
+               
+               
+               
+               
+               
+                updateTime:function (globalURLSTest) {
+                 //console.log(globalURLS);
+                 for(var z=0;z<=globalURLSTest.length-1;z++){
+                                   $.ajax({
+                                                                                async:false,
+   url:globalURLS[z], 
+   dataType: "json",
+   success:function(data) {
+   var len = data.length;
+   for(var k=0;k<=len-1;k++){
+   console.log("?>>>>>>"+data[k].tagName);
+   $("#inverterDataPower"+i).text(data[0].value+" ");
+ 
+   $("#inverterDataVoltage"+i).text(data[1].value+" ");
+   $("#inverterDataCurrent"+i).text(data[2].value+" ");
+   }
+   //return data;
+   }
+   });
+                 
+                   // Do stuff
+                 };
+      },
+               
+               
+               
+               
+               
+               
+     
+     
+    // setInterval(updateTime, 10000),
+    
+     
+     
+     
+     
+     
+     
+     
+     
+     
+    
+ 
+    });
+    
+    
+   
+    
+    
+    
+    /* Java Script function Start*/
+    function setDataToDropDown(data,from){
+                console.log("%%%%%%%%%%%%%%%%%%"+JSON.stringify(data.detail.response.data));
+                if(data.detail.response != null && data.detail.response != undefined){
+                                if(data.detail.response.data != null && data.detail.response.data != undefined && data.detail.response.data.length >0){
+                                                var size = data.detail.response.data.length;
+                                                var obj={},arr=[];
+                                                if(from == "inverters"){
+                                                                //obj = {"Key": "All","val" : "All"};
+                                                                //arr.push(obj);
+                                                               
+                                                                invertersDataArr = data.detail.response.data;
+                                                               
+                                                }
+                                                for(var i=0;i<=size-1;i++){
+                                                                obj = {"Key": data.detail.response.data[i],"val" : data.detail.response.data[i]}   
+                                                                arr.push(obj);
+                                                }
+                                                //$("#filter_block").removeAttr("disabled");
+                                                //$("#blocks_dropDown").removeAttr("items");
+                                                //alert(from);
+                                                if(from == "blocks"){
+                                                                $("#filter_block").removeAttr("disabled");
+                                                                $("#blocks_dropDown").attr("items",JSON.stringify(arr));
+                                                }
+                                                else if(from=="cbs"){
+                                                                $("#filter_cb").removeAttr("disabled");
+                                                                $("#cb_dropdown").attr("items",JSON.stringify(arr));
+                                                }else if(from=="inverters"){
+                                                                $("#filter_inverter").removeAttr("disabled");
+                                                                $("#inverter_dropdown").attr("items",JSON.stringify(arr));
+                                                }
+                                               
+                                }else{
+                                                alert("No Data found to Display on this combination!!, Select Other Combination");return;
+                                }
+                }else{
+                                alert("No Data found to Display on this combination!!, Select Other Combination");return;
+                }
+    }
+   
+    $( window ).on( "orientationchange", function( event ) {
+                location.reload();
+                });
+    $(window).resize(function(){
+       //location.reload();
+       console.log($( window ).width());
+       /*  if(cb==null || cb=="" || cb == undefined)
+                cb="TMTC-IT1-CB1";
+       
+                $(".divBar").remove();
+                $(".divBar1").remove();
+                $(".divBar2").remove();
+                $("#combinerBoxName").text(" : "+cb).css("color","green");
+                url="http://localhost:8080/Asset/getInverterNamesByCB/Inverters/"+cb+"?isAll=true";
+                $("#solarsDataAjax").removeAttr("url");             
+                                $("#solarsDataAjax").attr("url",url);       
+                               
+                                windowWidth = $( window ).width();  */
+                               
+    });
+   /*  function appendInverters(count,data){
+                console.log(data);
+               
+                if(count > 0){
+                                if(count == 1){
+                                                $("#mainDiv").append('<center><div style="height:100px;width:200px;background:#CCCCCC;cursor:pointer;" onclick="getPanelDetails()"></div></center>');
+                                }else if(count == 2){
+                                                $("#mainDiv").append('<center><div style="height:1px;width:80%;background:#CCCCCC;"></div></center>');
+                                                for(var i=0;i<=count-1;i++){
+                                                                var floatSty="left;MARGIN-LEFT: 10%;";
+                                                                var panSty = "left;MARGIN-LEFT: -7%;";
+                                                                if(i==1){
+                                                                                floatSty="right;MARGIN-right: 10%;";
+                                                                                panSty = "RIGHT;MARGIN-RIGHT: -7%;";
+                                                                }
+                                                                $("#mainDiv").append(' <center><div id="inverter'+i+'" style="height:80px;width:1px;background:#CCCCCC;FLOAT: '+floatSty+'"></div></center>');
+                                                                $("#mainDiv").append('<div style="height:15%;width:15%;background:#CCCCCC;margin-top:80px;cursor:pointer;float:'+panSty+'" onclick="getPanelDetails()"><div style="height:12%;width:10%;float:right;background:green;border-radius:20px;margin-top:5px;margin-right:5px;"></div><center><div style="margin-top: 30%;">INV-'+i+'</div></center></div>');
+                                                }
+                                }else{
+                                                console.log("inside else 3");
+                                                $("#mainDiv").append('<center><div style="height:1px;width:90%;background:#CCCCCC;"></div></center>');
+                                                for(var i=0;i<=count-1;i++){
+                                                                var url = "http://solar-test-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/windservices/getSelectedTagsData?requiredtags=";
+                                                                var tags="";
+                                                                var tsTags = data[i].timeSeriesTags;
+                                                                for(var j=0;j<=tsTags.length-1;j++){
+                                                                                tags+=tsTags[j]+",";
+                                                                }
+                                                                tags = tags.substr(0,tags.length-1)
+                                                                url+=tags;
+                                                                console.log(url);
+                                               
+                                                 $("#rowsRes").attr("url",url);
+                                                 this.$.rowsRes.generateRequest();
+                                                 
+                                                                var floatSty="left;MARGIN-LEFT: 5%;";
+                                                                var panSty = "left;MARGIN-LEFT: -5%;";
+                                                                if(i==0){
+                                                                                floatSty="left;MARGIN-LEFT: 5%;";
+                                                                panSty = "left;MARGIN-LEFT: -5%;";
+                                                                }
+                                                                else if(i==count-1){
+                                                                                floatSty="right;MARGIN-right: 5%;";
+                                                                                panSty = "RIGHT;MARGIN-RIGHT: -5%;";
+                                                                }else{
+                                                                                var width = 80;
+                                                                                if(count>6){width=70;}
+                                                                                var len = width/count;
+                                                                               
+                                                                                floatSty="left;MARGIN-LEFT: "+len+"%;";
+                                                                panSty = "left;MARGIN-LEFT: -5%;";
+                                                                }
+                                                                $("#mainDiv").append(' <center><div id="inverter'+i+'" style="height:80px;width:1px;background:#CCCCCC;FLOAT: '+floatSty+'"></div></center>');
+                                                                $("#mainDiv").append('<div style="height:20%;width:10%;background:rgba(108, 130, 16, 0.57);;margin-top:80px;cursor:pointer;float:'+panSty+'" onclick="getPanelDetails()"><div style="height:9%;width:10%;float:right;background:green;border-radius:20px;margin-top:5px;margin-right:5px;"></div><div style="margin-top: 30%;">'+data[i].name+'</div><div style="font-size: 11px;font-weight: bold;background: #FFFFFF;color: black;margin-top:30px;"><span>'+data[i].name+'</span></div></div>');
+                                                                $("#inverter"+i).append("<div class='arrow-upward' style='margin-top: 32px;'> <iron-icon icon='icons:arrow-upward'></iron-icon></div>");
+                                                               
+                                                               
+                                                               
+                                                }
+                                }
+                }
+    }
+    function getPanelDetails(){
+                //alert($(this).attr("id"));
+    } */
+   setInterval(function (globalURLSTest) {
+                  
+                   
+                   i=0;
+                  
+      console.log(globalURLS.length+"globalURLS.length");
+                 for(var z=0;z<=this.globalURLS.length-1;z++){
+                                   $.ajax({
+   async:false,
+   url:globalURLS[z], 
+   dataType: "json",
+   success:function(data) {
+   var len = data.length;
+   for(var k=0;k<=len-1;k++){
+   console.log("?>>>>>>"+data[k].tagName);
+   $("#inverterDataPower"+z).text(data[0].value+" ");
+   console.log("#inverterDataPower"+z+""+data[0].value);
+ 
+   $("#inverterDataVoltage"+z).text(data[1].value+" ");
+   $("#inverterDataCurrent"+z).text(data[2].value+" ");
+   }
+   //return data;
+   }
+   });
+                 
+                   // Do stuff
+                 };
+      }, 30000);
+    function onReady(callback) {
+        var intervalID = window.setInterval(checkReady,2000);
+        function checkReady() {
+            if (document.getElementsByTagName('body')[0] !== undefined) {
+                window.clearInterval(intervalID);
+                callback.call(this);
+            }
+        }
+    }
+
+onReady(function () {
+        $('#load-circuits').hide();
+       $('#content-circuits').css("visibility","visible");
+
+    })
+</script>
+</dom-module>

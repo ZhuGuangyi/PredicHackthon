@@ -1,0 +1,38 @@
+[
+  {
+    "assetId": "TMTC-IT1-CB1-INV1-PANEL1",
+    "AlertDesc": "Need to clean the panel",
+    "location": "TMTC",
+    "alertType": "Critical",
+    "AssignedTo": "SY00489214",
+    "Status": "Closed",
+    "date": "12-01-2017 10:01:15"
+  },
+  {
+    "assetId": "TMTC-IT1-CB1-INV1-PANEL1",
+    "AlertDesc": "Unable to send the generated power to Inverter, \n Check the Cable.",
+    "location": "TMTC",
+    "alertType": "Normal",
+    "AssignedTo": "SS00349859",
+    "Status": "Open",
+    "date": "12-12-2016 09:20:30"
+  },
+  {
+    "assetId": "TMTC-IT1-CB1-INV1-PANEL1",
+    "AlertDesc": "Motor has to replace",
+    "location": "TMTC",
+    "alertType": "Normal",
+    "AssignedTo": "SY00489214",
+    "Status": "In progress",
+    "date": "12-01-2017 06:20:46"
+  },
+  {
+    "assetId": "TMTC-IT1-CB1-INV1-PANEL1",
+    "AlertDesc": "Panel is cracked.",
+    "location": "TMTC",
+    "alertType": "Critical",
+    "AssignedTo": "SY00489214",
+    "Status": "Open",
+    "date": "12-01-2017 03:09:03"
+  }
+]

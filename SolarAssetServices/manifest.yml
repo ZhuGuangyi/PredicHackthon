@@ -1,0 +1,18 @@
+---
+applications:
+- name: SolarAssetServices
+  buildpack: java_buildpack
+  path: target/gs-rest-service-0.1.0.jar
+  memory: 512MB
+  services:
+      - sy-uaa
+      - sy-asset
+  env:
+    SPRING_PROFILES_ACTIVE : cloud
+    JAVA_DOCS_URL : https://predixdev.github.io/predix-microservice-cf-spring
+    #predix_oauthRestHost : 7536f3bb-7bd8-45bd-9270-9287453e4197.predix-uaa.run.aws-usw02-pr.ice.predix.io
+    #predix_oauthClientId : sy-client-id:sy-client-id
+    #trustedIssuerIdsRegexPattern : ^https://(.*\\.)?7536f3bb-7bd8-45bd-9270-9287453e4197.predix-uaa.run.aws-usw02-pr.ice.predix.io/oauth/token$
+    #predix_connectionTimeout : 20000
+    #predix_socketTimeout : 20000  
+    

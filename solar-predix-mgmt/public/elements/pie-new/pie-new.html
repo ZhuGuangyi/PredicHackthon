@@ -1,0 +1,192 @@
+
+    <dom-module id="pie-new">
+	
+        <template>
+		  <iron-ajax id="ajax"
+            auto
+            url="https://solar-test-timeseries-service.run.aws-usw02-pr.ice.predix.io/services/windservices/getSolarDashBoard?requiredtags=DCVoltageToINV1"
+            last-response="{{data}}"
+            on-response="_onResponse"
+            handleAs="json">
+  </iron-ajax>
+        <!--     <div id="container" style="max-width:300px; height: 180px;"></div> -->
+			
+			
+ 
+<paper-material elevation="3" style=" width:100%;height:30%; background-color:white;"  >
+ <div id="container" style="width: 100%; height: 180px;"></div> 
+</paper-material>
+
+        </template>
+
+        <script>
+		//var isLoaded = true;
+            Polymer({
+            is: "pie-new",
+			
+			   properties:{
+			   loadValue: {
+					type: Number,
+					value : [0]
+				},
+     
+	  graphValue: {type: Number},
+					 
+					
+                 
+					
+    },
+	
+  
+			
+			
+			   _updateData: function() {
+            this.async(function() {
+              this.$.ajax.generateRequest();
+            }, 10000);
+          },
+          _onResponse: function(data) {
+            console.log('received response');
+			console.log(data.detail.response.data[0].value);
+			graphValue = data.detail.response.data[0].value;
+			//this.graphValue1 = data.detail.response.data[0].value;
+            this._updateData();
+			console.log(this.loadValue);
+			if(this.loadValue == 0)
+				this._trailgraph();
+			
+          },
+		  
+           _trailgraph:function () {
+
+    var gaugeOptions = {
+		
+        chart: {
+            type: 'solidgauge'
+        },
+
+        title: {
+
+        	text:'Voltage',
+
+        	         style: {
+
+        	            color: '#666',
+
+        	            fontWeight: 'bold',
+
+        	            fontSize: '20px',
+
+        	            fontFamily: 'Trebuchet MS, Verdana, sans-serif'
+
+        	 
+
+        	         }            
+
+        	      },
+
+        pane: {
+            center: ['50%', '85%'],
+            size: '140%',
+            startAngle: -90,
+            endAngle: 90,
+            background: {
+                backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+                innerRadius: '60%',
+                outerRadius: '100%',
+                shape: 'arc'
+            }
+        },
+
+        tooltip: {
+            enabled: false
+        },
+
+        // the value axis
+        yAxis: {
+            stops: [
+                [0.1, '#55BF3B'], // green
+                [0.5, '#DDDF0D'], // yellow
+                [0.9, '#DF5353'] // red
+            ],
+            lineWidth: 0,
+            minorTickInterval: null,
+            tickAmount: 2,
+            title: {
+                y: -70
+            },
+            labels: {
+                y: 16
+            }
+        },
+
+        plotOptions: {
+            solidgauge: {
+                dataLabels: {
+                    y: 5,
+                    borderWidth: 0,
+                    useHTML: true
+                }
+            }
+        }
+    };
+	this.loadValue = 1;
+    // The speed gauge
+    var chartSpeed = Highcharts.chart('container', Highcharts.merge(gaugeOptions, {
+        yAxis: {
+            min: 0,
+            max: 1000,
+            title: {
+                text: ''
+            }
+        },
+
+        credits: {
+            enabled: false
+        },
+
+        series: [{
+            name: '',
+            data: [0],
+            dataLabels: {
+                format: '<div style="text-align:center"><span style="font-size:20px;font-weight:bold;color:' +
+                    ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
+                       '<span style="font-size:12px;color:#666666;">V</span></div>'
+            },
+            tooltip: {
+                valueSuffix: 'V'
+            }
+        }]
+
+    }));
+
+    // The RPM gauge
+  
+    // Bring life to the dials
+    setInterval(function () {
+        // Speed
+        var point,
+            newVal,
+            inc;
+
+        if (chartSpeed) {
+            point = chartSpeed.series[0].points[0];
+            <!-- inc = Math.round((Math.random() - 0.5) * 100); -->
+            newVal = point.y ;
+
+            
+console.log(graphValue+"graphValue");
+            point.update(graphValue);
+        }
+
+        // RPM
+      
+    }, 2000);
+
+
+},ready : function(){}
+	}	
+		
+		);
+        </script>
+    </dom-module>

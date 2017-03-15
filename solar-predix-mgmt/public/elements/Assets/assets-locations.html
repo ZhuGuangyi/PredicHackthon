@@ -1,0 +1,228 @@
+
+<link rel="import" href="../../bower_components/px-data-table/px-data-table.html">
+<link rel="import" href="../../bower_components/px-modal/px-modal.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html"/>
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html"/>
+
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="import" href="../../bower_components/px-overlay/px-overlay.html">
+<link rel="import" href="../../bower_components/px-spinner/px-spinner.html">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<dom-module id="assets-locations" style="background:white !important;">
+  <template>
+  <style>
+  #content-locations{
+display:none;
+}
+#load-locations{
+justify-content:center;
+display:flex;
+margin:auto;
+margin-top:190px;
+
+}
+  
+   @media  (min-width:300px) {
+        #locBG{
+ 		margin-right: 38px;color: #CCCCCC;
+ 	}
+ 	@media  (min-width:600px) {
+        #locBG{
+ 		margin-right: 38px;color: #CCCCCC;float:right;
+ 	}
+ 	
+ 	.dashboard-views{
+       cursor: pointer;
+       margin-left:930px;
+       //margin-bottom:10px;
+       //height: 33px;
+  }
+ 
+       @media (max-width: 414px) {
+        .dashboard-views {
+    margin-left: 0px;
+}
+}
+       @media (max-width: 768px) {
+        .dashboard-views {
+    margin-left: 0px;
+}
+}
+  </style>
+  <px-spinner id="load-locations" size="70"></px-spinner>
+<div id="content-locations">
+  <div class="dashboard-views">
+ 
+              <span style="color: #CCCCCC;font-size: 12px;"><iron-icon  style="width:15px;margin-bottom: 2px;"  icon="fa:fa-tachometer">
+   
+  </iron-icon>&nbsp; Home > Manage Locations</span>
+  </div>
+  <br>
+  <div style="background:#FFFFFF;"> 
+  		<px-modal id="createLocModal" btn-modal-positive="Create" btn-modal-negative="Cancel" id="popupModel" modal-heading = "New Location" style="float:right;padding: 4px;">
+  		<button class='btn btn--primary modal-trigger' style="width: 0px;background:#FFFFFF;"><iron-icon icon="icons:add-circle" style="margin-top: -14px;margin-left: -12px;color:#2abb9b;"></iron-icon></button>
+	<div style='margin-top: -40px;'><span style='visibility:hidden'>@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</span><br>
+	<paper-input label='Name' id='locationsNameC'></paper-input>
+	<paper-input label='Description' id='locationDescC'></paper-input>
+	<paper-input label='Address' id='locationAddrC'></paper-input>
+	<paper-input label='City' id='locationCityC'></paper-input>  
+	<paper-input label='Country' id='locationCountryC'></paper-input>
+	<paper-input label='Latitude' id='locationLatC'></paper-input>
+	<paper-input label='Longitude' id='locationLonC'></paper-input>
+	</div>
+	</px-modal>
+  </div>
+   
+  
+  	<iron-ajax id="assetsLocationsajax" auto url="https://solarassetservices.run.aws-usw02-pr.ice.predix.io/Asset/getClassifications/Locations" 
+  last-response="{{data1}}" on-response="appendLocationsDataToTable" handleAs="json"></iron-ajax>
+  <px-data-table id="assetsLocationsTable" filterable="true" table-data= striped="true" show-column-chooser="true"  hide-pagination-control="true">
+  		<px-data-table-column name="name" filterable sortable></px-data-table-column>
+    	<px-data-table-column name="uri" type="html" filterable sortable></px-data-table-column>
+    	<px-data-table-column name="description" type="html" filterable sortable></px-data-table-column>
+    	<px-data-table-column name="actions" type="html" filterable sortable></px-data-table-column>
+ </px-data-table>
+ 
+ <iron-ajax id="assetsLocationsutilajax" url="" on-response="reloadLocationsDom" handleAs="json" method="DELETE"></iron-ajax>
+   <iron-ajax id="assetsLocationsEditajax" method="POST" on-response="reloadLocationsDom" content-type="application/json" handleAs="json"></iron-ajax>
+  </div>
+  </template>
+  <script>
+  var gAction = "";
+    Polymer({
+      is: 'assets-locations',
+      listeners: {
+    	  'assetsLocationsTable.btnModalPositiveClicked':'getLocationsToLoad',
+    	  'createLocModal.btnModalPositiveClicked':'createLocation'
+        },
+     
+     
+      ready: function() {
+        console.log('locations');
+        
+      },
+      createLocation : function(){
+    	var name = this.$.locationsNameC.value;
+    	var desc = this.$.locationDescC.value;
+    	var addr = this.$.locationAddrC.value;
+    	var city = this.$.locationCityC.value;
+    	var country = this.$.locationCountryC.value;
+    	var lat = this.$.locationLatC.value;
+    	var lon = this.$.locationLonC.value;
+    	var locationObj = {}, locationArr=[],location={};
+    	location = {
+    			"latitude" : lat,
+				"longitude" : lon
+    	}
+		locationObj = {
+				"uri" : "/Locations/"+name,
+				"name" : name,
+				"Desc" : desc,
+				"adress" : addr,
+				"city" : city,
+				"country" : country,
+				"location" : location
+		}
+    	locationArr.push(locationObj);
+    	//this.doServiceCall(locationArr,assetsLocationsEditajax);
+    	$("#assetsLocationsEditajax").attr("body",JSON.stringify(locationArr));
+    	$("#assetsLocationsEditajax").attr("url","https://solarassetservices.run.aws-usw02-pr.ice.predix.io/createClassification/Locations"); 
+    	this.$.assetsLocationsEditajax.generateRequest();  
+    	
+      },
+      getLocationsToLoad : function(event){
+    	var locationid = event.target.id;
+    	console.log(locationid);
+    	if(locationid != null && locationid != "" && locationid != undefined){ 
+    		var dataP = locationid.split(":_:");
+    		if(dataP.length == 3){
+    			var action = dataP[1];
+    			var name = dataP[2];
+    			gAction = action;
+    			if(action == "Delete"){
+    				var url = "https://solarassetservices.run.aws-usw02-pr.ice.predix.io/Asset/deleteClassification/Locations/"+name;
+            		$("#assetsLocationsutilajax").attr("url",url);	
+        			this.$.assetsLocationsutilajax.generateRequest();
+    			}
+    			if(action == "Edit"){
+    				var name = $("#locName"+name).val();
+    				var desc = $("#locDesc"+name).val();
+    				
+    				var locationObj = {}, locationArr=[];
+    				locationObj = {
+    						"uri" : "/Locations/"+name,
+    						"name" : name,
+    						"Desc" : desc
+    				}
+    				locationArr.push(locationObj);
+    				//this.doServiceCall(locationArr,"assetsLocationsEditajax");
+    				  $("#assetsLocationsEditajax").attr("body",JSON.stringify(locationArr));
+    	        	$("#assetsLocationsEditajax").attr("url","https://solarassetservices.run.aws-usw02-pr.ice.predix.io//Asset/createClassification/Locations"); 
+    	        	this.$.assetsLocationsEditajax.generateRequest();  
+    			}
+    		}
+    	}
+    	
+      },/* doServiceCall : function(data,id){
+    	 $("#"+id).attr("body",JSON.stringify(data));
+      	$("#"+id).attr("url","https://solarassetservices.run.aws-usw02-pr.ice.predix.io/Asset/createClassification/Locations"); 
+      	this.$.id.generateRequest();
+      }, */
+      reloadLocationsDom : function(data){
+    	  if(gAction == "Delete")
+    	 	alert("Location Deleted Successfully");
+    	  if(gAction == "Edit")
+    		  alert("Location data updated Successfully");
+    	  
+    	 location.reload();
+      },
+      appendLocationsDataToTable : function(data){
+    	  var arr = [],obj={};
+    	  console.log(data.detail.response.data);
+    	  var locData = data.detail.response.data;
+    	  for(var i=0;i<=locData.length-1;i++){
+    		 var desc = locData[i].Desc;
+    		 if(desc==undefined)
+    			 desc="";
+    		  obj = {
+    				  "name" : locData[i].name,
+    				  "uri" : locData[i].uri,
+    				  "description": desc,
+    				  "actions": "<px-modal id='Model:_:Edit:_:"+locData[i].name+"' btn-modal-positive='Submit'  btn-modal-negative='Cancel' modal-heading='Location : "+locData[i].name+"' scrolling-disabled='true' style='margin-top:-20px;'>"
+    		  		  +"<div style='margin-top: -40px;'><span style='visibility:hidden'>@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</span><br><paper-input label='Name' value="+locData[i].name+" id='locName"+locData[i].name+"' readonly></paper-input><paper-input label='Description' value='"+desc+"' id='locDesc"+locData[i].name+"'></paper-input> </div>"
+    				  +"<button class='btn btn--primary modal-trigger' id='locationsEdit' style='margin-left: 10px;padding: 2px 19px;'>Edit</button></px-modal>"
+    				  +"<px-modal id='Model:_:Delete:_:"+locData[i].name+"' btn-modal-positive='Delete'  btn-modal-negative='Cancel' modal-heading='Delete Location' scrolling-disabled='true' style='margin-top:-20px;'>"
+    		  		  +"<div style='    margin-top: -40px;'><span style='visibility:hidden'>@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</span><br><br><span>Do you want to delete </span><span style='font-weight:bold;'> "+locData[i].name+"</span></div>"
+    				  +"<button class='btn btn--primary modal-trigger' id='locationsDelete' style='margin-left: 10px;padding: 2px 19px;'>Delete</button></px-modal>"
+     		  }
+    		  arr.push(obj);
+    	  }
+    	  $("#assetsLocationsTable").removeAttr("table-data");
+    	  $("#assetsLocationsTable").attr("table-data",JSON.stringify(arr));
+      }
+    });
+    function onReady(callback) {
+	        var intervalID = window.setInterval(checkReady,2000);
+
+	        function checkReady() {
+	            if (document.getElementsByTagName('body')[0] !== undefined) {
+	                window.clearInterval(intervalID);
+	                callback.call(this);
+	            }
+	        }
+	    }
+
+	    function show(id, value) {
+	        document.getElementById(id).style.display = value ? 'block' : 'none';
+	    }
+
+	    onReady(function () {
+	        show('load-locations',false);
+	       show('content-locations',true);
+	    })
+
+  </script>
+</dom-module>

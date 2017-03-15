@@ -1,0 +1,27 @@
+<link rel="import" href="../polymer/polymer.html" />
+<link rel="import" href="../px-widget-cards/px-twoup.html"/>
+
+<dom-module id="graph-display">
+
+  <template>
+    <px-twoup id="graph-display" widget-header=" &nbsp;"    >
+      <div class="widget-1" style="background-color: white;"        >
+     
+        	<div id="temperatureGraph" style="width: 1000px;"></div>	
+        	
+        	
+      </div>
+      
+    </px-twoup>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+    is: 'graph-display',
+    behaviors: [px.card],
+    ready: function() {
+    	
+    	}
+  });
+</script>
+

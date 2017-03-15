@@ -1,0 +1,114 @@
+<link rel="import" href="../polymer/polymer.html" />
+
+<link rel="import" href="../px-trail/graph-display.html"/>
+
+
+<dom-module id="chart-display">
+
+ 
+  <template>
+ 
+  <script src="../highstock-release/highcharts-more.js"></script>
+  <script src="../highstock-release/modules/exporting.js"></script>
+ 
+Title: {{firstName}}<br>
+      Last: {{lastName}}
+  	
+	
+ 
+
+
+  </template>
+</dom-module>
+
+
+
+
+<script>
+
+  Polymer({
+    is: 'chart-display',
+    behaviors: [px.card],
+    ready: function() {
+  
+    	 var historyEnergyProduced=[ [1388538000000, 0, 4],
+               	                    [1388624400000, 0, 200],
+             	                    [1388710800000, 200, 210],
+             	                    [1388797200000, 250, 200],
+             	                    [1388883600000, 0, 300],
+             	                    [1388970000000, 203, 207],
+             	                    [1389056400000, 300, 300],
+             	                    [1389142800000, 203, 100],
+             	                    [1389229200000, 2, 204],
+             	                    [1389315600000, 200, 205],
+             	                  
+             	                   
+             	                    /* 201420022001 */
+             	                    
+             	                    ];
+    	 
+    	 
+	 	 Highcharts.setOptions({
+	 	     colors: ['#4ea0bc']
+	 	    });
+	  
+    	  
+    	  
+    	 
+    	  
+    	  var temperatureGraph = new Highcharts.Chart({
+		        chart: {
+		            renderTo: 'temperatureGraph',
+		     //       backgroundColor: '#E2D29C',
+		         //   background: url(bg-adbox_new.png);
+		            //backgroundColor: 'transparent'
+		            type: 'area',
+		           
+		          height:240,
+		            
+		        },
+		        title:{text: 'level' ,align: 'left',style: {fontWeight: 'bold',fontSize : '1.0666666667rem'}},
+		        
+		       
+		      
+		        
+		        credits: {
+		            enabled: false
+		        },
+		        xAxis: {
+	                type: 'datetime',
+	                	text: 'Date & Time'
+	            },
+
+	            yAxis: {
+	                title: {
+	                    text: 'range'
+	                }, gridLineColor: 'red'
+	            },
+
+	            
+
+	            legend: {
+	                enabled: false
+	            },
+		        series: [{
+		        	name:'range',
+		        	 
+		            data: historyEnergyProduced
+		        }],
+		    }); 
+    	 
+    //ends
+    	 
+    	 
+	      
+	      
+    	
+    	},
+  
+  properties: {
+      firstName: Number,
+      lastName: String
+    }
+  });
+</script>

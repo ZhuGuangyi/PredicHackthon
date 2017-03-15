@@ -1,0 +1,82 @@
+<link rel="import" href="https://rawgit.com/Polymer/polymer/v1.0.8/polymer.html" />
+<link rel="import" href="https://rawgit.com/nnnick/Chart.js/v1.0.2/Chart.js">
+
+<dom-module id="pie-new7">
+    <template>
+        <dom id="canvas" width="{{width}}" height="{{height}}"></dom>
+    </template>
+    <script>
+        Polymer({
+            is: 'pie-new7',
+            properties: {
+                colors: {
+                    type: Array,
+                    value: ['#F7464A',
+                        '#46BFBD',
+                        '#FDB45C',
+                        '#949FB1',
+                        '#4D5360'
+                    ],
+                    notify: true,
+                    observer: 'updateChart'
+                },
+                height: {
+                    notify: true,
+                    observer: 'resize'
+                },
+                options: {
+                    type: Object,
+                    value: {},
+                    notify: true,
+                    observer: 'updateChart'
+                },
+                values: {
+                    type: Array,
+                    value: [
+                            30,
+                            50,
+                            100,
+                            40,
+                            120
+                    ],
+                    notify: true,
+                    observer: 'updateChart'
+                },
+                width: {
+                    notify: true,
+                    observer: 'resize'
+                }
+            },
+            resize: function () {
+                if (this.chart) {
+                    this.updateChart();
+                }
+            },
+            updateChart: function () {
+                this.async(function () {
+                    if (this.chart) {
+                        console.log("CHARTTTT"+this.chart);
+                        this.chart.destroy();  // Bindings don't seem to be taking effect properly so
+                        // manually set width and height
+                        // Bindings don't seem to be taking effect properly so
+                        // manually set width and height
+                        this.$.canvas.setAttribute('width', this.width);
+                        this.$.canvas.setAttribute('height', this.height);
+                    }
+                    this.data = [];
+                    this.values.forEach(function (val, i) {
+                        this.data.push({
+                            color: this.colors[i],
+                            value: val
+                        });
+                    }, this);
+                    this.ctx = this.$.canvas.getContext('2d');
+                    var self = this;
+                    setTimeout(function() {
+                        self.chart = new Chart(self.ctx).Doughnut(self.data, self.options);
+                    }, 0)
+                }, null, 0);
+            }
+        });
+    </script>
+</dom-module>
